@@ -1,9 +1,9 @@
-import 'bootstrap';
+import 'bootstrap'
 
-export function configure(aurelia) {
+export function configure (aurelia) {
   aurelia.use
     .standardConfiguration()
-    .developmentLogging();
+    .developmentLogging()
 
-  aurelia.start().then(() => aurelia.setRoot());
+  aurelia.start().then(() => aurelia.setRoot())
 }
