@@ -7,8 +7,6 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 
-require('./models/init')
-
 var app = express()
 
 var router = require('./routes/index')
