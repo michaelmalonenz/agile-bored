@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('issue',
+  return sequelize.define('Issue',
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       description: DataTypes.TEXT,
@@ -12,5 +12,7 @@ module.exports = function (sequelize, DataTypes) {
           key: 'id'
         }
       }
+    }, {
+      tableName: 'issues'
     })
 }

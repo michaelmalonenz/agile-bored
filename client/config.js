@@ -19,6 +19,7 @@ System.config({
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.1.2",
     "aurelia-framework": "npm:aurelia-framework@1.1.4",
     "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
+    "aurelia-http-client": "npm:aurelia-http-client@1.1.1",
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.2",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
     "aurelia-router": "npm:aurelia-router@1.3.0",
@@ -26,7 +27,7 @@ System.config({
     "aurelia-templating-resources": "npm:aurelia-templating-resources@1.4.0",
     "aurelia-templating-router": "npm:aurelia-templating-router@1.1.0",
     "babel": "npm:babel-core@5.8.38",
-    "babel-runtime": "npm:babel-runtime@5.8.38",
+    "babel-runtime": "npm:babel-runtime@6.23.0",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
     "core-js": "npm:core-js@1.2.7",
     "fetch": "github:github/fetch@0.11.1",
@@ -111,6 +112,10 @@ System.config({
       "aurelia-history": "npm:aurelia-history@1.0.0",
       "aurelia-pal": "npm:aurelia-pal@1.3.0"
     },
+    "npm:aurelia-http-client@1.1.1": {
+      "aurelia-pal": "npm:aurelia-pal@1.3.0",
+      "aurelia-path": "npm:aurelia-path@1.1.1"
+    },
     "npm:aurelia-loader-default@1.0.2": {
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.3",
@@ -182,14 +187,21 @@ System.config({
       "aurelia-path": "npm:aurelia-path@1.1.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.2.0"
     },
-    "npm:babel-runtime@5.8.38": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
+    "npm:babel-runtime@6.23.0": {
+      "core-js": "npm:core-js@2.4.1",
+      "regenerator-runtime": "npm:regenerator-runtime@0.10.5"
     },
     "npm:buffer@5.0.6": {
       "base64-js": "npm:base64-js@1.2.1",
       "ieee754": "npm:ieee754@1.1.8"
     },
     "npm:core-js@1.2.7": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:core-js@2.4.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -208,6 +220,9 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
+    },
+    "npm:regenerator-runtime@0.10.5": {
+      "path": "github:jspm/nodelibs-path@0.1.0"
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",

@@ -2,16 +2,18 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('issue_status',
+    return queryInterface.createTable('issue_statuses',
       {
         id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true
         },
-        name: Sequelize.STRING(255)
+        name: Sequelize.STRING(255),
+        createdAt: Sequelize.DATE,
+        updatedAt: Sequelize.DATE
       }).then(() => {
-        return queryInterface.createTable('issue',
+        return queryInterface.createTable('issues',
           {
             id: {
               type: Sequelize.INTEGER,
@@ -24,10 +26,12 @@ module.exports = {
             statusId: {
               type: Sequelize.INTEGER,
               references: {
-                model: 'issue_status',
+                model: 'issue_statuses',
                 key: 'id'
               }
-            }
+            },
+            createdAt: Sequelize.DATE,
+            updatedAt: Sequelize.DATE
           })
       })
   },
