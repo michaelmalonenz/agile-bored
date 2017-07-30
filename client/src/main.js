@@ -5,6 +5,7 @@ export function configure (aurelia) {
   aurelia.use
     .standardConfiguration()
     .developmentLogging()
+    .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
 
   aurelia.start().then(() => aurelia.setRoot())
