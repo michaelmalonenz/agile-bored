@@ -1,0 +1,13 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-body>
+      <h2>Create Issue</h2>
+      <input value.bind="issue.title" placeholder="title" />
+    </ux-dialog-body>
+
+    <ux-dialog-footer>
+      <button click.trigger="controller.cancel()">Cancel</button>
+      <button click.trigger="controller.ok(issue)">Ok</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>
