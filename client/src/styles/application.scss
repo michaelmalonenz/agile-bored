@@ -1,4 +1,11 @@
+@import "_colours.scss";
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 @import "_base.scss";
 @import "_top-shelf.scss";
+
+.issue {
+  background-color: $gray-lighter;
+  padding: 20px;
+  margin-top: 5px;
+}
