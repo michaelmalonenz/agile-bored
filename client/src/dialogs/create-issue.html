@@ -3,10 +3,10 @@
     <ux-dialog-body>
       <h2>${heading}</h2>
       <div>
-        <input class="issue-title" value.bind="issue.title" placeholder="title" attach-focus="true" />
+        <input class="issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
       </div>
       <div class="issue-content">
-        <textarea class="markdown-editor" value.bind="issue.description"></textarea>
+        <textarea class="markdown-editor" value.bind="issue.description" attach-focus.bind="edit"></textarea>
       </div>
     </ux-dialog-body>
 

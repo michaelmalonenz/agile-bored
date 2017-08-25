@@ -2,5 +2,12 @@
   <div class="issue" dblclick.delegate="editIssue()">
     <strong>${issue.title}</strong>
     <div>${issue.description}</div>
+    <div class="row">
+      <div class="col-md-1 col-md-offset-11">
+        <button class="btn btn-default" type="button" click.delegate="editIssue()">
+          <i class="fa fa-edit"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </template>

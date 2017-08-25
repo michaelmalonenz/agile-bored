@@ -10,6 +10,7 @@ export class Issue {
   editIssue () {
     this.dialogService.open({ viewModel: CreateIssueDialog,
       lock: true,
+      keyboard: ['Enter', 'Escape'],
       model: {
         issue: this.issue,
         edit: true
