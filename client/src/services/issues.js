@@ -10,4 +10,10 @@ export class IssueService {
       return res.content
     })
   }
+
+  create (issue) {
+    return this._http.post('/api/issue', issue).then(res => {
+      return res.content
+    })
+  }
 }
