@@ -1,5 +1,5 @@
 import {HttpClient} from 'aurelia-http-client'
-import {Issue} from '../issue'
+import {Issue} from '../models/issue'
 
 export class IssueService {
   constructor () {
@@ -23,8 +23,14 @@ export class IssueService {
     })
   }
 
+  update (issue) {
+    return this._http.put(`/api/issue/${issue.id}`, issue).then(res => {
+      return res.content
+    })
+  }
+
   _issueReviver (key, value) {
-    if (key !== '' && typeof value === 'object') {
+    if (key !== '' && value != null && typeof value === 'object') {
       return new Issue(value)
     }
     return value

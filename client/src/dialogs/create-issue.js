@@ -8,9 +8,21 @@ export class CreateIssueDialog {
   constructor (controller) {
     this.controller = controller
     this.issue = new Issue()
+    this.edit = false
   }
 
-  activate(issue) {
-    if (issue) this.issue = issue
+  activate(model) {
+    if (model) {
+      this.issue = Object.assign({}, model.issue)
+      this.edit = model.edit
+    }
+  }
+
+  get heading() {
+    if (this.edit) {
+      return 'Edit Issue'
+    } else {
+      return 'Create Issue'
+    }
   }
 }

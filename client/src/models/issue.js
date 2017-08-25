@@ -1,6 +1,8 @@
 export class Issue {
-  constructor () {
+  constructor (issue) {
     this.id = null
     this.title = ''
+    this.description = ''
+    Object.assign(this, issue)
   }
 }

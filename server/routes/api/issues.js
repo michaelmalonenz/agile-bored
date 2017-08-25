@@ -12,4 +12,8 @@ module.exports = function (router) {
       res.send(issue)
     })
   })
+
+  router.put('/issue/:id', function (req, res) {
+    res.send(req.body)
+  })
 }

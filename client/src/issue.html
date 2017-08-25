@@ -1,5 +1,6 @@
 <template>
-  <div class="issue">
-    <div>${title}</div>
+  <div class="issue" dblclick.delegate="editIssue()">
+    <strong>${issue.title}</strong>
+    <div>${issue.description}</div>
   </div>
 </template>

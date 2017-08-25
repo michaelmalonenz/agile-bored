@@ -1,13 +1,18 @@
 <template>
-  <ux-dialog>
+  <ux-dialog class="issue-editor">
     <ux-dialog-body>
-      <h2>Create Issue</h2>
-      <input value.bind="issue.title" placeholder="title" />
+      <h2>${heading}</h2>
+      <div>
+        <input class="issue-title" value.bind="issue.title" placeholder="title" attach-focus="true" />
+      </div>
+      <div class="issue-content">
+        <textarea class="markdown-editor" value.bind="issue.description"></textarea>
+      </div>
     </ux-dialog-body>
 
     <ux-dialog-footer>
       <button click.trigger="controller.cancel()">Cancel</button>
-      <button click.trigger="controller.ok(issue)">Ok</button>
+      <button click.trigger="controller.ok(issue)">Save</button>
     </ux-dialog-footer>
   </ux-dialog>
 </template>

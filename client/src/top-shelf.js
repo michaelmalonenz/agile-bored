@@ -15,7 +15,10 @@ export class TopShelf {
   }
 
   createIssue () {
-    this.dialogService.open({ viewModel: CreateIssueDialog, lock: false}).whenClosed(response => {
+    this.dialogService.open({
+      viewModel: CreateIssueDialog,
+      lock: false
+    }).whenClosed(response => {
       if (!response.wasCancelled) {
         this.issueService.create(response.output).then(issue => {
           this.eventAggregator.publish('issue-created', issue)
