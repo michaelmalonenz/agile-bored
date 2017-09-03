@@ -9,3 +9,9 @@
 div {
     display: block;
 }
+
+$side-bar-width: 25px;
+
+.main-content {
+    padding-left: $side-bar-width;
+}
