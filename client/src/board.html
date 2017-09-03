@@ -1,5 +1,7 @@
 <template>
-  <require from="./top-shelf"></require>
+  <side-bar></side-bar>
   <top-shelf></top-shelf>
-  <compose view-model.bind="issue" repeat.for="issue of issues"></compose>
+  <div class="main-content">
+    <compose view-model.bind="issue" repeat.for="issue of issues"></compose>
+  </div>
 </template>

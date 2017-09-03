@@ -6,13 +6,13 @@
         <input class="issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
       </div>
       <div class="issue-content">
-        <textarea class="markdown-editor" value.bind="issue.description" attach-focus.bind="edit"></textarea>
+        <textarea class="markdown-editor" value.bind="issue.description" attach-focus.bind="edit" placeholder="description"></textarea>
       </div>
     </ux-dialog-body>
 
     <ux-dialog-footer>
-      <button click.trigger="controller.cancel()">Cancel</button>
-      <button click.trigger="controller.ok(issue)">Save</button>
+      <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
+      <button type="button" class="btn btn-primary" click.trigger="controller.ok(issue)">Save</button>
     </ux-dialog-footer>
   </ux-dialog>
 </template>

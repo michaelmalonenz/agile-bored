@@ -7,6 +7,10 @@ export function configure (aurelia) {
     .developmentLogging()
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
+    .globalResources([
+      './src/side-bar',
+      './src/top-shelf'
+    ])
 
   aurelia.start().then(() => aurelia.setRoot())
 }
