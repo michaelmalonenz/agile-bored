@@ -4,7 +4,7 @@ import { IssueService } from '../services/issues'
 import { Issue } from '../models/issue'
 
 @inject(DialogController)
-export class CreateIssueDialog {
+export class IssueEditorDialog {
   constructor (controller) {
     this.controller = controller
     this.issue = new Issue()

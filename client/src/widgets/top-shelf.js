@@ -1,6 +1,6 @@
 import { inject } from 'aurelia-framework'
 import { DialogService } from 'aurelia-dialog'
-import { CreateIssueDialog } from 'dialogs/create-issue'
+import { IssueEditorDialog } from 'dialogs/issue-editor'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from '../services/issues'
@@ -16,7 +16,7 @@ export class TopShelf {
 
   createIssue () {
     this.dialogService.open({
-      viewModel: CreateIssueDialog,
+      viewModel: IssueEditorDialog,
       lock: true
     }).whenClosed(response => {
       if (!response.wasCancelled) {

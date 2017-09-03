@@ -1,4 +1,4 @@
-import {CreateIssueDialog} from './dialogs/create-issue'
+import {IssueEditorDialog} from './dialogs/issue-editor'
 
 export class Issue {
   constructor (i, dialogService, issueService) {
@@ -8,7 +8,7 @@ export class Issue {
   }
 
   editIssue () {
-    this.dialogService.open({ viewModel: CreateIssueDialog,
+    this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,
       keyboard: ['Escape'],
       model: {
