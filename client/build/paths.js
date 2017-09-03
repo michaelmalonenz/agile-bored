@@ -7,7 +7,9 @@ module.exports = {
   source: appRoot + '**/*.js',
   html: appRoot + '**/*.html',
   scss: appRoot + '**/*.scss',
-  fonts: 'node_modules/bootstrap-sass/assets/fonts/bootstrap/*',
+  fonts: [
+    'node_modules/bootstrap-sass/assets/fonts/bootstrap/*',
+    'jspm_packages/npm/font-awesome*/fonts/*'],
   style: appRoot + 'styles/**/*.css',
   output: outputRoot,
   exportSrv: exportSrvRoot,

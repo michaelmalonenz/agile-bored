@@ -10,6 +10,7 @@ var assign = Object.assign || require('object.assign')
 var notify = require('gulp-notify')
 var browserSync = require('browser-sync')
 var sass = require('gulp-sass')
+var htmlmin = require('gulp-htmlmin')
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
@@ -23,13 +24,16 @@ gulp.task('build-system', function () {
     .pipe(to5(assign({}, compilerOptions, {modules: 'system'})))
     .pipe(sourcemaps.write({includeContent: true}))
     .pipe(gulp.dest(paths.output))
+    .pipe(browserSync.stream())
 })
 
 // copies changed html files to the output directory
 gulp.task('build-html', function () {
   return gulp.src(paths.html)
     .pipe(changed(paths.output, {extension: '.html'}))
+    .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(gulp.dest(paths.output))
+    .pipe(browserSync.stream())
 })
 
 gulp.task('build-scss', function () {

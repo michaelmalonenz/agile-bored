@@ -6,7 +6,8 @@ module.exports = function (router) {
       order: [['createdAt', 'ASC']],
       include: {
         model: db.IssueStatus,
-        where: { 'name': { $ne: 'Done' } }
+        where: { 'name': { $ne: 'Done' } },
+        required: false
       }
     }).then(issues => {
       res.send(issues)

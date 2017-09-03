@@ -2,9 +2,9 @@
   "bundles": {
     "dist/app-build": {
       "includes": [
-        "[*.js]",
-        "*.html!text",
-        "*.css!text"
+        "[**/*.js]",
+        "**/*.html!text",
+        "**/*.css!text"
       ],
       "options": {
         "inject": true,
@@ -17,7 +17,7 @@
       "includes": [
         "aurelia-framework",
         "aurelia-bootstrapper",
-        "aurelia-fetch-client",
+        "aurelia-http-client",
         "aurelia-router",
         "aurelia-templating-binding",
         "aurelia-templating-resources",
@@ -25,8 +25,17 @@
         "aurelia-loader-default",
         "aurelia-history-browser",
         "aurelia-logging-console",
+        "aurelia-dialog",
         "bootstrap",
-        "bootstrap/css/bootstrap.css!text"
+        "bootstrap/css/bootstrap.css!text",
+
+        "aurelia-dragula",
+        "aurelia-dragula/**/*.js",
+        "aurelia-dragula/**/*.html!text",
+        "aurelia-dragula/**/*.css!text",
+
+        "core-js",
+        "babel-runtime"
       ],
       "options": {
         "inject": true,
