@@ -7,6 +7,7 @@ export function configure (aurelia) {
     .developmentLogging()
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
+    .feature('widgets')
 
   aurelia.start().then(() => aurelia.setRoot())
 }

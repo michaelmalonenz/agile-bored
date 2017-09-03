@@ -29,6 +29,10 @@ export class IssueService {
     })
   }
 
+  delete (issue) {
+    return this._http.delete(`/api/issue/${issue.id}`)
+  }
+
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object') {
       return new Issue(value)

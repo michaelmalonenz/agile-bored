@@ -10,7 +10,7 @@ export class Issue {
   editIssue () {
     this.dialogService.open({ viewModel: CreateIssueDialog,
       lock: true,
-      keyboard: ['Enter', 'Escape'],
+      keyboard: ['Escape'],
       model: {
         issue: this.issue,
         edit: true
@@ -22,5 +22,9 @@ export class Issue {
         })
       }
     })
+  }
+
+  deleteIssue () {
+    return this.issueService.delete(this.issue)
   }
 }

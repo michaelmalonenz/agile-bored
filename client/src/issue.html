@@ -4,9 +4,8 @@
     <div>${issue.description}</div>
     <div class="row">
       <div class="col-md-1 col-md-offset-11">
-        <button class="btn btn-default" type="button" click.delegate="editIssue()">
-          <i class="fa fa-edit"></i>
-        </button>
+        <icon icon="fa-edit" click.delegate="editIssue()"></icon>
+        <icon icon="fa-times" click.delegate="deleteIssue()"></icon>
       </div>
     </div>
   </div>

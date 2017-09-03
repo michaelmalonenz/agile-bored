@@ -17,7 +17,7 @@ export class TopShelf {
   createIssue () {
     this.dialogService.open({
       viewModel: CreateIssueDialog,
-      lock: false
+      lock: true
     }).whenClosed(response => {
       if (!response.wasCancelled) {
         this.issueService.create(response.output).then(issue => {

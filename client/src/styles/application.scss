@@ -5,6 +5,8 @@
 @import "_top-shelf.scss";
 @import "_issue-editor.scss";
 
+@import "widgets/_widgets.scss";
+
 .issue {
   background-color: $gray-lighter;
   padding: 20px;

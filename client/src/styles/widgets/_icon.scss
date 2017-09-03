@@ -1,0 +1,12 @@
+.icon {
+  background-color: $brand-primary;
+  color: white;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+
+  box-shadow: 2px 2px 5px $gray;
+  &:active, &:focus {
+    background: $brand-pale;
+  }
+}
