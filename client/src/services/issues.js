@@ -1,9 +1,12 @@
+import {inject} from 'aurelia-framework'
 import {HttpClient} from 'aurelia-http-client'
 import {Issue} from '../models/issue'
 
+@inject(HttpClient)
 export class IssueService {
-  constructor () {
-    this._http = new HttpClient()
+
+  constructor (http) {
+    this._http = http
   }
 
   findAll () {
