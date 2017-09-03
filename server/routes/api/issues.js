@@ -3,9 +3,7 @@ const db = require('../../models')
 module.exports = function (router) {
   router.get('/issues', function (req, res) {
     return db.Issue.findAll({
-      // where: { 'status.name': { $ne: 'done' } },
-      order: [['createdAt', 'ASC']],
-      include: 'IssueStatus'
+      order: [['createdAt', 'ASC']]
     }).then(issues => {
       res.send(issues)
     })

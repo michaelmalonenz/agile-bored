@@ -1,11 +1,17 @@
 <template>
   <div class="issue" dblclick.delegate="editIssue()">
-    <strong>${issue.title}</strong>
-    <div>${issue.description}</div>
     <div class="row">
-      <div class="col-md-1 col-md-offset-11">
+      <div class="col-md-12">
+        <strong>${issue.title}</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+        <div>${issue.description}</div>
+      </div>
+      <div class="col-md-1">
         <icon icon="fa-edit" click.delegate="editIssue()"></icon>
-        <icon icon="fa-times" click.delegate="deleteIssue()"></icon>
+        <icon icon="fa-trash" click.delegate="deleteIssue()"></icon>
       </div>
     </div>
   </div>

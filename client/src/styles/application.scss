@@ -2,10 +2,7 @@
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 @import "_base.scss";
-@import "_top-shelf.scss";
-@import "_issue-editor.scss";
-@import "_side-bar.scss";
-
+@import "dialogs/_dialogs.scss";
 @import "widgets/_widgets.scss";
 
 .issue {

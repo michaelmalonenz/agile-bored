@@ -8,10 +8,6 @@ export function configure (aurelia) {
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
     .feature('widgets')
-    .globalResources([
-      './src/side-bar',
-      './src/top-shelf'
-    ])
 
   aurelia.start().then(() => aurelia.setRoot())
 }

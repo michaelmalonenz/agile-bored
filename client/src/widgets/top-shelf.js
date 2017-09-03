@@ -3,7 +3,7 @@ import { DialogService } from 'aurelia-dialog'
 import { CreateIssueDialog } from 'dialogs/create-issue'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
-import { IssueService } from './services/issues'
+import { IssueService } from '../services/issues'
 
 @inject(DialogService, IssueService, EventAggregator)
 export class TopShelf {

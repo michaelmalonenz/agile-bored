@@ -1,3 +1,6 @@
 export function configure (config) {
-  config.globalResources('./icon')
+  config.globalResources([
+    './icon',
+    './top-shelf'
+  ])
 }
