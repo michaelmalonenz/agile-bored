@@ -1,8 +1,10 @@
 <template>
   <require from="./status-column"></require>
   <top-shelf></top-shelf>
+  <dragula-and-drop></dragula-and-drop>
   <div class="main-content">
-    <div class="status-col" as-element="status-col" css="width: ${100 / statuses.length}%;" 
+    <div class="status-col drag-source drop-target" as-element="status-col"
+      css="width: ${100 / statuses.length}%;"
       issues.bind="issues" status.bind="status" repeat.for="status of statuses"></div>
   </div>
 </template>
