@@ -1,7 +1,9 @@
+@import "../_colours.scss";
+
 .top-shelf {
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: #7F3FBF;
+  background-color: $brand-pale;
 
   .action-bar {
     text-align: center;
