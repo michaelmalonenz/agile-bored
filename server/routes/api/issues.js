@@ -26,6 +26,12 @@ module.exports = function (router) {
     })
   })
 
+  router.put('/issue/:issueId/status/:statusId', function (req, res) {
+    return db.Issue.update(
+      { statusId: req.params.statusId },
+      { where: { id: req.params.issueId } })
+  })
+
   router.delete('/issue/:id', function (req, res) {
     return db.Issue.destroy({ where: { id: req.params.id } })
   })

@@ -1,6 +1,10 @@
 <template>
+  <require from="./status-column"></require>
   <top-shelf></top-shelf>
   <div class="main-content">
-    <compose view-model.bind="issue" repeat.for="issue of issues"></compose>
+    <div class="columns-container">
+      <status-col issues.bind="issues" status.bind="status" repeat.for="status of statuses"></status-col>
+    </div>
+    <!-- <compose view-model.bind="issue" repeat.for="issue of issues"></compose> -->
   </div>
 </template>

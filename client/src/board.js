@@ -1,25 +1,32 @@
 import { inject } from 'aurelia-framework'
 import { EventAggregator } from 'aurelia-event-aggregator'
 import { IssueService } from './services/issues'
+import { StatusService } from './services/statuses'
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 
-@inject(IssueService, IssueViewModelFactory, EventAggregator)
+@inject(IssueService, IssueViewModelFactory, StatusService, EventAggregator)
 export class Board {
 
-  constructor(issueService, issueViewModelFactory, eventAggregator) {
+  constructor(issueService, issueViewModelFactory, statusService, eventAggregator) {
     this.issueService = issueService
     this.issueViewModelFactory = issueViewModelFactory
+    this.statusService = statusService
     this.eventAggregator = eventAggregator
 
     this.issues = []
   }
 
   activate () {
-    return this.issueService.findAll().then(issues => {
+    const issuesPromise = this.issueService.findAll().then(issues => {
       for(let issue of issues) {
         this.issues.push(this.issueViewModelFactory.create(issue))
       }
     })
+    const statusesPromise = this.statusService.findAllForProject().then(statuses => {
+      this.statuses = statuses
+    })
+
+    return Promise.all([ issuesPromise, statusesPromise ])
   }
 
   bind () {
