@@ -2,9 +2,7 @@
   <require from="./status-column"></require>
   <top-shelf></top-shelf>
   <div class="main-content">
-    <div class="columns-container">
-      <status-col issues.bind="issues" status.bind="status" repeat.for="status of statuses"></status-col>
-    </div>
-    <!-- <compose view-model.bind="issue" repeat.for="issue of issues"></compose> -->
+    <div class="status-col" as-element="status-col" css="width: ${100 / statuses.length}%;" 
+      issues.bind="issues" status.bind="status" repeat.for="status of statuses"></div>
   </div>
 </template>
