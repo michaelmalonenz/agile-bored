@@ -1,7 +1,8 @@
 <template>
   <require from="./status-column"></require>
   <top-shelf></top-shelf>
-  <dragula-and-drop></dragula-and-drop>
+  <dragula-and-drop moves.call="canMove(item, source, handle, sibling)"
+    drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)"></dragula-and-drop>
   <div class="main-content">
     <div class="status-col drag-source drop-target" as-element="status-col"
       css="width: ${100 / statuses.length}%;"

@@ -16,4 +16,7 @@ export class StatusColumn {
     })
   }
   
+  dropInto (itemVM, siblingVM) {
+    console.log("dropping off...")
+  }
 }

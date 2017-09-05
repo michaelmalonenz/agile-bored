@@ -41,4 +41,25 @@ export class Board {
   unbind () {
     this.issueCreatedSubscription.dispose()
   }
+
+  canMove (item, source, handle, sibling) {
+    return !item.classList.contains('status-name')
+  }
+
+  dropIssue (item, target, source, sibling, itemVM, siblingVM) {
+    const targetVM = this._getViewModel(target)
+    if (targetVM) {
+      targetVM.dropInto(itemVM, siblingVM)
+    }
+  }
+
+  _getViewModel (element) {
+    if (element && element.au && element.au.controller) {
+      if (element.au.controller.viewModel.currentViewModel)
+        return element.au.controller.viewModel.currentViewModel;
+      else
+        return element.au.controller.viewModel;
+    }
+    return null;
+  }
 }
