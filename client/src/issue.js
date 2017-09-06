@@ -7,6 +7,10 @@ export class Issue {
     this.issueService = issueService
   }
 
+  get issueId () {
+    return this.issue.id
+  }
+
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,
@@ -26,5 +30,11 @@ export class Issue {
 
   deleteIssue () {
     return this.issueService.delete(this.issue)
+  }
+
+  updateStatus (status) {
+    this.issueService.updateStatus(this.issue.id, status.id).then(() => {
+      this.issue.IssueStatus = status
+    })
   }
 }

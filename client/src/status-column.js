@@ -1,4 +1,4 @@
-import { customElement, bindable } from 'aurelia-framework'
+import { customElement, bindable, inject } from 'aurelia-framework'
 
 @customElement('status-col')
 export class StatusColumn {
@@ -11,12 +11,12 @@ export class StatusColumn {
 
   get statusIssues () {
     return this.issues.filter(x => {
-      return (x.status == null && this.status.name === 'Todo') ||
-        (x.status != null && x.status.name === this.status.name)
+      return (x.issue.IssueStatus == null && this.status.name === 'Todo') ||
+        (x.issue.IssueStatus != null && x.issue.IssueStatus.name === this.status.name)
     })
   }
   
-  dropInto (itemVM, siblingVM) {
-    console.log("dropping off...")
+  dropInto (issue, siblingIssue) {
+    issue.updateStatus(this.status)
   }
 }

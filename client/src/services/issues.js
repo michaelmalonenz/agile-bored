@@ -32,6 +32,12 @@ export class IssueService {
     })
   }
 
+  updateStatus (issueId, statusId) {
+    return this._http.put(`/api/issue/${issueId}/status/${statusId}`).then(res => {
+      return res.content
+    })
+  }
+
   delete (issue) {
     return this._http.delete(`/api/issue/${issue.id}`)
   }
