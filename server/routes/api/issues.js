@@ -6,9 +6,9 @@ module.exports = function (router) {
       order: [['createdAt', 'ASC']],
       include: {
         model: db.IssueStatus,
-        where: { 'name': { $ne: 'Done' } },
         required: false
-      }
+      },
+      where: { '$IssueStatus.name$': { $ne: 'Done' } }
     }).then(issues => {
       res.send(issues)
     })
@@ -29,7 +29,9 @@ module.exports = function (router) {
   router.put('/issue/:issueId/status/:statusId', function (req, res) {
     return db.Issue.update(
       { statusId: req.params.statusId },
-      { where: { id: req.params.issueId } })
+      { where: { id: req.params.issueId } }).then(issue => {
+        res.sendStatus(200)
+      })
   })
 
   router.delete('/issue/:id', function (req, res) {
