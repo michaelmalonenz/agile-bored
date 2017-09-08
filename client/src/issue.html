@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-md-11">
-        <div>${issue.description}</div>
+        <div innerhtml.bind="issue.description | sanitizeHTML | newLine "></div>
       </div>
       <div class="col-md-1">
         <icon icon="fa-edit" click.delegate="editIssue()"></icon>

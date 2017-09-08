@@ -8,6 +8,9 @@ export function configure (aurelia) {
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
     .feature('widgets')
+    .globalResources([
+      'converters/newline-valueconverter'
+    ])
 
   aurelia.start().then(() => aurelia.setRoot())
 }

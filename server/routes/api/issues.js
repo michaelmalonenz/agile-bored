@@ -8,7 +8,12 @@ module.exports = function (router) {
         model: db.IssueStatus,
         required: false
       },
-      where: { '$IssueStatus.name$': { $ne: 'Done' } }
+      where: {
+        $or: {
+          'statusId': { $eq: null },
+          '$IssueStatus.name$': { $ne: 'Done' }
+        }
+      }
     }).then(issues => {
       res.send(issues)
     })
