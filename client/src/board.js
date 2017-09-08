@@ -36,10 +36,16 @@ export class Board {
         return a.createdAt - b.createdAt
       })
     })
+
+    this.issueDeletedSubscription = this.eventAggregator.subscribe('issue-deleted', (issue) => {
+      const issueIndex = this.issues.findIndex(i => i.issueId === issue.id)
+      this.issues.splice(issueIndex, 1)
+    })
   }
 
   unbind () {
     this.issueCreatedSubscription.dispose()
+    this.issueDeletedSubscription.dispose()
   }
 
   canMove (item, source, handle, sibling) {

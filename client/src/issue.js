@@ -1,10 +1,11 @@
 import {IssueEditorDialog} from './dialogs/issue-editor'
 
 export class Issue {
-  constructor (i, dialogService, issueService) {
+  constructor (i, dialogService, issueService, eventAggregator) {
     this.issue = i
     this.dialogService = dialogService
     this.issueService = issueService
+    this.eventAggregator = eventAggregator
   }
 
   get issueId () {
@@ -29,7 +30,9 @@ export class Issue {
   }
 
   deleteIssue () {
-    return this.issueService.delete(this.issue)
+    return this.issueService.delete(this.issue).then(() => {
+      this.eventAggregator.publish('issue-deleted', this.issue)
+    })
   }
 
   updateStatus (status) {
