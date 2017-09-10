@@ -12,5 +12,9 @@ export function configure (aurelia) {
       'converters/newline-valueconverter'
     ])
 
-  aurelia.start().then(() => aurelia.setRoot())
+  aurelia.start().then(() =>
+    aurelia.setRoot().then(() => {
+      this.router.navigate('/')
+    })
+  )
 }
