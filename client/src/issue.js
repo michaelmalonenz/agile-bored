@@ -1,3 +1,4 @@
+import {ISSUE_DELETED} from './events'
 import {IssueEditorDialog} from './dialogs/issue-editor'
 
 export class Issue {
@@ -31,7 +32,7 @@ export class Issue {
 
   deleteIssue () {
     return this.issueService.delete(this.issue).then(() => {
-      this.eventAggregator.publish('issue-deleted', this.issue)
+      this.eventAggregator.publish(ISSUE_DELETED, this.issue)
     })
   }
 

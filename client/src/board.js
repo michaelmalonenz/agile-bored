@@ -3,6 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 import { IssueService } from './services/issues'
 import { StatusService } from './services/statuses'
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
+import { ISSUE_CREATED, ISSUE_DELETED } from './events'
 
 @inject(IssueService, IssueViewModelFactory, StatusService, EventAggregator)
 export class Board {
@@ -21,26 +22,21 @@ export class Board {
       for(let issue of issues) {
         this.issues.push(this.issueViewModelFactory.create(issue))
       }
-    })
+    }).catch(err => console.error(err))
+
     const statusesPromise = this.statusService.findAllForProject().then(statuses => {
       this.statuses = statuses
-    })
+    }).catch(err => console.error(err))
 
     return Promise.all([ issuesPromise, statusesPromise ])
   }
 
   bind () {
-    this.issueCreatedSubscription = this.eventAggregator.subscribe('issue-created', (issue) => {
-      this.issues.push(this.issueViewModelFactory.create(issue))
-      this.issues.sort((a,b) => {
-        return a.createdAt - b.createdAt
-      })
-    })
+    this.issueCreatedSubscription =
+      this.eventAggregator.subscribe(ISSUE_CREATED, this._issueCreated.bind())
 
-    this.issueDeletedSubscription = this.eventAggregator.subscribe('issue-deleted', (issue) => {
-      const issueIndex = this.issues.findIndex(i => i.issueId === issue.id)
-      this.issues.splice(issueIndex, 1)
-    })
+    this.issueDeletedSubscription =
+      this.eventAggregator.subscribe(ISSUE_DELETED, this._issueDeleted.bind())
   }
 
   unbind () {
@@ -67,5 +63,17 @@ export class Board {
         return element.au.controller.viewModel;
     }
     return null;
+  }
+
+  _issueCreated (issue) {
+    this.issues.push(this.issueViewModelFactory.create(issue))
+    this.issues.sort((a,b) => {
+      return a.createdAt - b.createdAt
+    })
+  }
+
+  _issueDeleted (issue) {
+    const issueIndex = this.issues.findIndex(i => i.issueId === issue.id)
+    this.issues.splice(issueIndex, 1)
   }
 }

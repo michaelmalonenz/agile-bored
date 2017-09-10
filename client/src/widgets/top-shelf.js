@@ -6,6 +6,7 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from '../services/issues'
 import { SettingsService } from '../services/settings'
+import { ISSUE_CREATED } from '../events'
 
 @inject(DialogService, IssueService, SettingsService, EventAggregator)
 export class TopShelf {
@@ -24,7 +25,7 @@ export class TopShelf {
     }).whenClosed(response => {
       if (!response.wasCancelled) {
         this.issueService.create(response.output).then(issue => {
-          this.eventAggregator.publish('issue-created', issue)
+          this.eventAggregator.publish(ISSUE_CREATED, issue)
         })
       }
     })
