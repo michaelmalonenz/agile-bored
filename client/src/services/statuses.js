@@ -10,15 +10,14 @@ export class StatusService {
     this._http = http
   }
 
-  findAllForProject (projectId) {
-    return this._http
+  async findAllForProject (projectId) {
+    const res = await this._http
       .createRequest('/api/statuses')
       .asGet()
       .withReviver(this._statusReviver)
       .send()
-      .then(res => {
-        return res.content
-      })
+
+    return res.content
   }
 
   _statusReviver (key, value) {

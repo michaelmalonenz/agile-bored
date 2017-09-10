@@ -9,37 +9,33 @@ export class IssueService {
     this._http = http
   }
 
-  findAll () {
-    return this._http
+  async findAll () {
+    const res = await this._http
       .createRequest('/api/issues')
       .asGet()
       .withReviver(this._issueReviver)
       .send()
-      .then(res => {
-        return res.content
-      })
-  }
 
-  create (issue) {
-    return this._http.post('/api/issue', issue).then(res => {
       return res.content
-    })
   }
 
-  update (issue) {
-    return this._http.put(`/api/issue/${issue.id}`, issue).then(res => {
-      return res.content
-    })
+  async create (issue) {
+    const res = await this._http.post('/api/issue', issue)
+    return res.content
   }
 
-  updateStatus (issueId, statusId) {
-    return this._http.put(`/api/issue/${issueId}/status/${statusId}`).then(res => {
-      return res.content
-    })
+  async update (issue) {
+    const res = await this._http.put(`/api/issue/${issue.id}`, issue)
+    return res.content
   }
 
-  delete (issue) {
-    return this._http.delete(`/api/issue/${issue.id}`)
+  async updateStatus (issueId, statusId) {
+    const res = await this._http.put(`/api/issue/${issueId}/status/${statusId}`)
+    return res.content
+  }
+
+  async delete (issue) {
+    await this._http.delete(`/api/issue/${issue.id}`)
   }
 
   _issueReviver (key, value) {
