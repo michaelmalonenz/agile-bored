@@ -3,7 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 import { IssueService } from './services/issues'
 import { StatusService } from './services/statuses'
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
-import { ISSUE_CREATED, ISSUE_DELETED } from './events'
+import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD } from './events'
 
 @inject(IssueService, IssueViewModelFactory, StatusService, EventAggregator)
 export class Board {
@@ -17,26 +17,19 @@ export class Board {
     this.issues = []
   }
 
-  activate () {
-    const issuesPromise = this.issueService.findAll().then(issues => {
-      for(let issue of issues) {
-        this.issues.push(this.issueViewModelFactory.create(issue))
-      }
-    }).catch(err => console.error(err))
-
-    const statusesPromise = this.statusService.findAllForProject().then(statuses => {
-      this.statuses = statuses
-    }).catch(err => console.error(err))
-
-    return Promise.all([ issuesPromise, statusesPromise ])
+  async activate () {
+    await this._refreshBoard()
   }
 
   bind () {
     this.issueCreatedSubscription =
-      this.eventAggregator.subscribe(ISSUE_CREATED, this._issueCreated.bind())
+      this.eventAggregator.subscribe(ISSUE_CREATED, this._issueCreated.bind(this))
 
     this.issueDeletedSubscription =
-      this.eventAggregator.subscribe(ISSUE_DELETED, this._issueDeleted.bind())
+      this.eventAggregator.subscribe(ISSUE_DELETED, this._issueDeleted.bind(this))
+
+    this.refreshBoardSubscription =
+      this.eventAggregator.subscribe(REFRESH_BOARD, this._refreshBoard.bind(this))
   }
 
   unbind () {
@@ -75,5 +68,20 @@ export class Board {
   _issueDeleted (issue) {
     const issueIndex = this.issues.findIndex(i => i.issueId === issue.id)
     this.issues.splice(issueIndex, 1)
+  }
+
+  _refreshBoard () {
+    const issuesPromise = this.issueService.findAll().then(issues => {
+      this.issues = []
+      for(let issue of issues) {
+        this.issues.push(this.issueViewModelFactory.create(issue))
+      }
+    }).catch(err => console.error(err))
+
+    const statusesPromise = this.statusService.findAllForProject().then(statuses => {
+      this.statuses = statuses
+    }).catch(err => console.error(err))
+
+    return Promise.all([ issuesPromise, statusesPromise ])
   }
 }

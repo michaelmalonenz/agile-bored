@@ -6,7 +6,7 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from '../services/issues'
 import { SettingsService } from '../services/settings'
-import { ISSUE_CREATED } from '../events'
+import { ISSUE_CREATED, REFRESH_BOARD } from '../events'
 
 @inject(DialogService, IssueService, SettingsService, EventAggregator)
 export class TopShelf {
@@ -42,5 +42,9 @@ export class TopShelf {
         this.settingsService.update(response.output)
       }
     })
+  }
+
+  refreshBoard () {
+    this.eventAggregator.publish(REFRESH_BOARD)
   }
 }
