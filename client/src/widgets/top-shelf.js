@@ -4,7 +4,7 @@ import { IssueEditorDialog } from 'dialogs/issue-editor'
 import { SettingsDialog } from 'dialogs/settings'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
-import { FactoryService } from '../factories/service-factory'
+import { ServiceFactory } from '../factories/service-factory'
 import { SettingsService } from '../services/settings'
 import { ISSUE_CREATED, REFRESH_BOARD } from '../events'
 
