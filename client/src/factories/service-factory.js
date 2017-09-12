@@ -6,7 +6,7 @@ import {StatusService} from '../services/statuses'
 import {IssueJiraService} from '../services/jira/issues'
 import {StatusJiraService} from '../services/jira/statuses'
 
-const useJira = true
+const useJira = false
 
 export class ServiceFactory {
 

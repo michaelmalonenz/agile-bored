@@ -13,8 +13,6 @@ export function configure (aurelia) {
     ])
 
   aurelia.start().then(() =>
-    aurelia.setRoot().then(() => {
-      this.router.navigate('/')
-    })
+    aurelia.setRoot()
   )
 }
