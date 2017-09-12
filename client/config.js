@@ -6,7 +6,6 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
-
   map: {
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.1",
     "aurelia-dialog": "npm:aurelia-dialog@1.0.0-rc.1.0.3",
@@ -28,7 +27,7 @@ System.config({
     "core-js": "npm:core-js@1.2.7",
     "fetch": "github:github/fetch@0.11.1",
     "font-awesome": "npm:font-awesome@4.7.0",
-    "text": "github:systemjs/plugin-text@0.0.4",
+    "text": "github:systemjs/plugin-text@0.0.11",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
