@@ -4,16 +4,16 @@ import { IssueEditorDialog } from 'dialogs/issue-editor'
 import { SettingsDialog } from 'dialogs/settings'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
-import { ServiceFactory } from '../factories/service-factory'
+import { IssueService } from '../services/issues'
 import { SettingsService } from '../services/settings'
 import { ISSUE_CREATED, REFRESH_BOARD } from '../events'
 
-@inject(DialogService, ServiceFactory, SettingsService, EventAggregator)
+@inject(DialogService, IssueService, SettingsService, EventAggregator)
 export class TopShelf {
 
-  constructor(dialogService, serviceFactory, settingsService, eventAggregator) {
+  constructor(dialogService, issueService, settingsService, eventAggregator) {
     this.dialogService = dialogService
-    this.issueService = serviceFactory.getIssueService()
+    this.issueService = issueService
     this.settingsService = settingsService
     this.eventAggregator = eventAggregator
   }

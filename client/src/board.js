@@ -1,16 +1,18 @@
 import { inject } from 'aurelia-framework'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
-import { ServiceFactory } from './factories/service-factory'
+import { IssueService } from './services/issues'
+import { StatusService } from './services/statuses'
+
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD } from './events'
 
-@inject(ServiceFactory, IssueViewModelFactory, EventAggregator)
+@inject(StatusService, IssueService, IssueViewModelFactory, EventAggregator)
 export class Board {
 
-  constructor(serviceFactory, issueViewModelFactory, eventAggregator) {
-    this.issueService = serviceFactory.getIssueService()
-    this.statusService = serviceFactory.getStatusService()
+  constructor(statusService, issueService, issueViewModelFactory, eventAggregator) {
+    this.statusService = statusService
+    this.issueService = issueService
     this.issueViewModelFactory = issueViewModelFactory
     this.eventAggregator = eventAggregator
 
