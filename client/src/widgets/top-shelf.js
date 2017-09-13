@@ -31,10 +31,11 @@ export class TopShelf {
     })
   }
 
-  showSettings () {
+  async showSettings () {
+    let settings = await this.settingsService.get()
     this.dialogService.open({
       viewModel: SettingsDialog,
-      model: this.settingsService.get(),
+      model: settings,
       centerHorizontalOnly: true,
       lock: true
     }).whenClosed(response => {

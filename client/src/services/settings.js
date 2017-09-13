@@ -1,28 +1,39 @@
-/* global localStorage */
+import {inject} from 'aurelia-framework'
+import {HttpClient} from 'aurelia-http-client'
 
-const SettingsContainer = {
-  version: 1,
-  content: '{ "jiraUrl": "", "jiraUsername": "" }'
-}
+import {Settings} from '../models/settings'
 
-const SETTINGS_KEY = 'settings'
-
+@inject(HttpClient)
 export class SettingsService {
-
-  get () {
-    const settingsObject = localStorage.getItem(SETTINGS_KEY)
-    if (settingsObject) {
-      let settingsCont = JSON.parse(settingsObject)
-      if (settingsCont.version === 1) {
-        return JSON.parse(settingsCont.content)
-      }
-    }
-    return JSON.parse(SettingsContainer.content)
+  constructor(http) {
+    this._http = http
   }
 
-  update (settings) {
-    const settingsCont = Object.assign({}, SettingsContainer)
-    settingsCont.content = JSON.stringify(settings)
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settingsCont))
+  async get () {
+    const res = await this._http
+      .createRequest('/api/settings')
+      .asGet()
+      .withReviver(this._settingsReviver)
+      .send()
+
+    return res.content
+  }
+
+  async update (settings) {
+    const res = await this._http
+      .createRequest('/api/settings')
+      .asPut()
+      .withContent(settings)
+      .withReviver(this._settingsReviver)
+      .send()
+
+    return res.content
+  }
+
+  _settingsReviver (key, value) {
+    if (key !== '' && value != null && typeof value === 'object') {
+      return new Settings(value)
+    }
+    return value
   }
 }
