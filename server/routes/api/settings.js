@@ -1,9 +1,15 @@
+const db = require('../../models')
+
 module.exports = function (router) {
   router.get('/settings', function (req, res) {
-    return res.send({})
+    db.Settings.findOne().then((settings) => {
+      return res.send(settings)
+    })
   })
 
   router.put('/settings', function (req, res) {
-    return res.send(req.body)
+    db.Settings.upsert(req.body).then(() => {
+      return res.send(req.body)
+    })
   })
 }

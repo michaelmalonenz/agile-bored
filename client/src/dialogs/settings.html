@@ -8,16 +8,12 @@
             <input type="text" id="jira-url" class="form-control" value.bind="settings.jiraUrl">
           </div>
           <div class="form-group">
-            <label for="jira-username">Jira Username:</label>
-            <input type="text" id="jira-username" class="form-control" value.bind="settings.jiraUsername">
-          </div>
-          <div class="form-group">
-            <label for="jira-password">Jira Password:</label>
-            <input type="password" id="jira-password" class="form-control" value.bind="settings.jiraPassword">
+            <label for="use-jira">Use Jira:</label>
+            <input type="checkbox" id="use-jira" class="form-control" checked.bind="settings.useJira">
           </div>
         </div>
       </ux-dialog-body>
-  
+
       <ux-dialog-footer>
         <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
         <button type="button" class="btn btn-primary" click.trigger="controller.ok(settings)">Save</button>
