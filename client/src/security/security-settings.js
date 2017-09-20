@@ -1,3 +1,5 @@
+/* global btoa */
+
 export class SecuritySettings {
   constructor () {
     this._username = ''
@@ -21,6 +23,10 @@ export class SecuritySettings {
 
   get password () {
     return this._password
+  }
+
+  get authorizationHeader () {
+    return `Basic ${btoa(`${this._username}:${this._password}`)}`
   }
 }
 
