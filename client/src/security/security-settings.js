@@ -4,7 +4,7 @@ export class SecuritySettings {
   constructor () {
     this._username = ''
     this._password = ''
-    this.isSet = false
+    this.confirmed = false
   }
 
   static instance () {
@@ -14,7 +14,10 @@ export class SecuritySettings {
   initialise (username, password) {
     this._username = username
     this._password = password
-    this.isSet = true
+  }
+
+  confirmSettings () {
+    this.confirmed = true
   }
 
   get username () {
@@ -25,8 +28,8 @@ export class SecuritySettings {
     return this._password
   }
 
-  get authorizationHeader () {
-    return `Basic ${btoa(`${this._username}:${this._password}`)}`
+  getAuthorizationHeader () {
+    return `Basic ${btoa(`${this.username}:${this.password}`)}`
   }
 }
 

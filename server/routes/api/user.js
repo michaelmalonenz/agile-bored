@@ -6,6 +6,8 @@ module.exports = function (router) {
     var options = jiraRequestBuilder('/myself', req)
     request(options).then((user) => {
       return res.send(user)
+    }).catch(err => {
+      return res.sendStatus(err.statusCode)
     })
   })
 }

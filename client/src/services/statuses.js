@@ -1,9 +1,9 @@
 import {inject} from 'aurelia-framework'
-import {HttpClient} from 'aurelia-http-client'
 
+import {AuthHttpClient} from './auth-http-client'
 import {Status} from '../models/status'
 
-@inject(HttpClient)
+@inject(AuthHttpClient)
 export class StatusService {
 
   constructor(http) {

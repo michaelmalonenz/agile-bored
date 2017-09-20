@@ -6,7 +6,7 @@ export class AuthorizeStep {
 
   run (navigationInstruction, next) {
     if (navigationInstruction.getAllInstructions().some(i => i.config.auth)) {
-      var isLoggedIn = SecuritySettings.instance().isSet
+      var isLoggedIn = SecuritySettings.instance().confirmed
       if (!isLoggedIn) {
         return next.cancel(new Redirect('login'))
       }

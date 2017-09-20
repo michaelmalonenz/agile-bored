@@ -33,8 +33,9 @@ export class Login {
   }
 
   login () {
+    this.settings.initialise(this.username, this.password)
     this.userService.me().then(() => {
-      this.settings.initialise(this.username, this.password)
+      this.settings.confirmSettings()
       this.router.navigate('/board')
     }).catch(err => {
       console.log(err)

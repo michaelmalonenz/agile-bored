@@ -1,9 +1,9 @@
 import {inject} from 'aurelia-framework'
-import {HttpClient} from 'aurelia-http-client'
 
+import {AuthHttpClient} from './auth-http-client'
 import {User} from '../models/user'
 
-@inject(HttpClient)
+@inject(AuthHttpClient)
 export class UserService {
   constructor(http) {
     this._http = http
