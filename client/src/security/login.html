@@ -4,14 +4,26 @@
       <h1 class="banner-header">Agile Bored?</h1>
       <div class="form-group">
         <label class="sr-only" for="username">Username</label>
-        <input class="form-control" type="text" placeholder="Username" value.bind="username" id="username"/>
+        <input class="form-control" type="text" placeholder="Username" value.bind="username"
+          disabled.bind="loggingIn" id="username"/>
       </div>
       <div class="form-group">
         <label class="sr-only" for="password">Password</label>
-        <input class="form-control" type="password" placeholder="Password" value.bind="password" id="password" />
+        <input class="form-control" type="password" placeholder="Password" value.bind="password"
+          disabled.bind="loggingIn" id="password" />
       </div>
-      <div class="form-group">
-        <button class="btn btn-primary pull-right" type="button" click.delegate="login()">Login</button>
+      <div class="row">
+        <div class="col-xs-9">
+          <div class="login-failed" if.bind="loginFailed">
+            Login failed - please try again
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="form-group">
+            <button class="btn btn-primary pull-right" type="button" click.delegate="login()"
+              disabled.bind="loggingIn">Login</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

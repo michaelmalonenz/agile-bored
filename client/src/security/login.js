@@ -14,6 +14,8 @@ export class Login {
     this.username = ''
     this.password = ''
     this.settings = SecuritySettings.instance()
+    this.loggingIn = false
+    this.loginFailed = false
 
     this.boundKeyHandler = this._keypressHandler.bind(this)
   }
@@ -34,11 +36,13 @@ export class Login {
 
   login () {
     this.settings.initialise(this.username, this.password)
-    this.userService.me().then(() => {
+    this.loggingIn = true
+    this.userService.me().then((user) => {
       this.settings.confirmSettings()
       this.router.navigate('/board')
     }).catch(err => {
-      console.log(err)
+      this.loggingIn = false
+      this.loginFailed = true
     })
   }
 }
