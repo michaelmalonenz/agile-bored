@@ -1,13 +1,7 @@
-const request = require('request-promise-native')
-const jiraRequestBuilder = require('../../utils/jira-request')
+const jiraUser = require('./jira/user')
 
 module.exports = function (router) {
   router.get('/me', function (req, res) {
-    var options = jiraRequestBuilder('/myself', req)
-    request(options).then((user) => {
-      return res.send(user)
-    }).catch(err => {
-      return res.sendStatus(err.statusCode)
-    })
+    return jiraUser.me(req, res)
   })
 }
