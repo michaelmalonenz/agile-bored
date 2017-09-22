@@ -10,6 +10,7 @@ var notify = require('gulp-notify')
 var browserSync = require('browser-sync')
 var sass = require('gulp-sass')
 var htmlmin = require('gulp-htmlmin')
+var rename = require('gulp-rename')
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
@@ -42,6 +43,17 @@ gulp.task('build-scss', function () {
 })
 
 gulp.task('copy-fonts', function () {
+  gulp.src(paths.fontRaleway)
+    .pipe(gulp.dest(paths.output + '/styles/fonts'))
+    .pipe(browserSync.stream())
+
+  // gulp.src(paths.fontAwesome)
+  //   .pipe(rename(function (path) {
+  //     path.basename = './'
+  //   }))
+  //   .pipe(gulp.dest(paths.output + '/fonts/font-awesome'))
+  //   .pipe(browserSync.stream())
+
   return gulp.src(paths.fonts)
     .pipe(gulp.dest(paths.output + '/fonts/bootstrap'))
     .pipe(browserSync.stream())

@@ -9,3 +9,13 @@
 div {
     display: block;
 }
+
+@font-face {
+    font-family: Raleway;
+    src: url(fonts/Raleway.ttf);
+    font-weight: 400;
+}
+
+body {
+    font-family: Raleway;
+}
