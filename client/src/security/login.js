@@ -38,7 +38,7 @@ export class Login {
     this.settings.initialise(this.username, this.password)
     this.loggingIn = true
     this.userService.me().then((user) => {
-      this.settings.confirmSettings()
+      this.settings.user = user
       this.router.navigate('/board')
     }).catch(err => {
       this.loggingIn = false

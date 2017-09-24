@@ -4,7 +4,7 @@ export class SecuritySettings {
   constructor () {
     this._username = ''
     this._password = ''
-    this.confirmed = false
+    this.loggedIn = false
   }
 
   static instance () {
@@ -16,8 +16,13 @@ export class SecuritySettings {
     this._password = password
   }
 
-  confirmSettings () {
-    this.confirmed = true
+  set user (value) {
+    this.loggedIn = true
+    this._user = value
+  }
+
+  get user () {
+    return this._user
   }
 
   get username () {
