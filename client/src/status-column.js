@@ -1,13 +1,9 @@
 import { customElement, bindable, inject } from 'aurelia-framework'
 
 @customElement('status-col')
+@bindable('issues')
+@bindable('status')
 export class StatusColumn {
-
-  @bindable issues
-  @bindable status
-
-  constructor () {
-  }
 
   get statusIssues () {
     return this.issues.filter(x => {
@@ -15,7 +11,7 @@ export class StatusColumn {
         (x.issue.IssueStatus != null && x.issue.IssueStatus.name === this.status.name)
     })
   }
-  
+
   dropInto (issue, siblingIssue) {
     issue.updateStatus(this.status)
   }

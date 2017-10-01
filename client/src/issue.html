@@ -6,11 +6,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-11">
-        <div innerhtml.bind="issue.description | sanitizeHTML | newLine "></div>
-      </div>
-      <div class="col-md-1">
+      <div class="col-md-2">
         <icon icon="fa-edit" click.delegate="editIssue()"></icon>
+      </div>
+      <div class="col-md-2">
         <icon icon="fa-trash" click.delegate="deleteIssue()"></icon>
       </div>
     </div>

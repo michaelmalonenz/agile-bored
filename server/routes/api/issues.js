@@ -1,11 +1,10 @@
 const db = require('../../models')
 const jiraIssues = require('./jira/issues')
-
-const useJira = true
+const settings = require('../../settings')
 
 module.exports = function (router) {
   router.get('/issues', function (req, res) {
-    if (useJira) {
+    if (settings.useJira()) {
       return jiraIssues.findAllIssues(req, res)
     } else {
       return db.Issue.findAll({
