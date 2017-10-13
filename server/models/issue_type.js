@@ -1,10 +1,11 @@
 module.exports = function (sequelize, DataTypes) {
-  return sequelize.define('IssueStatus', {
+  return sequelize.define('IssueType', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: DataTypes.STRING(255),
+    name: DataTypes.STRING(64),
+    colour: DataTypes.STRING(64),
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {
-    tableName: 'issue_statuses'
+    tableName: 'issue_type'
   })
 }

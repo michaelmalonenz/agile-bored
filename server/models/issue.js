@@ -8,7 +8,14 @@ module.exports = function (sequelize, DataTypes) {
       statusId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'issue_status',
+          model: 'issue_statuses',
+          key: 'id'
+        }
+      },
+      typeId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'issue_type',
           key: 'id'
         }
       }

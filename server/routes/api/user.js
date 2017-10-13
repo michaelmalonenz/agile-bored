@@ -6,7 +6,10 @@ module.exports = function (router) {
     if (settings.useJira()) {
       return jiraUser.me(req, res)
     } else {
-      return res.sendStatus(200)
+      return res.send({
+        displayName: 'Current User',
+        avatarUrls: { '24x24': '' }
+      })
     }
   })
 }

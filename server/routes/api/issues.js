@@ -9,10 +9,13 @@ module.exports = function (router) {
     } else {
       return db.Issue.findAll({
         order: [['createdAt', 'ASC']],
-        include: {
+        include: [{
           model: db.IssueStatus,
           required: false
-        },
+        }, {
+          model: db.IssueType,
+          required: false
+        }],
         where: {
           $or: {
             'statusId': { $eq: null },
