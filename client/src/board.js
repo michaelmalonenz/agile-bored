@@ -50,6 +50,11 @@ export class Board {
     }
   }
 
+  /** If the sibling is the firstElement in the Status Column
+   * that means we're attempting to drop before the heading
+   * elem, so refuse that, and make it appear that it isn't
+   * event a thing, theoretically.
+   */
   canDrop (item, target, source, sibling) {
     return (target.firstElementChild !== sibling)
   }
