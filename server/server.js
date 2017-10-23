@@ -18,6 +18,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../client')))
+app.use(express.static(path.join(__dirname, '../client/scripts')))
 
 app.set('port', process.env.PORT || 5000)
 
