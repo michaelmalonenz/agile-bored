@@ -8,11 +8,7 @@ module.exports = {
       { name: 'Bug', colour: 'red' },
       { name: 'Epic', colour: 'purple' }
     ]).then(() => {
-      return Sequelize.models.IssueType.findOne({
-        where: { name: 'Story' }
-      }).then(issueType => {
-        return Sequelize.Issue.update({ typeId: issueType.id })
-      })
+      return queryInterface.bulkUpdate('issues', { typeId: 1 })
     })
   },
 
