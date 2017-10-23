@@ -13,6 +13,14 @@ export class Issue {
     return this.issue.id
   }
 
+  get typeStyle () {
+    if (this.issue && this.issue.IssueType) {
+      return `border-top: 3px solid ${this.issue.IssueType.colour};`
+    } else {
+      return ''
+    }
+  }
+
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,

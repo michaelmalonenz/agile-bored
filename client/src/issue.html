@@ -1,5 +1,5 @@
 <template>
-  <div class="issue" dblclick.delegate="editIssue()">
+  <div class="issue" dblclick.delegate="editIssue()" css.bind="typeStyle">
     <div class="row">
       <div class="col-md-12">
         <strong>${issue.title}</strong>
