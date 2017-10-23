@@ -1,18 +1,20 @@
-import 'babel-runtime'
-import 'bootstrap'
+import environment from './environment'
 
 export function configure (aurelia) {
   aurelia.use
     .standardConfiguration()
-    .developmentLogging()
+    .feature('resources')
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
     .feature('widgets')
-    .globalResources([
-      'converters/newline-valueconverter'
-    ])
 
-  aurelia.start().then(() =>
-    aurelia.setRoot()
-  )
+  if (environment.debug) {
+    aurelia.use.developmentLogging()
+  }
+
+  if (environment.testing) {
+    aurelia.use.plugin('aurelia-testing')
+  }
+
+  aurelia.start().then(() => aurelia.setRoot())
 }
