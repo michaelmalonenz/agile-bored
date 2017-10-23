@@ -50,6 +50,10 @@ export class Board {
     }
   }
 
+  canDrop (item, target, source, sibling) {
+    return (target.firstElementChild !== sibling)
+  }
+
   _getViewModel (element) {
     if (element && element.au && element.au.controller) {
       if (element.au.controller.viewModel.currentViewModel)

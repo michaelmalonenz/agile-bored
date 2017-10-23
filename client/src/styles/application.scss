@@ -10,6 +10,8 @@
   background-color: $gray-lighter;
   padding: 5px;
   margin-top: 5px;
+  border: solid 1px transparent;
+  border-top-width: 3px;
 }
 
 .status-col {
@@ -17,10 +19,10 @@
   align-content: flex-start;
   flex-wrap: wrap;
   flex-grow: 1;
-  background-color: rebeccapurple;
+  background-color: $primary-text;
   overflow-y: auto;
   padding: 10px;
-  border-right: 1px solid $primary-text;
+  border-right: 1px solid $brand-primary;
 
   &:last-child {
     border-right: none;
