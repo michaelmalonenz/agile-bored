@@ -15,12 +15,7 @@
 }
 
 .status-col {
-  justify-content: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  flex-grow: 1;
   background-color: $primary-text;
-  overflow-y: auto;
   padding: 10px;
   border-right: 1px solid $brand-primary;
 
@@ -32,9 +27,16 @@
 .main-content {
   margin-left: -15px;
   margin-right: -15px;
+  height: 100vh;
   background-color: #ccc;
-  display: flex;
   box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+}
+
+.status-cols-area {
+  overflow: auto;
+  display: grid;
 }
 
 .status-name {
