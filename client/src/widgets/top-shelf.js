@@ -6,7 +6,7 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from '../services/issues'
 import { SettingsService } from '../services/settings'
-import { ISSUE_CREATED, REFRESH_BOARD } from '../events'
+import { ISSUE_CREATED, REFRESH_BOARD, LOG_OUT } from '../events'
 
 @inject(DialogService, IssueService, SettingsService, EventAggregator)
 export class TopShelf {
@@ -33,14 +33,18 @@ export class TopShelf {
 
   async showSettings () {
     let settings = await this.settingsService.get()
+    let usingJira = settings.useJira
     this.dialogService.open({
       viewModel: SettingsDialog,
       model: settings,
       centerHorizontalOnly: true,
       lock: true
-    }).whenClosed(response => {
+    }).whenClosed(async (response) => {
       if (!response.wasCancelled) {
-        this.settingsService.update(response.output)
+        await this.settingsService.update(response.output)
+        if (usingJira !== response.output.useJira) {
+          this.eventAggregator.publish(LOG_OUT)
+        }
       }
     })
   }

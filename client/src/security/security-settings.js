@@ -14,6 +14,7 @@ export class SecuritySettings {
   initialise (username, password) {
     this._username = username
     this._password = password
+    this.loggedIn = false
   }
 
   set user (value) {

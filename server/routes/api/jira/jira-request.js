@@ -1,8 +1,9 @@
 const urlJoin = require('url-join')
+const settings = require('../../../settings')
 
 module.exports = function (apiSuffix, req) {
   return {
-    uri: urlJoin('https://aranzgeo.atlassian.net/rest/api/2', apiSuffix),
+    uri: urlJoin(settings.jiraUrl, '/rest/api/2', apiSuffix),
     headers: {
       'Authorization': req.get('Authorization')
     },
