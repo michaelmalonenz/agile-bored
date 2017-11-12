@@ -3,6 +3,7 @@ export class Issue {
     this.id = null
     this.title = ''
     this.description = ''
+    this.assignee = {}
     Object.assign(this, issue)
   }
 }

@@ -21,6 +21,22 @@ export class Issue {
     }
   }
 
+  get avatarUrl () {
+    if (this.issue && this.issue.assignee && this.issue.assignee.avatarUrls) {
+      return this.issue.assignee.avatarUrls['24x24']
+    } else {
+      return ''
+    }
+  }
+
+  get displayName () {
+    if (this.issue && this.issue.assignee) {
+      return this.issue.assignee.displayName
+    } else {
+      return ''
+    }
+  }
+
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,
