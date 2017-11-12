@@ -1,31 +1,17 @@
 const db = require('../../models')
+const localIssues = require('./local/issues')
 const jiraIssues = require('./jira/issues')
 const settings = require('../../settings')
 
 module.exports = function (router) {
   router.get('/issues', function (req, res) {
-    if (settings.useJira()) {
-      return jiraIssues.findAllIssues(req, res)
-    } else {
-      return db.Issue.findAll({
-        order: [['createdAt', 'ASC']],
-        include: [{
-          model: db.IssueStatus,
-          required: false
-        }, {
-          model: db.IssueType,
-          required: false
-        }],
-        where: {
-          $or: {
-            'statusId': { $eq: null },
-            '$IssueStatus.name$': { $ne: 'Done' }
-          }
-        }
-      }).then(issues => {
-        res.send(issues)
-      })
-    }
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.findAllIssues(req, res)
+      } else {
+        return localIssues.findAllIssues(req, res)
+      }
+    })
   })
 
   router.post('/issue', function (req, res) {
