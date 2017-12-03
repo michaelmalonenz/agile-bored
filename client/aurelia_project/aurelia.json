@@ -1,6 +1,7 @@
 {
   "name": "agile-bored",
   "type": "project:application",
+  "packageManager": "npm",
   "bundler": {
     "id": "cli",
     "displayName": "Aurelia-CLI"

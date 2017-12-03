@@ -30,7 +30,7 @@ export class Issue {
   }
 
   get displayName () {
-    if (this.issue && this.issue.assignee) {
+    if (this.issue && this.issue.assignee && this.issue.assignee.displayName) {
       return this.issue.assignee.displayName
     } else {
       return ''
