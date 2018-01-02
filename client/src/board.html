@@ -1,10 +1,13 @@
 <template>
   <require from="./status-column"></require>
   <dragula-and-drop moves.call="canMove(item, source, handle, sibling)"
-  drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)"
-  accepts.call="canDrop(item, target, source, sibling)"></dragula-and-drop>
+    drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)">
+  </dragula-and-drop>
+  <div as-element="top-shelf" class="top-shelf-grid"></div>
   <div class="main-content">
-    <div as-element="top-shelf" class="top-shelf-grid"></div>
+    <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
+      <div class="status-name" repeat.for="status of statuses">${status.name}</div>
+    </div>
     <div class="status-cols-area" css="grid-template-columns: repeat(${statuses.length}, 1fr);">
       <div class="status-col drag-source drop-target" as-element="status-col"
         issues.bind="issues" status.bind="status" repeat.for="status of statuses"></div>
