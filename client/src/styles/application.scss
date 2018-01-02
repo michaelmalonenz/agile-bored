@@ -5,6 +5,7 @@
 @import "dialogs/_dialogs.scss";
 @import "widgets/_widgets.scss";
 @import "security/_login.scss";
+@import "_search.scss";
 
 .issue {
   background-color: $gray-lighter;
@@ -28,7 +29,7 @@
 .main-content {
   margin-left: -15px;
   margin-right: -15px;
-  height: 100vh;
+  height: calc(100vh - 50px);
   background-color: #ccc;
   box-sizing: border-box;
   display: grid;
@@ -42,7 +43,7 @@
 
 .status-name {
   padding: 3px;
-  background-color: $brand-pale;
+  background-color: $brand-secondary;
   text-transform: uppercase;
   text-align: center;
   color: $gray-lighter;

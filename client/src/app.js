@@ -27,7 +27,8 @@ export class App {
     config.addPipelineStep('authorize', AuthorizeStep)
     config.map([
       { route: ['', 'board'], name: 'board', moduleId: 'board', nav: true, title: 'Board', auth: true },
-      { route: 'login', name: 'login', moduleId: 'security/login', nav: true, title: 'Login' }
+      { route: 'search', name: 'search', moduleId: 'search', nav: true, title: 'Search', auth: true },
+      { route: 'login', name: 'login', moduleId: 'security/login', nav: false, title: 'Login' }
     ])
 
     this.router = router

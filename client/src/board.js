@@ -37,6 +37,7 @@ export class Board {
   unbind () {
     this.issueCreatedSubscription.dispose()
     this.issueDeletedSubscription.dispose()
+    this.refreshBoardSubscription.dispose()
   }
 
   canMove (item, source, handle, sibling) {

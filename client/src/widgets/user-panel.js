@@ -9,12 +9,19 @@ export class UserPanel {
     this.securitySettings = SecuritySettings.instance()
   }
 
+  get loggedIn () {
+    return this.securitySettings.loggedIn
+  }
+
   get currentUser () {
     return this.securitySettings.user
   }
 
   get avatar () {
-    return this.currentUser.avatarUrls['24x24']
+    if (this.currentUser && this.currentUser.avatarUrls)
+      return this.currentUser.avatarUrls['24x24']
+
+    return null
   }
 
 }
