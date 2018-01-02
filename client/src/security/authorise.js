@@ -1,4 +1,4 @@
-import {Redirect} from 'aurelia-router'
+import { RedirectToRoute } from 'aurelia-router'
 
 import {SecuritySettings} from './security-settings'
 
@@ -8,7 +8,8 @@ export class AuthorizeStep {
     if (navigationInstruction.getAllInstructions().some(i => i.config.auth)) {
       var isLoggedIn = SecuritySettings.instance().loggedIn
       if (!isLoggedIn) {
-        return next.cancel(new Redirect('login'))
+        const moduleId = navigationInstruction.config.moduleId
+        return next.cancel(new RedirectToRoute('login', { return: moduleId }))
       }
     }
 

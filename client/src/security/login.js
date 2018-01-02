@@ -20,6 +20,10 @@ export class Login {
     this.boundKeyHandler = this._keypressHandler.bind(this)
   }
 
+  activate (params) {
+    this.redirectModuleId = params.return || ''
+  }
+
   bind () {
     window.addEventListener('keypress', this.boundKeyHandler)
   }
@@ -39,7 +43,9 @@ export class Login {
     this.loggingIn = true
     this.userService.me().then((user) => {
       this.settings.user = user
-      this.router.navigate('/board')
+      if (this.redirectModuleId) {
+        this.router.navigateToRoute(this.redirectModuleId)
+      }
     }).catch(err => {
       this.loggingIn = false
       this.loginFailed = true
