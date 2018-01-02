@@ -23,6 +23,11 @@ module.exports = {
       return _settingsInstance.jiraUrl
     })
   },
+  jiraProjectName () {
+    return init().then(() => {
+      return _settingsInstance.jiraProjectName
+    })
+  },
   updateSettings (settings) {
     return init().then(() => {
       _settingsInstance = settings
