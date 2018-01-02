@@ -20,5 +20,8 @@ module.exports = {
     }).then(issues => {
       res.send(issues)
     })
+  },
+  search: function (req, res) {
+    res.send(200)
   }
 }

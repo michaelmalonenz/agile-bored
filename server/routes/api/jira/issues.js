@@ -20,6 +20,13 @@ module.exports = {
           return res.send(issues)
         })
       })
+  },
+  search: function (req, res) {
+    return settings.jiraProjectName()
+      .then(jiraProjectName => {
+        const searchJQL = `project = ${jiraProjectName}`
+        console.log(searchJQL)
+      })
   }
 }
 

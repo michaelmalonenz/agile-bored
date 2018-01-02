@@ -14,6 +14,16 @@ module.exports = function (router) {
     })
   })
 
+  router.get('/issues/search', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.search(req, res)
+      } else {
+        return localIssues.search(req, res)
+      }
+    })
+  })
+
   router.post('/issue', function (req, res) {
     return db.Issue.create(req.body).then(issue => {
       res.send(issue)

@@ -2,9 +2,9 @@
   <form class="search-form" role="search">
     <div class="input-group add-on search-box">
       <input class="form-control" placeholder="Search" name="search-term" id="search-term"
-        type="text" value.bind="searchTerm" change.delegate="searchChanged($event)">
+        type="text" value.bind="searchTerm">
       <div class="input-group-btn">
-        <button class="btn btn-default" type="submit">
+        <button class="btn btn-default" type="button" click.delegate="searchButtonPress()">
           <i class="glyphicon glyphicon-search"></i></button>
       </div>
     </div>

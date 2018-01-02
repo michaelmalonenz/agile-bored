@@ -39,6 +39,17 @@ export class IssueService {
     await this._http.delete(`/api/issue/${issue.id}`)
   }
 
+  async search (searchTerm) {
+    const res = await this._http
+      .createRequest('/api/issues/search')
+      .asGet()
+      .withParams({ search: searchTerm })
+      .withReviver(this._issueReviver)
+      .send()
+
+    return res.content
+  }
+
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object') {
       return new Issue(value)
