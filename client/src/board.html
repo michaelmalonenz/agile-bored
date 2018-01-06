@@ -4,6 +4,7 @@
     drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)">
   </dragula-and-drop>
   <div as-element="top-shelf" class="top-shelf-grid"></div>
+  <create-issue-button></create-issue-button>
   <div class="main-content">
     <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
       <div class="status-name" repeat.for="status of statuses">${status.name}</div>
