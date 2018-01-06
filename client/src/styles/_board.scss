@@ -1,0 +1,41 @@
+.issue {
+  background-color: $gray-lighter;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  border: solid 1px transparent;
+  border-top-width: 3px;
+  border-radius: 1px;
+}
+
+.status-col {
+  background-color: $primary-text;
+  padding: 10px;
+  border-right: 1px solid $brand-primary;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.main-content {
+  margin-left: -15px;
+  margin-right: -15px;
+  height: calc(100vh - 50px);
+  background-color: #ccc;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 30px 1fr;
+}
+
+.status-cols-area {
+  overflow: auto;
+  display: grid;
+}
+
+.status-name {
+  padding: 3px;
+  background-color: $brand-secondary;
+  text-transform: uppercase;
+  text-align: center;
+  color: $gray-lighter;
+}
