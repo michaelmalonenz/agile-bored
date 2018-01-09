@@ -1,18 +1,26 @@
-import { inject } from 'aurelia-framework'
+import { inject, bindable, customElement } from 'aurelia-framework'
 import { DialogService } from 'aurelia-dialog'
 import { SettingsDialog } from 'dialogs/settings'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
-import { SettingsService } from '../services/settings'
-import { REFRESH_BOARD, LOG_OUT } from '../events'
+import {SecuritySettings} from './security/security-settings'
+import { SettingsService } from './services/settings'
+import { REFRESH_BOARD, LOG_OUT } from './events'
 
+@customElement('nav-bar')
+@bindable('router')
 @inject(DialogService, SettingsService, EventAggregator)
-export class TopShelf {
+export class NavBar {
 
-  constructor(dialogService, settingsService, eventAggregator) {
+  constructor (dialogService, settingsService, eventAggregator) {
     this.dialogService = dialogService
     this.settingsService = settingsService
     this.eventAggregator = eventAggregator
+    this.securitySettings = SecuritySettings.instance()
+  }
+
+  get loggedIn () {
+    return this.securitySettings.loggedIn
   }
 
   async showSettings () {
