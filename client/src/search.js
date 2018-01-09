@@ -4,12 +4,14 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from './services/issues'
 import { SEARCH } from './events'
+import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 
-@inject(IssueService, Router, EventAggregator, Element)
+@inject(IssueService, IssueViewModelFactory, Router, EventAggregator, Element)
 export class Search {
 
-  constructor (issueService, router, eventAggregator, element) {
+  constructor (issueService, issueViewModelFactory, router, eventAggregator, element) {
     this.issueService = issueService
+    this.issueViewModelFactory = issueViewModelFactory
     this.router = router
     this.eventAggregator = eventAggregator
     this.element = element
@@ -59,7 +61,11 @@ export class Search {
 
   async _doSearch() {
     if (this.searchTerm) {
-      this.results = await this.issueService.search(this.searchTerm)
+      const issues = await this.issueService.search(this.searchTerm)
+      this.results = []
+      for(let issue of issues) {
+        this.results.push(this.issueViewModelFactory.create(issue))
+      }
     }
   }
 }

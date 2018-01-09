@@ -24,8 +24,18 @@ module.exports = {
   search: function (req, res) {
     return settings.jiraProjectName()
       .then(jiraProjectName => {
-        const searchJQL = `project = ${jiraProjectName}`
-        console.log(searchJQL)
+        const issueJQL = `project = ${jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
+        const encodedJQL = encodeURIComponent(issueJQL)
+        return jiraRequestBuilder(`search?jql=${encodedJQL}`, req)
+      })
+      .then(options => {
+        return request(options).then((result) => {
+          let issues = []
+          for (let issue of result.issues) {
+            issues.push(IssueViewModel.createFromJira(issue))
+          }
+          return res.send(issues)
+        })
       })
   }
 }
