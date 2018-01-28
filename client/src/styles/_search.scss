@@ -6,3 +6,8 @@
 .search-box {
   width: 100%;
 }
+
+.search-description {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
