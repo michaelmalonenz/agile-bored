@@ -1,0 +1,26 @@
+{
+  "name": "agile-bored",
+  "version": "0.1.0",
+  "description": "An agile board, for those who are bored with the current state of agile.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently --prefix '[{name}]' --names 'SERVER,CLIENT' -c 'white.bgBlue.bold,black.bgGreen.bold' 'cd server; npm run start' 'cd client; au run --watch'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelmalonenz/node-board.git"
+  },
+  "keywords": [
+    "Agile"
+  ],
+  "author": "Michael Malone",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/michaelmalonenz/node-board/issues"
+  },
+  "homepage": "https://github.com/michaelmalonenz/node-board#readme",
+  "dependencies": {
+    "concurrently": "^3.5.1"
+  }
+}
