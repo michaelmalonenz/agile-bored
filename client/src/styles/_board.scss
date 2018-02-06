@@ -27,11 +27,15 @@
   background-color: #ccc;
   box-sizing: border-box;
   display: grid;
-  grid-template-rows: fit-content(100%) fit-content(100%) 1fr;
+  grid-template-rows: fit-content(100%) 1fr;
 }
 
 .status-cols-area {
   overflow: auto;
+  display: grid;
+}
+
+.issues-area {
   display: grid;
 }
 

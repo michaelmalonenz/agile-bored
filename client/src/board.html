@@ -8,17 +8,21 @@
     <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
       <div class="status-name" repeat.for="status of statuses">${status.name}</div>
     </div>
-    <div class="issues-with-children" repeat.for="parent of parentIssues">
-      <div class="parent-issue">
-        ${parent.title}
-      </div>
-      <div class="child-issue" repeat.for="child of parent.children">
-        ${child.title}
-      </div>
-    </div>
-    <div class="status-cols-area" css="grid-template-columns: repeat(${statuses.length}, 1fr);">
-      <div class="status-col drag-source drop-target" as-element="status-col"
-        issues.bind="otherIssues" status.bind="status" repeat.for="status of statuses"></div>
+    <div class="status-cols-area">
+      <div repeat.for="parent of parentIssues">
+        <div class="issue-title"><h4>${parent.issue.title}</h4></div>
+          <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
+            <div class="status-col drag-source drop-target" as-element="status-col"
+              issues.bind="parent.issue.children" status.bind="status" repeat.for="status of statuses">
+            </div>
+          </div>
+        </div>
+        <div class="issue-title"><h4>Other Issues</h4></div>
+        <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
+          <div class="status-col drag-source drop-target" as-element="status-col"
+            issues.bind="otherIssues" status.bind="status" repeat.for="status of statuses">
+          </div>
+        </div>
     </div>
   </div>
 </template>

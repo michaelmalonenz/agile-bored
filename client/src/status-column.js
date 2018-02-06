@@ -7,8 +7,9 @@ export class StatusColumn {
 
   get statusIssues () {
     return this.issues.filter(x => {
-      return (x.issue.IssueStatus == null && this.status.name === 'Todo') ||
-        (x.issue.IssueStatus != null && x.issue.IssueStatus.name === this.status.name)
+      const issueStatus = x.issue ? x.issue.IssueStatus : x.IssueStatus
+      return (issueStatus == null && this.status.name === 'Todo') ||
+        (issueStatus != null && issueStatus.name === this.status.name)
     })
   }
 

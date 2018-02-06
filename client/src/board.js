@@ -42,12 +42,12 @@ export class Board {
 
   @computedFrom('issues')
   get otherIssues () {
-    return this.issues.filter(i => !i.children)
+    return this.issues.filter(i => !i.hasChildren)
   }
 
   @computedFrom('issues')
   get parentIssues () {
-    return this.issues.filter(i => !!i.children)
+    return this.issues.filter(i => i.hasChildren)
   }
 
   canMove (item, source, handle, sibling) {
