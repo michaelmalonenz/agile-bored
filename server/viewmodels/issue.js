@@ -20,6 +20,7 @@ module.exports = class IssueViewModel {
     result.description = obj.fields.description
     result.assignee = obj.fields.assignee
     result.IssueStatus = StatusViewModel.createFromJira(obj.fields.status)
+    result.children = []
     return result
   }
 

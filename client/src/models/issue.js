@@ -4,6 +4,7 @@ export class Issue {
     this.title = ''
     this.description = ''
     this.assignee = {}
+    this.children = []
     Object.assign(this, issue)
   }
 }

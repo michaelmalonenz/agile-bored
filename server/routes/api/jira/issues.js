@@ -15,7 +15,17 @@ module.exports = {
         return request(options).then((result) => {
           let issues = []
           for (let issue of result.issues) {
-            issues.push(IssueViewModel.createFromJira(issue))
+            if (issue.fields.parent) {
+              const parentId = issue.fields.parent.id
+              let parent = issues.find(i => i.id === parentId)
+              if (parent == null) {
+                parent = IssueViewModel.createFromJira(issue.fields.parent)
+                issues.push(parent)
+              }
+              parent.children.push(IssueViewModel.createFromJira(issue))
+            } else {
+              issues.push(IssueViewModel.createFromJira(issue))
+            }
           }
           return res.send(issues)
         })

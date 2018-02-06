@@ -2,6 +2,8 @@ import {inject} from 'aurelia-framework'
 
 import {AuthHttpClient} from './auth-http-client'
 import {Issue} from '../models/issue'
+import {Status} from '../models/status'
+import {User} from '../models/user'
 
 @inject(AuthHttpClient)
 export class IssueService {
@@ -52,6 +54,11 @@ export class IssueService {
 
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object') {
+      if (key === 'IssueStatus') {
+        return new Status(value)
+      } else if (key === 'assignee') {
+        return new User(value)
+      }
       return new Issue(value)
     }
     return value

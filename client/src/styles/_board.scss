@@ -14,7 +14,6 @@
   background-color: $primary-text;
   padding: 10px;
   border-right: 1px solid $brand-primary;
-  background-color: $background-grey;
 
   &:last-child {
     border-right: none;
@@ -28,7 +27,7 @@
   background-color: #ccc;
   box-sizing: border-box;
   display: grid;
-  grid-template-rows: fit-content 1fr;
+  grid-template-rows: fit-content(100%) fit-content(100%) 1fr;
 }
 
 .status-cols-area {

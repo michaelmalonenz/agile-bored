@@ -1,4 +1,4 @@
-import { inject } from 'aurelia-framework'
+import { inject, computedFrom } from 'aurelia-framework'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from './services/issues'
@@ -38,6 +38,16 @@ export class Board {
     this.issueCreatedSubscription.dispose()
     this.issueDeletedSubscription.dispose()
     this.refreshBoardSubscription.dispose()
+  }
+
+  @computedFrom('issues')
+  get otherIssues () {
+    return this.issues.filter(i => !i.children)
+  }
+
+  @computedFrom('issues')
+  get parentIssues () {
+    return this.issues.filter(i => !!i.children)
   }
 
   canMove (item, source, handle, sibling) {
