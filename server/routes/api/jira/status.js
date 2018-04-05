@@ -3,6 +3,7 @@ const jiraRequestBuilder = require('./jira-request')
 const jiraAgileRequestBuilder = require('./jira-agile-request')
 const StatusViewModel = require('../../../viewmodels/status')
 const settings = require('../../../settings')
+const localCache = require('../../../local-cache')
 
 module.exports = {
   getStatuses: function (req, res) {
@@ -22,6 +23,10 @@ module.exports = {
         return result
       })
       .then(statusViewModels => orderStatuses(statusViewModels, req))
+      .then(result => {
+        localCache.cacheStatuses(result)
+        return result
+      })
       .then(result => res.send(result))
       .catch(err => res.status(502).send(err))
   }

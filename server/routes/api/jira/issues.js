@@ -2,6 +2,7 @@ const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const IssueViewModel = require('../../../viewmodels/issue')
 const settings = require('../../../settings')
+const localCache = require('../../../local-cache')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -47,6 +48,15 @@ module.exports = {
           return res.send(issues)
         })
       })
+  },
+  updateStatus: function (req, res) {
+    const statuses = localCache.getCachedStatuses()
+    return jiraRequestBuilder(`/issue/${req.params.issueId}/transitions`, req)
+      .then(transitions => {
+        // this is a thing
+        res.send(200)
+      })
   }
 }
 
+// https://aranzgeo.atlassian.net//rest/greenhopper/1.0/cardcolors/89/strategy/issuetype <- get card colours

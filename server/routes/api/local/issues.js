@@ -23,5 +23,12 @@ module.exports = {
   },
   search: function (req, res) {
     res.send(200)
+  },
+  updateStatus: function (req, res) {
+    return db.Issue.update(
+      { statusId: req.params.statusId },
+      { where: { id: req.params.issueId } }).then(issue => {
+        res.sendStatus(200)
+      })
   }
 }

@@ -37,11 +37,13 @@ module.exports = function (router) {
   })
 
   router.put('/issue/:issueId/status/:statusId', function (req, res) {
-    return db.Issue.update(
-      { statusId: req.params.statusId },
-      { where: { id: req.params.issueId } }).then(issue => {
-        res.sendStatus(200)
-      })
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.updateStatus(req, res)
+      } else {
+        return localIssues.updateStatus(req, res)
+      }
+    })
   })
 
   router.delete('/issue/:id', function (req, res) {
