@@ -1,14 +1,18 @@
 .issue {
-  background-color: $gray-lighter;
-  margin-top: 5px;
+  background-color: #ddd;
   padding: 5px;
   border-left: solid 3px transparent;
   border-radius: 3px;
+  margin-bottom: 5px;
 }
 
 .issue-title {
   width: 100%;
   padding: 0 10px;
+
+  & > h4 {
+    background-color: #ccc;
+  }
 }
 
 .avatar-container {
@@ -16,9 +20,10 @@
 }
 
 .status-col {
-  background-color: $primary-text;
-  padding: 10px;
-  border-right: 1px solid $brand-primary;
+  padding: 5px;
+  padding-bottom: 0px;
+  background-color: white;
+  margin: 5px;
 
   &:last-child {
     border-right: none;
@@ -29,7 +34,7 @@
   margin-left: -15px;
   margin-right: -15px;
   height: calc(100vh - 50px);
-  background-color: #ccc;
+  background-color: whitesmoke;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: fit-content(100%) 1fr;
@@ -53,4 +58,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-right: 10px solid whitesmoke;
+
+  &:last-child {
+    border-right: none;
+  }
 }
