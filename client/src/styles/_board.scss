@@ -7,12 +7,8 @@
 }
 
 .issue-title {
-  width: 100%;
-  padding: 0 10px;
-
-  & > h4 {
-    background-color: #ccc;
-  }
+  padding: 0 1rem;
+  background-color: #ccc;
 }
 
 .avatar-container {

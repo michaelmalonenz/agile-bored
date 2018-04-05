@@ -5,9 +5,9 @@
     </ux-dialog-header>
     <ux-dialog-body>
       <div>
-        <input class="issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
+        <input class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
       </div>
-      <div class="issue-content">
+      <div class="edit-issue-content">
         <textarea class="markdown-editor" value.bind="issue.description" attach-focus.bind="edit" placeholder="description"></textarea>
       </div>
     </ux-dialog-body>
