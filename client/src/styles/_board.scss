@@ -1,9 +1,14 @@
 .issue {
   background-color: $gray-lighter;
   margin-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px;
   border-left: solid 3px transparent;
   border-radius: 3px;
+}
+
+.issue-title {
+  width: 100%;
+  padding: 0 10px;
 }
 
 .avatar-container {

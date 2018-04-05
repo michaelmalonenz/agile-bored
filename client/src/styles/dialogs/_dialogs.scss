@@ -1,15 +1,7 @@
 @import "./_issue-editor.scss";
 @import "./_settings.scss";
 
-ux-dialog-body {
-  height: calc(100% - 50px);
-}
-
 ux-dialog {
   width: 90vw;
-  height: 80vh;
-}
-
-ux-dialog-container > div {
-  padding: 60px;
+  height: 70vh;
 }

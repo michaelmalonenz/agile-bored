@@ -1,5 +1,4 @@
 import environment from './environment'
-import {PLATFORM} from 'aurelia-framework'
 
 export function configure (aurelia) {
   aurelia.use
@@ -8,7 +7,6 @@ export function configure (aurelia) {
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
     .feature('widgets')
-    .globalResources(PLATFORM.moduleName('./issue-with-children'))
 
   if (environment.debug) {
     aurelia.use.developmentLogging()
