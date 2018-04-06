@@ -28,4 +28,3 @@ export class NewLineValueConverter {
     return string.replace(regexp, replace)
   }
 }
-

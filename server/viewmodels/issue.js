@@ -19,6 +19,8 @@ module.exports = class IssueViewModel {
     result.title = obj.fields.summary
     result.description = obj.fields.description
     result.assignee = obj.fields.assignee
+    result.updatedAt = obj.fields.updated
+    result.createdAt = obj.fields.created
     result.IssueStatus = StatusViewModel.createFromJira(obj.fields.status)
     result.children = []
     return result
@@ -30,6 +32,8 @@ module.exports = class IssueViewModel {
     result.key = obj.key
     result.title = obj.title
     result.description = obj.description
+    result.updatedAt = obj.updatedAt
+    result.createdAt = obj.createdAt
     result.assignee = {}
     result.IssueStatus = StatusViewModel.createFromLocal(obj.IssueStatus)
     return result

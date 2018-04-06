@@ -1,3 +1,6 @@
 export function configure (config) {
-  config.globalResources(['./value-converters/newline-valueconverter'])
+  config.globalResources([
+    './value-converters/newline-valueconverter',
+    './value-converters/date-valueconverter'
+  ])
 }
