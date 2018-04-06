@@ -4,7 +4,7 @@ module.exports = {
   cacheStatuses (statuses) {
     statusCache = statuses
   },
-  getCachedStatuses () {
-    return statusCache
+  getCachedStatus (statusId) {
+    return Promise.resolve(statusCache.find(s => s.id === statusId))
   }
 }

@@ -39,22 +39,32 @@ module.exports = {
         const encodedJQL = encodeURIComponent(issueJQL)
         return jiraRequestBuilder(`search?jql=${encodedJQL}`, req)
       })
-      .then(options => {
-        return request(options).then((result) => {
-          let issues = []
-          for (let issue of result.issues) {
-            issues.push(IssueViewModel.createFromJira(issue))
-          }
-          return res.send(issues)
-        })
+      .then(options => request(options))
+      .then((result) => {
+        let issues = []
+        for (let issue of result.issues) {
+          issues.push(IssueViewModel.createFromJira(issue))
+        }
+        return res.send(issues)
       })
   },
   updateStatus: function (req, res) {
-    const statuses = localCache.getCachedStatuses()
-    return jiraRequestBuilder(`/issue/${req.params.issueId}/transitions`, req)
-      .then(transitions => {
-        // this is a thing
-        res.send(200)
+    return localCache.getCachedStatus(req.params.statusId)
+      .then(status => {
+        return jiraRequestBuilder(`/issue/${req.params.issueId}/transitions`, req)
+          .then(options => {
+            request(options).then(transitions => {
+              const trans = transitions.transitions.find(t => t.name === status.name)
+              return trans.id
+            })
+            .then(transitionId => {
+              options.body = {
+                transition: { id: transitionId }
+              }
+              options.method = 'POST'
+              return request(options).then(result => res.send(200))
+            })
+          })
       })
   }
 }
