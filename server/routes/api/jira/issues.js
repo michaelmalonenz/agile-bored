@@ -58,7 +58,7 @@ module.exports = {
       .then(status => {
         return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/transitions`, req)
           .then(options => {
-            request(options).then(transitions => {
+            return request(options).then(transitions => {
               const trans = transitions.transitions.find(t => t.name === status.name)
               return trans.id
             })
@@ -71,6 +71,20 @@ module.exports = {
             })
           })
       })
+      .catch(err => res.status(502).send(err))
+  },
+  update: function (req, res) {
+    return jiraRequestBuilder.jira(`/issue/${req.params.id}`, req, 'PUT')
+      .then(options => {
+        options.body = {
+          fields: {
+            summary: req.body.title,
+            description: req.body.description
+          }
+        }
+        return request(options)
+      })
+      .then(() => res.send(req.body))
       .catch(err => res.status(502).send(err))
   }
 }

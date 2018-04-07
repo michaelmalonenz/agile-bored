@@ -30,5 +30,10 @@ module.exports = {
       { where: { id: req.params.issueId } }).then(issue => {
         res.sendStatus(200)
       })
+  },
+  update: function (req, res) {
+    return db.Issue.update(req.body, { where: { id: req.params.id } }).then(() => {
+      res.send(req.body)
+    })
   }
 }

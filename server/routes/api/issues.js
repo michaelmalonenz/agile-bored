@@ -31,8 +31,12 @@ module.exports = function (router) {
   })
 
   router.put('/issue/:id', function (req, res) {
-    return db.Issue.update(req.body, { where: { id: req.params.id } }).then(() => {
-      res.send(req.body)
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.update(req, res)
+      } else {
+        return localIssues.update(req, res)
+      }
     })
   })
 
