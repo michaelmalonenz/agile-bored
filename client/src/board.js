@@ -50,6 +50,11 @@ export class Board {
     return this.issues.filter(i => i.hasChildren)
   }
 
+  @computedFrom('issues')
+  get haveParentIssues () {
+    return this.parentIssues.length > 0
+  }
+
   canMove (item, source, handle, sibling) {
     return !item.classList.contains('status-name')
   }
