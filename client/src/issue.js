@@ -41,10 +41,6 @@ export class Issue {
     return this.issue.children && this.issue.children.length > 0
   }
 
-  get updatedAt () {
-    return this.issue.updatedAt
-  }
-
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,
