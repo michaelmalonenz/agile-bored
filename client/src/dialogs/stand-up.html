@@ -1,0 +1,15 @@
+<template>
+  <ux-dialog class="stand-up-dialog">
+    <ux-dialog-header>
+      <h2>Stand Up 
+        <i if.bind="!inFullScreen" class="fa fa-expand pull-right fullscreen-action" click.delegate="fullScreen()" title="Fullscreen"></i>
+        <i if.bind="inFullScreen" class="fa fa-compress pull-right fullscreen-action" click.delegate="exitFullScreen()" title="Fullscreen"></i>
+      </h2>
+    </ux-dialog-header>
+    <ux-dialog-body css="height: ${contentHeight};">
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button type="button" class="btn btn-primary" click.trigger="controller.ok()">Close</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

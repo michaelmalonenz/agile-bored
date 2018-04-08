@@ -1,9 +1,10 @@
 import { inject, bindable, customElement } from 'aurelia-framework'
 import { DialogService } from 'aurelia-dialog'
-import { SettingsDialog } from 'dialogs/settings'
 import { EventAggregator } from 'aurelia-event-aggregator'
 
-import {SecuritySettings} from './security/security-settings'
+import { SettingsDialog } from 'dialogs/settings'
+import { StandUpDialog } from 'dialogs/stand-up'
+import { SecuritySettings } from './security/security-settings'
 import { SettingsService } from './services/settings'
 import { REFRESH_BOARD, LOG_OUT } from './events'
 
@@ -29,7 +30,6 @@ export class NavBar {
     this.dialogService.open({
       viewModel: SettingsDialog,
       model: settings,
-      centerHorizontalOnly: true,
       lock: true
     }).whenClosed(async (response) => {
       if (!response.wasCancelled) {
@@ -43,5 +43,12 @@ export class NavBar {
 
   refreshBoard () {
     this.eventAggregator.publish(REFRESH_BOARD)
+  }
+
+  async standUp () {
+    await this.dialogService.open({
+      viewModel: StandUpDialog,
+      lock: false
+    })
   }
 }
