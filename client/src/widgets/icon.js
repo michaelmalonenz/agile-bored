@@ -7,5 +7,4 @@ import {bindable, inject, customElement, bindingMode} from 'aurelia-framework';
 })
 @customElement('icon')
 export class Icon {
-
 }

@@ -39,3 +39,16 @@ body {
 .navbar-default .navbar-brand {
     color: $brand-primary;
 }
+
+.loader {
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 7px;
+    margin-bottom: 7px;
+}

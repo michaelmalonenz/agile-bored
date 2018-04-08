@@ -20,16 +20,16 @@
         </li>
       </ul>
 
-      <span class="center">
-        <icon icon="fa-cog" click.delegate="showSettings()" navbar="true"></icon>
-        <icon icon="fa-refresh" click.delegate="refreshBoard()" navbar="true"></icon>
-      </span>
+      <div class="navbar-center">
+        <icon icon="fa-cog" click.delegate="showSettings()"></icon>
+        <icon icon="fa-refresh" click.delegate="refreshBoard()"></icon>
+      </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li class="loader" if.bind="router.isNavigating">
+        <li class="loader navbar-icon" if.bind="router.isNavigating">
           <i class="fa fa-spinner fa-spin fa-2x"></i>
         </li>
-        <li>
+        <li class="navbar-icon">
           <user-panel></user-panel>
         </li>
       </ul>
