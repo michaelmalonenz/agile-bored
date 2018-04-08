@@ -7,9 +7,9 @@
       </h2>
     </ux-dialog-header>
     <ux-dialog-body css="height: ${contentHeight};">
+      <div if.bind="loading" class="stand-up-loading">
+        <i class="fa fa-spinner fa-spin fa-large"></i> Loading
+      </div>
     </ux-dialog-body>
-    <ux-dialog-footer>
-      <button type="button" class="btn btn-primary" click.trigger="controller.ok()">Close</button>
-    </ux-dialog-footer>
   </ux-dialog>
 </template>

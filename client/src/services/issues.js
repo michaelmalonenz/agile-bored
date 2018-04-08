@@ -52,6 +52,16 @@ export class IssueService {
     return res.content
   }
 
+  async getStandUpIssues () {
+    const res = await this._http
+      .createRequest('/api/issues/standup')
+      .asGet()
+      .withReviver(this._issueReviver)
+      .send()
+
+      return res.content
+  }
+
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object' && !isNaN(key)) {
       if (key === 'IssueStatus') {

@@ -1,21 +1,37 @@
 import { inject } from 'aurelia-framework'
 import { DialogController } from 'aurelia-dialog'
 
-@inject(DialogController, Element)
+import { IssueService } from 'services/issues'
+import { IssueViewModelFactory } from 'factories/issue-viewmodel-factory'
+
+@inject(DialogController, Element, IssueService, IssueViewModelFactory)
 export class StandUpDialog {
 
-  constructor (controller, elem) {
+  constructor (controller, elem, issueService, issueViewModelFactory) {
     this.controller = controller
     this.element = elem
+    this.issueService = issueService
+    this.issueViewModelFactory = issueViewModelFactory
     this.inFullScreen = false
+    this.issues = []
+    this.loading = true
   }
 
   get contentHeight () {
     if (this.inFullScreen) { 
-      return '85vh';
+      return '89vh';
     } else {
-      return '50vh';
+      return '60vh';
     }
+  }
+
+  async bind () {
+    const resIssues = await this.issueService.getStandUpIssues()
+    this.issues = []
+    for(let issue of resIssues) {
+      this.issues.push(this.issueViewModelFactory.create(issue))
+    }
+    this.loading = false
   }
 
   fullScreen () {

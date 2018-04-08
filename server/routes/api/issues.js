@@ -24,6 +24,16 @@ module.exports = function (router) {
     })
   })
 
+  router.get('/issues/standup', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.findAllIssues(req, res)
+      } else {
+        return localIssues.findAllIssues(req, res)
+      }
+    })
+  })
+
   router.post('/issue', function (req, res) {
     return db.Issue.create(req.body).then(issue => {
       res.send(issue)

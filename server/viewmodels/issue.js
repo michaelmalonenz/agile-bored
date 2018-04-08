@@ -32,7 +32,7 @@ module.exports = class IssueViewModel {
   static createFromLocal (obj) {
     const result = new IssueViewModel()
     result.id = obj.id
-    result.key = obj.key
+    result.key = `AB-${obj.id}`
     result.title = obj.title
     result.description = obj.description
     result.updatedAt = obj.updatedAt

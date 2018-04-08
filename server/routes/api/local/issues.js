@@ -1,4 +1,5 @@
 const db = require('../../../models')
+const IssueViewModel = require('../../../viewmodels/issue')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -18,8 +19,13 @@ module.exports = {
         }
       }
     }).then(issues => {
-      res.send(issues)
+      const result = []
+      for (let issue of issues) {
+        result.push(IssueViewModel.createFromLocal(issue.dataValues))
+      }
+      res.send(result)
     })
+    .catch(err => res.status(500).send(err.message))
   },
   search: function (req, res) {
     res.send(200)
