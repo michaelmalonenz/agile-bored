@@ -8,8 +8,10 @@ import {IssueService} from '../services/issues'
 export class IssueViewModelFactory {
   create (issueDTO) {
     const children = []
-    for (let child of issueDTO.children) {
-      children.push(this._createViewModel(child))
+    if (issueDTO.children) {
+      for (let child of issueDTO.children) {
+        children.push(this._createViewModel(child))
+      }
     }
     issueDTO.children = children
     return this._createViewModel(issueDTO)

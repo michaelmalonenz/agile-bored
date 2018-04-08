@@ -6,22 +6,24 @@ module.exports = class IssueTypeViewModel {
   }
 
   static createFromJira (obj) {
-    let res = new IssueTypeViewModel()
+    let result
     if (obj) {
-      res.id = Number(obj.value)
-      res.colour = obj.color
-      res.name = obj.displayValue
+      result = new IssueTypeViewModel()
+      result.id = Number(obj.value)
+      result.colour = obj.color
+      result.name = obj.displayValue
     }
-    return res
+    return result
   }
 
   static createFromLocal (obj) {
-    let res = new IssueTypeViewModel()
+    let result
     if (obj) {
-      res.id = obj.id
-      res.colour = obj.colour
-      res.name = obj.name
+      result = new IssueTypeViewModel()
+      result.id = obj.id
+      result.colour = obj.colour
+      result.name = obj.name
     }
-    return res
+    return result
   }
 }

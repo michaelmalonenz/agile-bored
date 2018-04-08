@@ -9,7 +9,8 @@ const options = {
 export class DateValueConverter {
   toView (value) {
     if (value) {
-      return new Intl.DateTimeFormat(navigator.language, options).format(value)
+      const date = new Date(value)
+      return new Intl.DateTimeFormat(navigator.language, options).format(date)
     }
     return value
   }

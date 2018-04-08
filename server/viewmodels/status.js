@@ -7,16 +7,22 @@ module.exports = class StatusViewModel {
   }
 
   static createFromJira (obj) {
-    const result = new StatusViewModel()
-    result.id = obj.id
-    result.name = obj.name
+    let result
+    if (obj) {
+      result = new StatusViewModel()
+      result.id = obj.id
+      result.name = obj.name
+    }
     return result
   }
 
   static createFromLocal (obj) {
-    const result = new StatusViewModel()
-    result.id = obj.id
-    result.name = obj.name
+    let result
+    if (obj) {
+      result = new StatusViewModel()
+      result.id = obj.id
+      result.name = obj.name
+    }
     return result
   }
 }
