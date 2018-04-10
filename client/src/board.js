@@ -17,6 +17,7 @@ export class Board {
     this.eventAggregator = eventAggregator
 
     this.issues = []
+    this.users = []
   }
 
   async activate () {
@@ -61,7 +62,7 @@ export class Board {
 
   dropIssue (item, target, source, sibling, itemVM, siblingVM) {
     const targetVM = this._getViewModel(target)
-    if (targetVM) {
+    if (target !== source && targetVM) {
       targetVM.dropInto(itemVM, siblingVM)
     }
   }
@@ -91,9 +92,24 @@ export class Board {
   _refreshBoard () {
     const issuesPromise = this.issueService.findAll().then(issues => {
       this.issues = []
+      const users = []
       for(let issue of issues) {
+        if (issue.assignee) {
+          users.push(issue.assignee)
+        }
+        if (issue.children) {
+          for(let child of issue.children) {
+            if (child.assignee) {
+              users.push(child.assignee)
+            }
+          }
+        }
         this.issues.push(this.issueViewModelFactory.create(issue))
       }
+      this.users = users.filter((value, index, self) => {
+          return (self.findIndex(x => x.accountId === value.accountId) === index &&
+            (Object.keys(value).length !== 0 || value.constructor !== Object))
+        })
     }).catch(err => console.error(err))
 
     const statusesPromise = this.statusService.findAllForProject().then(statuses => {

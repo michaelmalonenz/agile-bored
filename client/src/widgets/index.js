@@ -2,6 +2,7 @@ export function configure (config) {
   config.globalResources([
     './icon',
     './user-panel',
-    './create-issue'
+    './create-issue',
+    './assign-users'
   ])
 }

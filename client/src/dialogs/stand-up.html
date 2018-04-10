@@ -1,14 +1,14 @@
 <template>
   <ux-dialog class="stand-up-dialog">
     <ux-dialog-header>
-      <h2>Stand Up 
+      <h2>Stand Up
         <i if.bind="!inFullScreen" class="fa fa-expand pull-right fullscreen-action" click.delegate="fullScreen()" title="Fullscreen"></i>
         <i if.bind="inFullScreen" class="fa fa-compress pull-right fullscreen-action" click.delegate="exitFullScreen()" title="Fullscreen"></i>
       </h2>
     </ux-dialog-header>
     <ux-dialog-body css="height: ${contentHeight};">
       <div if.bind="loading" class="stand-up-loading">
-        <i class="fa fa-spinner fa-spin fa-large"></i> Loading
+        <i class="fa fa-spinner fa-spin fa-4x"></i> Loading
       </div>
     </ux-dialog-body>
   </ux-dialog>

@@ -7,9 +7,9 @@ module.exports = class IssueViewModel {
     this.key = ''
     this.title = ''
     this.description = ''
-    this.assignee = {}
-    this.IssueStatus = {}
-    this.IssueType = {}
+    this.assignee = null
+    this.IssueStatus = null
+    this.IssueType = null
     this.createdAt = Date.now()
     this.updatedAt = Date.now()
   }

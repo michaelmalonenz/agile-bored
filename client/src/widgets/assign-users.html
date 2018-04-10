@@ -1,0 +1,8 @@
+<template>
+  <div class="${active ? 'assign-active' : ''}" click.delegate="slotClick()">
+    <slot></slot>
+  </div>
+  <div if.bind="active">
+    <div repeat.for="user of users"></div>
+  </div>
+</template>
