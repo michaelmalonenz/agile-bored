@@ -1,6 +1,6 @@
 <template>
-  <div class="${active ? 'assign-active' : ''}" click.delegate="slotClick()">
-    <slot></slot>
+  <div class="pull-right avatar-container ${active ? 'assign-active' : ''}" click.delegate="clickUser()">
+    <img src.bind="avatarUrl" title.bind="displayName" height="24" />
   </div>
   <div if.bind="active">
     <div repeat.for="user of users"></div>

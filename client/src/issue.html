@@ -17,11 +17,7 @@
         ${issue.key}
       </div>
       <div class="col-xs-3">
-        <assign-users users.bind="users">
-          <div class="pull-right avatar-container">
-            <img src.bind="avatarUrl" title.bind="displayName" height="24" />
-          </div>
-        </assign-users>
+        <assign-users assignee.bind="issue.assignee"></assign-users>
       </div>
     </div>
   </div>

@@ -12,7 +12,9 @@
 }
 
 .avatar-container {
+  box-sizing: border-box;
   margin-right: 5px;
+  border: 1px solid transparent;
   & > img {
     border-radius: 50%;
   }

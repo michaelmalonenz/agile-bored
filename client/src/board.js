@@ -94,16 +94,6 @@ export class Board {
       this.issues = []
       const users = []
       for(let issue of issues) {
-        if (issue.assignee) {
-          users.push(issue.assignee)
-        }
-        if (issue.children) {
-          for(let child of issue.children) {
-            if (child.assignee) {
-              users.push(child.assignee)
-            }
-          }
-        }
         this.issues.push(this.issueViewModelFactory.create(issue))
       }
       this.users = users.filter((value, index, self) => {
