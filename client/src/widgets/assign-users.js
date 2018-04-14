@@ -3,17 +3,15 @@ import { AssigneeCache } from '../utils/assignees-cache'
 
 @bindable('assignee')
 @customElement('assign-users')
-@inject(AssigneeCache)
 export class AssignUsers {
 
-  constructor (assigneeCache) {
-    this.assigneeCache = assigneeCache
+  constructor () {
     this.active = false
   }
 
   get avatarUrl () {
-    if (this.assignee && this.assignee.avatarUrls) {
-      return this.assignee.avatarUrls['24x24']
+    if (this.assignee && this.assignee.avatarUrl) {
+      return this.assignee.avatarUrl
     } else {
       return ''
     }
@@ -28,10 +26,18 @@ export class AssignUsers {
   }
 
   get users () {
-    return this.assigneeCache.getCachedAssignees()
+    return AssigneeCache.getCachedAssignees()
   }
 
   clickUser () {
     this.active = !this.active
+  }
+
+  getOffset (el) {
+    el = el.getBoundingClientRect();
+    return {
+      left: el.left + window.scrollX,
+      top: el.top + window.scrollY
+    }
   }
 }

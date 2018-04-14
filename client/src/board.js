@@ -6,6 +6,7 @@ import { StatusService } from './services/statuses'
 
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD } from './events'
+import { AssigneeCache } from './utils/assignees-cache';
 
 @inject(StatusService, IssueService, IssueViewModelFactory, EventAggregator)
 export class Board {
@@ -17,7 +18,6 @@ export class Board {
     this.eventAggregator = eventAggregator
 
     this.issues = []
-    this.users = []
   }
 
   async activate () {
@@ -92,14 +92,10 @@ export class Board {
   _refreshBoard () {
     const issuesPromise = this.issueService.findAll().then(issues => {
       this.issues = []
-      const users = []
+      AssigneeCache.clearCache()
       for(let issue of issues) {
         this.issues.push(this.issueViewModelFactory.create(issue))
       }
-      this.users = users.filter((value, index, self) => {
-          return (self.findIndex(x => x.accountId === value.accountId) === index &&
-            (Object.keys(value).length !== 0 || value.constructor !== Object))
-        })
     }).catch(err => console.error(err))
 
     const statusesPromise = this.statusService.findAllForProject().then(statuses => {

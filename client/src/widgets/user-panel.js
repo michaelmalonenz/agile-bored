@@ -17,9 +17,9 @@ export class UserPanel {
     return this.securitySettings.user
   }
 
-  get avatar () {
-    if (this.currentUser && this.currentUser.avatarUrls)
-      return this.currentUser.avatarUrls['24x24']
+  get avatarUrl () {
+    if (this.currentUser && this.currentUser.avatarUrl)
+      return this.currentUser.avatarUrl
 
     return null
   }

@@ -1,17 +1,22 @@
-import { singleton } from 'aurelia-framework'
+const assignees = []
 
-@singleton()
 export class AssigneeCache {
 
-  constructor () {
-    this.assignees = []
+  static clearCache () {
+    assignees.length = 0
   }
 
-  cacheUser (user) {
-    this.assignees.push(user)
+  static cacheUser (user) {
+    assignees.push(user)
   }
 
-  getCachedAssignees () {
-    return this.assignees
+  static getCachedAssignees () {
+    return assignees
   }
+
+  // need to filter for only unique users.
+  // this.users = users.filter((value, index, self) => {
+  //   return (self.findIndex(x => x.accountId === value.accountId) === index &&
+  //     (Object.keys(value).length !== 0 || value.constructor !== Object))
+  // })
 }

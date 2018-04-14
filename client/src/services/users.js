@@ -20,7 +20,7 @@ export class UserService {
   }
 
   _userReviver (key, value) {
-    if (key !== '' && value != null && typeof value === 'object') {
+    if (key === '' && value != null && typeof value === 'object') {
       return new User(value)
     }
     return value
