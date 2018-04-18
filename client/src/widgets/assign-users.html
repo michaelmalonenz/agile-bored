@@ -3,6 +3,14 @@
     <img src.bind="avatarUrl" title.bind="displayName" />
   </div>
   <div class="assign-user-list container-fluid" show.bind="active">
+    <div class="row assign-list-user" click.delegate="unassign()">
+      <div class="col-xs-4">
+        <i class="fa fa-remove fa-2x"></i>
+      </div>
+      <div class="col-xs-8">
+        Unassign
+      </div>
+    </div>
     <div class="row assign-list-user" repeat.for="user of users" click.delegate="assignUser(user)">
       <div class="col-xs-4">
         <img src.bind="user.avatarUrl" alt="User Avatar">

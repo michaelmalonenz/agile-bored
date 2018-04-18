@@ -35,16 +35,25 @@ export class AssignUsers {
   }
 
   get users () {
-    return AssigneeCache.getCachedAssignees()
+    return AssigneeCache.getCachedAssignees().sort(function (a, b){
+      if(a.displayName.toLowerCase() < b.displayName.toLowerCase()) return -1;
+      if(a.displayName.toLowerCase() > b.displayName.toLowerCase()) return 1;
+      return 0;
+    })
   }
 
   clickUser () {
     this.active = !this.active
   }
 
-  assignUser(user) {
+  assignUser (user) {
     this.clickUser()
     this.assignee = user
     console.log(user.displayName, user)
+  }
+
+  unassign () {
+    this.clickUser()
+    this.assignee = null
   }
 }
