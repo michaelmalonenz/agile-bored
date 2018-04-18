@@ -3,7 +3,7 @@
     <img src.bind="avatarUrl" title.bind="displayName" />
   </div>
   <div class="assign-user-list container-fluid" show.bind="active">
-    <div class="row assign-list-user" click.delegate="assignUser()">
+    <div class="row assign-list-user" click.delegate="assignUser()" if.bind="hasAssignee">
       <div class="col-xs-4">
         <i class="fa fa-remove fa-2x"></i>
       </div>
