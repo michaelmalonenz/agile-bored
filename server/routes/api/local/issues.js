@@ -27,6 +27,11 @@ module.exports = {
     })
     .catch(err => res.status(500).send(err.message))
   },
+  get: function (req, res) {
+    return db.Issue.findById(req.params.issueId)
+      .then(issue => IssueViewModel.createFromLocal(issue))
+      .then(result => res.send(result))
+  },
   search: function (req, res) {
     res.send(200)
   },
@@ -38,7 +43,7 @@ module.exports = {
       })
   },
   update: function (req, res) {
-    return db.Issue.update(req.body, { where: { id: req.params.id } }).then(() => {
+    return db.Issue.update(req.body, { where: { id: req.params.issueId } }).then(() => {
       res.send(req.body)
     })
   }

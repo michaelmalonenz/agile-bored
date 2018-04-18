@@ -14,6 +14,16 @@ module.exports = function (router) {
     })
   })
 
+  router.get('/issues/:issueId', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.get(req, res)
+      } else {
+        return localIssues.get(req, res)
+      }
+    })
+  })
+
   router.get('/issues/search', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {
@@ -40,7 +50,7 @@ module.exports = function (router) {
     })
   })
 
-  router.put('/issue/:id', function (req, res) {
+  router.put('/issue/:issueId', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {
         return jiraIssues.update(req, res)
@@ -60,7 +70,7 @@ module.exports = function (router) {
     })
   })
 
-  router.delete('/issue/:id', function (req, res) {
-    return db.Issue.destroy({ where: { id: req.params.id } })
+  router.delete('/issue/:issueId', function (req, res) {
+    return db.Issue.destroy({ where: { id: req.params.issueId } })
   })
 }

@@ -36,6 +36,18 @@ module.exports = {
       })
       .catch(err => res.status(502).send(err))
   },
+  get: function (req, res) {
+    return settings.jiraProjectName()
+      .then(jiraProjectName => {
+        return jiraRequestBuilder(`/issue/${req.params.issueId}`)
+      })
+      .then(options => request(options))
+      .then(issue => {
+        return IssueViewModel.createFromJira(issue)
+      })
+      .then(result => res.send(result))
+      .catch(err => res.status(502).send(err))
+  },
   search: function (req, res) {
     return settings.jiraProjectName()
       .then(jiraProjectName => {
@@ -74,7 +86,7 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   update: function (req, res) {
-    return jiraRequestBuilder.jira(`/issue/${req.params.id}`, req, 'PUT')
+    return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req, 'PUT')
       .then(options => {
         options.body = {
           fields: {

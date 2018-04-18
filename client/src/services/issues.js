@@ -22,6 +22,16 @@ export class IssueService {
       return res.content
   }
 
+  async get (issueId) {
+    const res = await this._http
+      .createRequest(`/api/issue/${issueId}`)
+      .asGet()
+      .withReviver(this._issueReviver)
+      .send()
+
+    return res.content
+  }
+
   async create (issue) {
     const res = await this._http.post('/api/issue', issue)
     return res.content
