@@ -2,7 +2,14 @@
   <div class="pull-right avatar-container ${active ? 'assign-active' : ''}" click.delegate="clickUser()">
     <img src.bind="avatarUrl" title.bind="displayName" height="24" />
   </div>
-  <div if.bind="active">
-    <div repeat.for="user of users"></div>
+  <div class="assign-user-list container-fluid" show.bind="active">
+    <div class="row" repeat.for="user of users">
+      <div class="col-xs-4">
+        <img src.bind="user.avatarUrl" alt="User Avatar">
+      </div>
+      <div class="col-xs-8">
+        ${user.displayName}
+      </div>
+    </div>
   </div>
 </template>

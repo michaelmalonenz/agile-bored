@@ -1,5 +1,5 @@
 <template>
-  <div class="issue" dblclick.delegate="editIssue()" css.bind="typeStyle">
+  <div class="issue container-fluid" dblclick.delegate="editIssue()" css.bind="typeStyle">
     <div class="row">
       <div class="col-xs-12">
         <strong>${issue.title}</strong>
@@ -13,10 +13,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-9 issue-key">
+      <div class="col-xs-8 issue-key">
         ${issue.key}
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <assign-users assignee.bind="issue.assignee"></assign-users>
       </div>
     </div>

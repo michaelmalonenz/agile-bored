@@ -1,3 +1,15 @@
 .assign-active {
   border: 1px solid $brand-primary !important;
 }
+
+.assign-user-list {
+  position: absolute;
+  top: 24px;
+  left: 0px;
+  border: 2px dashed $brand-primary;
+  max-height: 40rem;
+  width: 20rem;
+  background-color: white;
+  z-index: 1;
+  overflow-y: auto;
+}
