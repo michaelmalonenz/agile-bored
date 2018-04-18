@@ -1,15 +1,22 @@
-import { bindable, inject, customElement } from 'aurelia-framework'
+import { bindable, inject, customElement, bindingMode } from 'aurelia-framework'
 import { AssigneeCache } from '../utils/assignees-cache'
-import { UserService } from '../services/users';
+import { IssueService } from '../services/issues';
 
-@inject(Element, UserService)
-@bindable('assignee')
+@inject(Element, IssueService)
+@bindable({
+  name: 'assignee',
+  defaultBindingMode: bindingMode.twoWay
+})
+@bindable({
+  name: 'issueId',
+  attribute: 'issue-id'
+})
 @customElement('assign-users')
 export class AssignUsers {
 
-  constructor (element, userService) {
+  constructor (element, issueService) {
     this.element = element
-    this.userService = userService
+    this.issueService = issueService
     this.active = false
     this.autocompleteElement = null
   }
@@ -46,14 +53,9 @@ export class AssignUsers {
     this.active = !this.active
   }
 
-  assignUser (user) {
+  async assignUser (user) {
     this.clickUser()
     this.assignee = user
-    console.log(user.displayName, user)
-  }
-
-  unassign () {
-    this.clickUser()
-    this.assignee = null
+    await this.issueService.assign(this.issueId, this.assignee)
   }
 }

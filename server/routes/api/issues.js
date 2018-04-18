@@ -14,7 +14,7 @@ module.exports = function (router) {
     })
   })
 
-  router.get('/issues/:issueId', function (req, res) {
+  router.get('/issue/:issueId', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {
         return jiraIssues.get(req, res)

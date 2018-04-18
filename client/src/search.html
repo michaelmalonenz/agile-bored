@@ -10,5 +10,10 @@
     </div>
   </form>
 
-  <compose repeat.for="issue of results" view-model.bind="issue" view="search-issue.html"></compose>
+  <div class="loading-icon-container" if.bind="searching">
+    <div><i class="fa fa-circle-o-notch fa-spin"></i> Searching&hellip;</div>
+  </div>
+  <div class="container-fluid search-results" if.bind="!searching">
+    <compose repeat.for="issue of results" view-model.bind="issue" view="search-issue.html"></compose>
+  </div>
 </template>

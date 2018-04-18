@@ -103,11 +103,11 @@ module.exports = {
     return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/assignee`, req, 'PUT')
     .then(options => {
       options.body = {
-        name: req.body.displayName
+        name: req.body.name
       }
       return request(options)
     })
-    .then(() => res.send(req.body))
+    .then(() => res.sendStatus(200))
     .catch(err => res.status(502).send(err))
   }
 }

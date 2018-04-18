@@ -17,6 +17,7 @@ export class Search {
     this.element = element
     this.results = []
     this.doSearch = this._doSearch.bind(this)
+    this.searching = false
   }
 
   bind () {
@@ -61,11 +62,13 @@ export class Search {
 
   async _doSearch() {
     if (this.searchTerm) {
+      this.searching = true
       const issues = await this.issueService.search(this.searchTerm)
       this.results = []
       for(let issue of issues) {
         this.results.push(this.issueViewModelFactory.create(issue))
       }
+      this.searching = false
     }
   }
 }
