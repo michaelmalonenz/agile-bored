@@ -98,5 +98,16 @@ module.exports = {
       })
       .then(() => res.send(req.body))
       .catch(err => res.status(502).send(err))
+  },
+  assign: function (req, res) {
+    return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/assignee`, req, 'PUT')
+    .then(options => {
+      options.body = {
+        name: req.body.displayName
+      }
+      return request(options)
+    })
+    .then(() => res.send(req.body))
+    .catch(err => res.status(502).send(err))
   }
 }

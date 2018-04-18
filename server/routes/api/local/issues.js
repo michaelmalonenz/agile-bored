@@ -46,5 +46,8 @@ module.exports = {
     return db.Issue.update(req.body, { where: { id: req.params.issueId } }).then(() => {
       res.send(req.body)
     })
+  },
+  assign: function (req, res) {
+    res.sendStatus(200)
   }
 }

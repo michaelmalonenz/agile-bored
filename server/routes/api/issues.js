@@ -60,6 +60,16 @@ module.exports = function (router) {
     })
   })
 
+  router.put('/issue/:issueId/assign', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.assign(req, res)
+      } else {
+        return localIssues.assign(req, res)
+      }
+    })
+  })
+
   router.put('/issue/:issueId/status/:statusId', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {

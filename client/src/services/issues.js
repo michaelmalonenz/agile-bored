@@ -72,6 +72,13 @@ export class IssueService {
       return res.content
   }
 
+  async assignIssue (issueId, assignee) {
+    const res = await this._http
+      .createRequest(`/api/issue/${issueId}/assign`)
+      .withContent(assignee)
+      .send()
+  }
+
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object' && !isNaN(key)) {
       if (key === 'IssueStatus') {
