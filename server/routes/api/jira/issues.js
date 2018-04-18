@@ -67,7 +67,7 @@ module.exports = {
                 transition: { id: transitionId }
               }
               options.method = 'POST'
-              return request(options).then(result => res.send(200))
+              return request(options).then(result => res.sendStatus(200))
             })
           })
       })
