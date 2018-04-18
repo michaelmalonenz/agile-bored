@@ -44,6 +44,7 @@ export class AssignUsers {
 
   assignUser(user) {
     this.clickUser()
+    this.assignee = user
     console.log(user.displayName, user)
   }
 }
