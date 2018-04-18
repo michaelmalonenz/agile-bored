@@ -1,15 +1,21 @@
 import { bindable, inject, customElement } from 'aurelia-framework'
 import { AssigneeCache } from '../utils/assignees-cache'
+import { UserService } from '../services/users';
 
-@inject(Element)
+@inject(Element, UserService)
 @bindable('assignee')
 @customElement('assign-users')
 export class AssignUsers {
 
-  constructor (element) {
+  constructor (element, userService) {
     this.element = element
+    this.userService = userService
     this.active = false
     this.autocompleteElement = null
+  }
+
+  get hasAssignee () {
+    return !!this.assignee
   }
 
   get avatarUrl () {
@@ -36,18 +42,8 @@ export class AssignUsers {
     this.active = !this.active
   }
 
-  _removeAssigneeAutocomplete () {
-    let cont = document.querySelector('.autocomplete-container')
-    cont.parentNode.removeChild(cont)
-  }
-
-  getOffset (el) {
-    let cols = document.querySelector('.status-cols-area')
-    let rect = el.getBoundingClientRect();
-    return {
-      left: rect.left + cols.scrollLeft,
-      top: rect.top + cols.scrollTop,
-      bottom: rect.top + Number(el.style.height) + cols.scrollTop
-    }
+  assignUser(user) {
+    this.clickUser()
+    console.log(user.displayName, user)
   }
 }
