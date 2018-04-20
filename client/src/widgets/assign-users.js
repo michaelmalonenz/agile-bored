@@ -19,6 +19,8 @@ export class AssignUsers {
     this.issueService = issueService
     this.active = false
     this.autocompleteElement = null
+
+    this.boundClickUser = this.clickUser.bind(this)
   }
 
   get hasAssignee () {
@@ -51,11 +53,24 @@ export class AssignUsers {
 
   clickUser () {
     this.active = !this.active
+    if (this.active) {
+      this._addDeactivateListeners()
+    } else {
+      this._removeDeactivateListeners()
+    }
   }
 
   async assignUser (user) {
     this.clickUser()
     this.assignee = user
     await this.issueService.assign(this.issueId, this.assignee)
+  }
+
+  _addDeactivateListeners () {
+    document.addEventListener('click', this.boundClickUser)
+  }
+
+  _removeDeactivateListeners () {
+    document.removeEventListener('click', this.boundClickUser)
   }
 }
