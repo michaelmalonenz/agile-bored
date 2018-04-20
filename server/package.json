@@ -1,14 +1,14 @@
 {
-  "name": "aurelia-starter-node",
+  "name": "agile-bored",
   "version": "1.0.0",
-  "description": "The server component for the Aurelia starter node",
+  "description": "The server component for agile-bored",
   "main": "server.js",
   "scripts": {
     "test": "gulp test",
-    "start": "node server.js"
+    "start": "node server.js",
+    "migrate": "sequelize db:migrate"
   },
-  "author": "Dwayne Charrington <dwaynecharrington@gmail.com>",
-  "license": "MIT",
+  "author": "Michael Malone <michael.j.b.malone@gmail.com>",
   "dependencies": {
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.1",
