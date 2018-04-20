@@ -1,11 +1,12 @@
 {
   "name": "agile-bored",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An agile board, for those who are bored with the current state of agile.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently --prefix '[{name}]' --names 'SERVER,CLIENT' -c 'white.bgBlue.bold,black.bgGreen.bold' 'cd server; npm run start' 'cd client; au run --watch'"
+    "start": "concurrently --prefix '[{name}]' --names 'SERVER,CLIENT' -c 'white.bgBlue.bold,black.bgGreen.bold' 'cd server; npm run start' 'cd client; au run --watch'",
+    "install": "cd client && npm install && cd ../server && npm install"
   },
   "repository": {
     "type": "git",
