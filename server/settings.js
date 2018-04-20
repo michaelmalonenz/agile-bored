@@ -34,8 +34,6 @@ module.exports = {
     })
   },
   updateSettings (settings) {
-    return init().then(() => {
-      _settingsInstance = settings
-    })
+    _settingsInstance = settings
   }
 }
