@@ -3,7 +3,7 @@
 git reset --hard
 git pull
 export NODE_ENV=production
-npm install-all
+npm run install-all
 cd server
 npm run migrate
 cd ../client
