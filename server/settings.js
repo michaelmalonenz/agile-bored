@@ -28,6 +28,11 @@ module.exports = {
       return _settingsInstance.jiraProjectName
     })
   },
+  jiraRapidBoardId () {
+    return init().then(() => {
+      return _settingsInstance.jiraRapidBoardId
+    })
+  },
   updateSettings (settings) {
     return init().then(() => {
       _settingsInstance = settings

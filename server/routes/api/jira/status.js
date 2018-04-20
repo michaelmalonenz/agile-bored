@@ -32,7 +32,11 @@ module.exports = {
 }
 
 function orderStatuses (statusViewModels, req) {
-  return jiraRequestBuilder.agile('board/89/configuration', req)
+  return settings.jiraRapidBoardId()
+    .then(rapidBoardId => {
+      const url = `board/${rapidBoardId}/configuration`
+      return jiraRequestBuilder.agile(url, req)
+    })
     .then(options => request(options))
     .then(config => {
       const columns = config.columnConfig.columns

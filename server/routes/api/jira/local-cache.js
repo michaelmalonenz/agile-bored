@@ -1,5 +1,6 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
+const settings = require('../../../settings')
 
 let statusCache = []
 let cardColours = []
@@ -15,7 +16,11 @@ module.exports = {
     if (cardColours.length !== 0) {
       return Promise.resolve(cardColours)
     } else {
-      return jiraRequestBuilder.greenhopper('/cardcolors/89/strategy/issuetype', req)
+      return settings.jiraRapidBoardId()
+        .then(rapidBoardId => {
+          const url = `/cardcolors/${rapidBoardId}/strategy/issuetype`
+          return jiraRequestBuilder.greenhopper(url, req)
+        })
         .then(options => request(options))
         .then(res => {
           cardColours = res.cardColors
