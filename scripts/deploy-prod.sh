@@ -7,7 +7,7 @@ fi
 
 systemctl stop agilebored.service
 
-sudo --set-home --preserve-env --user=board ./update-prod.sh
+sudo --set-home --preserve-env --user=board ./sripts/update-prod.sh
 exit_status=$?
 if [ $exit_status -ne 0 ]; then
 	exit $exit_status
