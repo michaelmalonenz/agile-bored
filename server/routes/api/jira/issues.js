@@ -10,7 +10,7 @@ module.exports = {
       .then(jiraProjectName => {
         const issueJQL = `project = ${jiraProjectName} AND status not in (Done, "To Do") order by priority ASC`
         const encodedJQL = encodeURIComponent(issueJQL)
-        return jiraRequestBuilder.jira(`search?jql=${encodedJQL}`, req)
+        return jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
       })
       .then(options => {
         return request(options).then((result) => {
