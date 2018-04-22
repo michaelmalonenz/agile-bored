@@ -10,7 +10,7 @@
       <div if.bind="loading" class="stand-up-loading">
         <i class="fa fa-circle-o-notch fa-spin fa-4x"></i> Loading
       </div>
-      <div class="container-fluid" if.bind="!searching">
+      <div class="container-fluid stand-up-issues" if.bind="!searching">
         <compose repeat.for="issue of issues" view-model.bind="issue" view="search-issue.html"></compose>
       </div>
     </ux-dialog-body>
