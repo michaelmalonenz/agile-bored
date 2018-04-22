@@ -87,7 +87,7 @@ module.exports = {
       .then(jiraProjectName => {
         // If today is Monday, then include the last 3 days, otherwise include the last day
         let dayCount = (new Date().getDay() === 1 ? 3 : 1)
-        return `project = ${jiraProjectName} AND (status not in (Done, "To Do") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by priority ASC`
+        return `project = ${jiraProjectName} AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by priority ASC`
       })
       .then(jql => getIssuesByJQL(req, jql))
       .then(issues => res.send(issues))
