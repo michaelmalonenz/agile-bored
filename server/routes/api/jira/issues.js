@@ -7,34 +7,14 @@ const localCache = require('./local-cache')
 module.exports = {
   findAllIssues: function (req, res) {
     return settings.jiraProjectName()
-      .then(jiraProjectName => {
-        const issueJQL = `project = ${jiraProjectName} AND status not in (Done, "To Do") order by priority ASC`
-        const encodedJQL = encodeURIComponent(issueJQL)
-        return jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
-      })
-      .then(options => {
-        return request(options).then((result) => {
-          localCache.getCardColours(req).then(colours => {
-            let issues = []
-            for (let issue of result.issues) {
-              let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
-              if (issue.fields.parent) {
-                const parentId = issue.fields.parent.id
-                let parent = issues.find(i => i.id === parentId)
-                if (parent == null) {
-                  parent = IssueViewModel.createFromJira(issue.fields.parent, colour)
-                  issues.push(parent)
-                }
-                parent.children.push(IssueViewModel.createFromJira(issue, colour))
-              } else {
-                issues.push(IssueViewModel.createFromJira(issue, colour))
-              }
-            }
-            return res.send(issues)
-          })
-        })
-      })
-      .catch(err => res.status(502).send(err))
+    .then(jiraProjectName => {
+      const jql = `project = ${jiraProjectName} AND status not in (Done, "To Do") order by priority ASC`
+      return getIssuesByJQL(req, jql)
+    })
+    .then(issues => {
+      return res.send(issues)
+    })
+    .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
     return settings.jiraProjectName()
@@ -50,20 +30,12 @@ module.exports = {
   },
   search: function (req, res) {
     return settings.jiraProjectName()
-      .then(jiraProjectName => {
-        const issueJQL = `project = ${jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
-        const encodedJQL = encodeURIComponent(issueJQL)
-        return jiraRequestBuilder.jira(`search?jql=${encodedJQL}`, req)
-      })
-      .then(options => request(options))
-      .then((result) => {
-        let issues = []
-        for (let issue of result.issues) {
-          issues.push(IssueViewModel.createFromJira(issue))
-        }
-        return res.send(issues)
-      })
-      .catch(err => res.status(502).send(err))
+    .then(jiraProjectName => {
+      const jql = `project = ${jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
+      return getIssuesByJQL(req, jql)
+    })
+    .then(issues => res.send(issues))
+    .catch(err => res.status(502).send(err))
   },
   updateStatus: function (req, res) {
     return localCache.getCachedStatus(req.params.statusId)
@@ -109,5 +81,42 @@ module.exports = {
     })
     .then(() => res.sendStatus(200))
     .catch(err => res.status(502).send(err))
+  },
+  standup: function (req, res) {
+    return settings.jiraProjectName()
+      .then(jiraProjectName => {
+        // If today is Monday, then include the last 3 days, otherwise include the last day
+        let dayCount = (new Date().getDay() === 1 ? 3 : 1)
+        return `project = ${jiraProjectName} AND (status not in (Done, "To Do") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by priority ASC`
+      })
+      .then(jql => getIssuesByJQL(req, jql))
+      .then(issues => res.send(issues))
+      .catch(err => res.status(502).send(err))
   }
+}
+
+function getIssuesByJQL (req, jql) {
+  const encodedJQL = encodeURIComponent(jql)
+  return jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
+    .then(options => request(options))
+    .then(result => {
+      return localCache.getCardColours(req).then(colours => {
+        let issues = []
+        for (let issue of result.issues) {
+          let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
+          if (issue.fields.parent) {
+            const parentId = issue.fields.parent.id
+            let parent = issues.find(i => i.id === parentId)
+            if (parent == null) {
+              parent = IssueViewModel.createFromJira(issue.fields.parent, colour)
+              issues.push(parent)
+            }
+            parent.children.push(IssueViewModel.createFromJira(issue, colour))
+          } else {
+            issues.push(IssueViewModel.createFromJira(issue, colour))
+          }
+        }
+        return issues
+      })
+    })
 }

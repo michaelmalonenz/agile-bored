@@ -37,7 +37,7 @@ module.exports = function (router) {
   router.get('/issues/standup', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {
-        return jiraIssues.findAllIssues(req, res)
+        return jiraIssues.standup(req, res)
       } else {
         return localIssues.findAllIssues(req, res)
       }
