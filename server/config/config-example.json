@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "board",
-    "password": "GcHhPmGpXu9JJtWk",
+    "password": null,
     "database": "board_development",
     "host": "127.0.0.1",
     "dialect": "postgres"

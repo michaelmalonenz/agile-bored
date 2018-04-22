@@ -2,5 +2,6 @@
 node_modules/
 jspm_modules/
 server/.env
+server/config/config.json
 .vscode/
 client/scripts
