@@ -1,15 +1,15 @@
-const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const StatusViewModel = require('../../../viewmodels/status')
 const settings = require('../../../settings')
 const localCache = require('./local-cache')
+const cachedRequest = require('./cached-request')
 
 module.exports = {
   getStatuses: function (req, res) {
     return settings.jiraProjectName()
       .then(jiraProjectName => `project/${jiraProjectName}/statuses`)
       .then(url => jiraRequestBuilder.jira(url, req))
-      .then(options => request(options))
+      .then(options => cachedRequest(options))
       .then(statuses => {
         const result = []
         for (let statusList of statuses) {
@@ -37,7 +37,7 @@ function orderStatuses (statusViewModels, req) {
       const url = `board/${rapidBoardId}/configuration`
       return jiraRequestBuilder.agile(url, req)
     })
-    .then(options => request(options))
+    .then(options => cachedRequest(options))
     .then(config => {
       const columns = config.columnConfig.columns
 
