@@ -6,20 +6,20 @@ const localCache = require('./local-cache')
 
 module.exports = {
   findAllIssues: function (req, res) {
-    return settings.jiraProjectName()
-    .then(jiraProjectName => {
-      const jql = `project = ${jiraProjectName} AND status not in (Done, "To Do") order by priority ASC`
-      return getIssuesByJQL(req, jql)
+    return settings.jiraRapidBoardId()
+    .then(jiraRapidBoardId => {
+      const jql = encodeURIComponent('status not in (Done,"To Do") order by priority ASC')
+      const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+      return jiraRequestBuilder.agile(url, req)
     })
-    .then(issues => {
-      return res.send(issues)
-    })
+    .then(options => getIssues(options, req))
+    .then(issues => res.send(issues))
     .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
     return settings.jiraProjectName()
       .then(jiraProjectName => {
-        return jiraRequestBuilder(`/issue/${req.params.issueId}`)
+        return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
       })
       .then(options => request(options))
       .then(issue => {
@@ -98,25 +98,28 @@ module.exports = {
 function getIssuesByJQL (req, jql) {
   const encodedJQL = encodeURIComponent(jql)
   return jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
-    .then(options => request(options))
-    .then(result => {
-      return localCache.getCardColours(req).then(colours => {
-        let issues = []
-        for (let issue of result.issues) {
-          let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
-          if (issue.fields.parent) {
-            const parentId = issue.fields.parent.id
-            let parent = issues.find(i => i.id === parentId)
-            if (parent == null) {
-              parent = IssueViewModel.createFromJira(issue.fields.parent, colour)
-              issues.push(parent)
-            }
-            parent.children.push(IssueViewModel.createFromJira(issue, colour))
-          } else {
-            issues.push(IssueViewModel.createFromJira(issue, colour))
+    .then(options => getIssues(options, req))
+}
+
+function getIssues (options, req) {
+  return request(options).then(result => {
+    return localCache.getCardColours(req).then(colours => {
+      let issues = []
+      for (let issue of result.issues) {
+        let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
+        if (issue.fields.parent) {
+          const parentId = issue.fields.parent.id
+          let parent = issues.find(i => i.id === parentId)
+          if (parent == null) {
+            parent = IssueViewModel.createFromJira(issue.fields.parent, colour)
+            issues.push(parent)
           }
+          parent.children.push(IssueViewModel.createFromJira(issue, colour))
+        } else {
+          issues.push(IssueViewModel.createFromJira(issue, colour))
         }
-        return issues
-      })
+      }
+      return issues
     })
+  })
 }
