@@ -1,4 +1,5 @@
 const db = require('../../../models')
+const op = db.Sequelize.Op
 const IssueViewModel = require('../../../viewmodels/issue')
 
 module.exports = {
@@ -13,9 +14,9 @@ module.exports = {
         required: false
       }],
       where: {
-        $or: {
-          'statusId': { $eq: null },
-          '$IssueStatus.name$': { $ne: 'Done' }
+        [op.or]: {
+          'statusId': { [op.eq]: null },
+          '$IssueStatus.name$': { [op.ne]: 'Done' }
         }
       }
     }).then(issues => {

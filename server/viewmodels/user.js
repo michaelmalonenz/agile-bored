@@ -1,8 +1,10 @@
 export class UserViewModel {
   constructor () {
     this.id = 0
+    this.externalId = ''
     this.displayName = ''
-    this.avatarUrl = ''
+    this.username = ''
+    this.avatar = ''
     this.createdAt = Date.now()
     this.updatedAt = Date.now()
   }

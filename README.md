@@ -6,8 +6,8 @@ An Agile board for people who are bored with Agile meaning "We use Jira and have
 Dependencies:
 - Postgres v9.5+
 - nodejs v6+
-npm install
+npm install-all
 
 ##
 ## Running
-To run, go into ``server`` and type ``node server.js`` it will run on port 5000 by default. Then visit: ``http://localhost:5000`` to see the app running.
+To run, in the top level directory run ``npm run start`` it will run on port 5000 by default. Then visit: ``http://localhost:5000`` to see the app running.

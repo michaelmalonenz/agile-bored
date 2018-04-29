@@ -34,6 +34,10 @@ export class SecuritySettings {
     return this._password
   }
 
+  get externalId () {
+    return this.user.externalId
+  }
+
   getAuthorizationHeader () {
     return `Basic ${btoa(`${this.username}:${this.password}`)}`
   }

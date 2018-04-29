@@ -8,8 +8,11 @@ export class AuthHttpClient extends HttpClient {
 
     this.configure((x) => {
       x.transformers.push((client, processor, message) => {
-        message.headers.add('Authorization',
-          SecuritySettings.instance().getAuthorizationHeader())
+        const security = SecuritySettings.instance()
+        message.headers.add('Authorization', security.getAuthorizationHeader())
+        if (security.loggedIn) {
+          message.headers.add('X-External-Id', security.externalId)
+        }
       })
     })
   }
