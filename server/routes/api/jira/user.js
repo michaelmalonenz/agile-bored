@@ -1,6 +1,7 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const db = require('../../../models')
+const url = require('url')
 
 module.exports = {
   me: function (req, res) {
@@ -8,29 +9,30 @@ module.exports = {
       .then(options => request(options))
       .then(user => {
         return request({
-          uri: user.avatarUrls['24x24'],
+          uri: url.parse(user.avatarUrls['24x24'], true).query.d,
           encoding: null,
           headers: {
             'Authorization': req.get('Authorization')
           }
         })
         .then(avatar => {
-          return db.User.upsert({
-            externalId: user.accountId,
-            displayName: user.displayName,
-            username: user.name,
-            avatar: avatar.toString('base64')
+          return db.User.findOrBuild({
+            where: { externalId: user.accountId }
           })
-          .then(() => {
-            return db.User.findOne({
-              where: { externalId: user.accountId }
+          .spread((userObj) => {
+            userObj.set({
+              externalId: user.accountId,
+              displayName: user.displayName,
+              username: user.name,
+              avatar: avatar.toString('base64')
             })
+            res.send(userObj)
+            return userObj.save()
           })
-          .then(result => res.send(result))
+        }).catch(err => {
+          console.log(err)
+          return res.sendStatus(503)
         })
-      }).catch(err => {
-        console.log(err)
-        return res.sendStatus(503)
       })
   }
 }
