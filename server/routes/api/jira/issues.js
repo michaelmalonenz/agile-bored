@@ -8,7 +8,7 @@ module.exports = {
   findAllIssues: function (req, res) {
     return settings.jiraRapidBoardId()
     .then(jiraRapidBoardId => {
-      const jql = encodeURIComponent('status not in (Done,"To Do") order by priority ASC')
+      const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
       const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
       return jiraRequestBuilder.agile(url, req)
     })

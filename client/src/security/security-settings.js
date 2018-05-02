@@ -34,8 +34,8 @@ export class SecuritySettings {
     return this._password
   }
 
-  get externalId () {
-    return this.user.externalId
+  get userId () {
+    return this.user.id
   }
 
   getAuthorizationHeader () {

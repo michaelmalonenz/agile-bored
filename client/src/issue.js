@@ -41,6 +41,20 @@ export class Issue {
     return this.issue.children && this.issue.children.length > 0
   }
 
+  get epicName () {
+    if (this.issue && this.issue.epic && this.issue.epic.name) {
+      return this.issue.epic.name
+    }
+    return ''
+  }
+
+  get epicStyle () {
+    if (this.issue && this.issue.epic && this.issue.epic.colour) {
+      return `background-color: ${this.issue.epic.colour}; color: white;`
+    }
+    return ''
+  }
+
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,

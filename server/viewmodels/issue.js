@@ -1,5 +1,6 @@
 const StatusViewModel = require('./status')
 const IssueTypeViewModel = require('./issue-type')
+const EpicViewModel = require('./epic')
 
 module.exports = class IssueViewModel {
   constructor () {
@@ -25,6 +26,7 @@ module.exports = class IssueViewModel {
     result.createdAt = obj.fields.created
     result.IssueStatus = StatusViewModel.createFromJira(obj.fields.status)
     result.IssueType = IssueTypeViewModel.createFromJira(colorObj)
+    result.epic = EpicViewModel.createFromJira(obj.fields.epic)
     result.children = []
     return result
   }

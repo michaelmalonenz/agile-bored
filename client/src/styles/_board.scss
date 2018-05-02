@@ -50,6 +50,11 @@
   display: grid;
 }
 
+.epic-name {
+  border-radius: 2px;
+  padding-left: 0.3rem;
+}
+
 .status-name {
   padding: 3px;
   background-color: $brand-secondary;

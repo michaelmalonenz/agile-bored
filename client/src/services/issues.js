@@ -4,6 +4,7 @@ import {AuthHttpClient} from './auth-http-client'
 import {Issue} from '../models/issue'
 import {Status} from '../models/status'
 import {User} from '../models/user'
+import {Epic} from '../models/epic'
 
 @inject(AuthHttpClient)
 export class IssueService {
@@ -87,6 +88,8 @@ export class IssueService {
         return new Status(value)
       } else if (key === 'assignee') {
         return new User(value)
+      } else if (key === 'epic') {
+        return new Epic(value)
       }
       return new Issue(value)
     }
