@@ -11,7 +11,11 @@
     <div class="status-cols-area container-fluid">
       <div repeat.for="parent of parentIssues">
         <div class="row issue-title">
-          <div class="col-xs-12"><h4>${parent.issue.title}</h4></div>
+          <div class="col-xs-12 parent-issue-title-row">
+            <h4>${parent.issue.title}</h4>
+            <div class="epic-name" css.bind="parent.epicStyle">
+              ${parent.epicName}
+            </div></div>
         </div>
         <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
           <div class="status-col drag-source drop-target" as-element="status-col"

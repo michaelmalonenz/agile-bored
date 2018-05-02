@@ -11,6 +11,15 @@
   background-color: #ccc;
 }
 
+.parent-issue-title-row {
+  display: flex;
+  align-items: center;
+
+  .epic-name {
+    margin-left: 1rem;
+  }
+}
+
 .avatar-container {
   box-sizing: border-box;
   margin-right: 5px;
@@ -52,7 +61,7 @@
 
 .epic-name {
   border-radius: 2px;
-  padding-left: 0.3rem;
+  padding: 0 0.3rem;
 }
 
 .status-name {
