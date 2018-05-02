@@ -51,10 +51,11 @@
 }
 
 .status-headings {
+  background-color: whitesmoke;
   margin-right: 16px;
   margin-left: auto;
   padding-left: 15px;
-  padding-right: 6px;
+  padding-right: 15px;
 }
 
 .status-cols-area {
@@ -72,6 +73,7 @@
 }
 
 .status-name {
+  margin: 5px;
   padding: 3px;
   background-color: $brand-secondary;
   text-transform: uppercase;
@@ -80,7 +82,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 10px solid whitesmoke;
 
   &:last-child {
     border-right: none;
