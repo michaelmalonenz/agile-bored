@@ -50,6 +50,13 @@
   grid-template-rows: fit-content(100%) 1fr;
 }
 
+.status-headings {
+  margin-right: 16px;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 6px;
+}
+
 .status-cols-area {
   overflow: auto;
   display: grid;
