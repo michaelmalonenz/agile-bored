@@ -8,7 +8,7 @@
     <div class="status-headings" css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
       <div class="status-name" repeat.for="status of statuses">${status.name}</div>
     </div>
-    <div class="status-cols-area container-fluid">
+    <div class="status-cols-area">
       <div repeat.for="parent of parentIssues">
         <div class="row issue-title">
           <div class="col-xs-12 parent-issue-title-row">

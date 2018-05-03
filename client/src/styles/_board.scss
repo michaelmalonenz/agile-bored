@@ -51,15 +51,15 @@
 }
 
 .status-headings {
-  background-color: whitesmoke;
   margin-right: 16px;
-  margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
 }
 
 .status-cols-area {
-  overflow: auto;
+  overflow-y: scroll;
+  padding-left: 15px;
+  padding-right: 15px;
   display: grid;
 }
 
