@@ -50,5 +50,10 @@ module.exports = {
   },
   assign: function (req, res) {
     res.sendStatus(200)
+  },
+  create: function (req, res) {
+    return db.Issue.create(req.body).then(issue => {
+      res.send(issue)
+    })
   }
 }

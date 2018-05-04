@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework'
 import { DialogController } from 'aurelia-dialog'
 import { Issue } from '../models/issue'
+import { SecuritySettings } from '../services/security-settings'
 
 @inject(DialogController)
 export class IssueEditorDialog {
@@ -23,5 +24,10 @@ export class IssueEditorDialog {
     } else {
       return 'Create Issue'
     }
+  }
+
+  save () {
+    this.issue.reporter = SecuritySettings.instance().user
+    this.controller.ok(this.issue)
   }
 }

@@ -45,8 +45,12 @@ module.exports = function (router) {
   })
 
   router.post('/issue', function (req, res) {
-    return db.Issue.create(req.body).then(issue => {
-      res.send(issue)
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.create(req, res)
+      } else {
+        return localIssues.create(req, res)
+      }
     })
   })
 
