@@ -96,19 +96,21 @@ module.exports = {
   create: function (req, res) {
     const issueObj = req.body
     return settings.jiraProjectName()
-      .then(jiraProjectName => {
-        return jiraRequestBuilder.jira('/issue', 'POST')
-          .then(options => {
-            options.body = {
-              fields: {
-                reporter: issueObj.reporter.username,
-                summary: issueObj.title,
-                description: issueObj.description,
-                project: jiraProjectName
-              }
-            }
-          })
+    .then(jiraProjectName => {
+      return jiraRequestBuilder.jira('/issue', 'POST')
+      .then(options => {
+        options.body = {
+          fields: {
+            reporter: issueObj.reporter.username,
+            summary: issueObj.title,
+            description: issueObj.description,
+            project: jiraProjectName
+          }
+        }
+        return request(options)
       })
+      .then(issue => res.send(issue))
+    }).catch(err => res.status(502).send(err))
   }
 }
 
