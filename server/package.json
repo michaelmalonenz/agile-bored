@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "gulp test",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "migrate": "sequelize db:migrate"
   },
   "author": "Michael Malone <michael.j.b.malone@gmail.com>",
@@ -25,5 +25,7 @@
     "serve-favicon": "^2.4.5",
     "url-join": "^2.0.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.17.4"
+  }
 }
