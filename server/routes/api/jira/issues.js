@@ -17,10 +17,7 @@ module.exports = {
     .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
-    return settings.jiraProjectName()
-      .then(jiraProjectName => {
-        return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
-      })
+    return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
       .then(options => request(options))
       .then(issue => {
         return IssueViewModel.createFromJira(issue)
