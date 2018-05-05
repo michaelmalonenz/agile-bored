@@ -5,5 +5,6 @@ require('./issues')(router)
 require('./status')(router)
 require('./settings')(router)
 require('./user')(router)
+require('./comments')(router)
 
 module.exports = router

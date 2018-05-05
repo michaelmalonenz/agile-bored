@@ -12,7 +12,7 @@ export class CommentService {
 
   async findAllForIssue (issueId) {
     const res = await this._http
-      .createRequest('/api/issue/${issueId}/comments')
+      .createRequest(`/api/issue/${issueId}/comments`)
       .asGet()
       .withReviver(this._commentReviver)
       .send()

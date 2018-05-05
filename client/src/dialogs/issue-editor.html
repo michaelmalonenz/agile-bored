@@ -8,7 +8,17 @@
         <input class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
       </div>
       <div class="edit-issue-content">
-        <textarea class="markdown-editor" value.bind="issue.description" attach-focus.bind="edit" placeholder="description"></textarea>
+        <div class="row">
+          <div class="col-xs-8">
+            <textarea class="markdown-editor" value.bind="issue.description"
+              attach-focus.bind="edit" placeholder="description"></textarea>
+          </div>
+          <div class="col-xs-4">
+            <div repeat.for="comment of comments">
+              ${comment.body}
+            </div>
+          </div>
+        </div>
       </div>
     </ux-dialog-body>
 

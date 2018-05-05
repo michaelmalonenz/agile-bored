@@ -22,7 +22,9 @@ export class IssueEditorDialog {
   }
 
   async bind () {
-    this.comments = await this.commentService.findAllForIssue(this.issue.id)
+    if (this.edit) {
+      this.comments = await this.commentService.findAllForIssue(this.issue.id)
+    }
   }
 
   get heading () {
