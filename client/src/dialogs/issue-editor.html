@@ -14,7 +14,7 @@
               attach-focus.bind="edit" placeholder="description"></textarea>
           </div>
           <div class="${edit ? 'col-xs-4' : 'hidden'} full-height">
-            <comments comments.bind="comments" issue-id.bind="issue.id"></comments>
+            <comments-list comments.bind="comments" issue-id.bind="issue.id"></comments-list>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { CommentService } from '../services/comments'
 
 @bindable('comments')
 @bindable('issueId')
-@customElement('comments')
+@customElement('comments-list')
 @inject(CommentService)
 export class Comments {
   constructor (commentService) {
