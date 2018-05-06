@@ -1,0 +1,20 @@
+<template>
+  <div class="row view-comments-container">
+    <div if.bind="loading" class="col-xs-12 loading-comments">
+      <span class="fa fa-circle-o-notch fa-spin fa-2x"></span> &nbsp;Loading&hellip;
+    </div>
+    <div if.bind="!loading" class="col-xs-12 comments-container" repeat.for="comment of comments">
+      ${comment.body}
+    </div>
+  </div>
+  <div class="row add-comment-container" >
+    <div class="col-xs-12 full-height">
+      <textarea class="add-comment"></textarea>
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="button" class="btn btn-primary" click.delegate="addComment()">Add Comment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

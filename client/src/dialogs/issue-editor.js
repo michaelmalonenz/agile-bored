@@ -3,13 +3,11 @@ import { DialogController } from 'aurelia-dialog'
 
 import { Issue } from '../models/issue'
 import { SecuritySettings } from '../security/security-settings'
-import { CommentService } from '../services/comments'
 
-@inject(DialogController, CommentService)
+@inject(DialogController)
 export class IssueEditorDialog {
-  constructor (controller, commentService) {
+  constructor (controller) {
     this.controller = controller
-    this.commentService = commentService
     this.issue = new Issue()
     this.edit = false
   }
@@ -18,12 +16,6 @@ export class IssueEditorDialog {
     if (model) {
       this.issue = Object.assign({}, model.issue)
       this.edit = model.edit
-    }
-  }
-
-  async bind () {
-    if (this.edit) {
-      this.comments = await this.commentService.findAllForIssue(this.issue.id)
     }
   }
 

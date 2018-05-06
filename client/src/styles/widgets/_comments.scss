@@ -1,0 +1,22 @@
+.loading-comments {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.view-comments-container {
+  height: 70%;
+
+  .comments-container {
+    height: 100%;
+    overflow-y: auto;
+  }
+}
+
+.add-comment-container {
+  height: 30%;
+
+  .add-comment {
+    width: 100%;
+  }
+}

@@ -15,6 +15,13 @@ module.exports = {
           key: 'id'
         }
       },
+      issueId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'issues',
+          key: 'id'
+        }
+      },
       body: Sequelize.TEXT,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE

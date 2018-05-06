@@ -11,6 +11,13 @@ module.exports = function (sequelize, DataTypes) {
         key: 'id'
       }
     },
+    issueId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'issues',
+        key: 'id'
+      }
+    },
     body: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE

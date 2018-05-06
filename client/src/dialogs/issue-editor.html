@@ -8,15 +8,13 @@
         <input class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
       </div>
       <div class="edit-issue-content">
-        <div class="row">
-          <div class="col-xs-8">
+        <div class="row full-height">
+          <div class="${edit ? 'col-xs-8' : 'col-xs-12'} full-height">
             <textarea class="markdown-editor" value.bind="issue.description"
               attach-focus.bind="edit" placeholder="description"></textarea>
           </div>
-          <div class="col-xs-4">
-            <div repeat.for="comment of comments">
-              ${comment.body}
-            </div>
+          <div class="${edit ? 'col-xs-4' : 'hidden'} full-height">
+            <comments comments.bind="comments" issue-id.bind="issue.id"></comments>
           </div>
         </div>
       </div>

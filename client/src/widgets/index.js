@@ -3,6 +3,7 @@ export function configure (config) {
     './icon',
     './user-panel',
     './create-issue',
-    './assign-users'
+    './assign-users',
+    './comments'
   ])
 }
