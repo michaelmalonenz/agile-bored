@@ -12,4 +12,14 @@ module.exports = function (router) {
       }
     })
   })
+
+  router.post('/issue/:issueId/comment', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraComments.addComment(req, res)
+      } else {
+        return localComments.addComment(req, res)
+      }
+    })
+  })
 }

@@ -10,11 +10,21 @@ export class CommentsList {
   constructor (commentService) {
     this.commentService = commentService
     this.loading = false
+    this.newComment = ''
+    this.addingComment = false
   }
 
   async bind () {
     this.loading = true
     this.comments = await this.commentService.findAllForIssue(this.issueId)
     this.loading = false
+  }
+
+  async addComment () {
+    this.addingComment = true
+    const created = await this.commentService.addComment(this.issueId, this.newComment)
+    this.comments.push(created)
+    this.newComment = ''
+    this.addingComment = false
   }
 }
