@@ -94,7 +94,7 @@ module.exports = {
     const issueObj = req.body
     return settings.jiraProjectName()
     .then(jiraProjectName => {
-      return jiraRequestBuilder.jira('/issue', 'POST')
+      return jiraRequestBuilder.jira('/issue', req, 'POST')
       .then(options => {
         options.body = {
           fields: {
