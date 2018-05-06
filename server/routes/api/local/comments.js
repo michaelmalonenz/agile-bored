@@ -11,5 +11,14 @@ module.exports = {
         }
         res.send(result)
       })
+  },
+  addComment: function (req, res) {
+    return db.Comment.create({
+      body: req.body.body,
+      authorId: req.headers['X-User-Id'],
+      issueId: req.params.issueId
+    })
+    .then(comment => res.send(comment))
+    .catch(err => res.status(502).send(err))
   }
 }
