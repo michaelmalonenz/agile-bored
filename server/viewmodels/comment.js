@@ -1,8 +1,11 @@
+const UserViewModel = require('./user')
+
 module.exports = class CommentViewModel {
   constructor () {
     this.id = 0
     this.issueId = 0
     this.body = ''
+    this.author = null
     this.updatedAt = new Date()
     this.createdAt = new Date()
   }
@@ -13,6 +16,7 @@ module.exports = class CommentViewModel {
       result = new CommentViewModel()
       result.id = obj.id
       result.body = obj.body
+      result.author = UserViewModel.createFromJira(obj.author)
       result.createdAt = obj.created
       result.updatedAt = obj.updated
     }
@@ -25,6 +29,7 @@ module.exports = class CommentViewModel {
       result = new CommentViewModel()
       result.id = obj.id
       result.body = obj.body
+      result.author = UserViewModel.createFromLocal(obj.author)
       result.createdAt = obj.created
       result.updatedAt = obj.updated
     }

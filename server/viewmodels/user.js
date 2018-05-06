@@ -1,4 +1,4 @@
-export class UserViewModel {
+module.exports = class UserViewModel {
   constructor () {
     this.id = 0
     this.externalId = ''
@@ -14,6 +14,10 @@ export class UserViewModel {
     if (obj) {
       result = new UserViewModel()
       result.id = obj.accountId
+      result.username = obj.username
+      result.displayName = obj.displayName
+      result.createdAt = obj.created
+      result.updatedAt = obj.updated
     }
     return result
   }

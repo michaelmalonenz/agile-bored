@@ -4,6 +4,7 @@ export function configure (config) {
     './user-panel',
     './create-issue',
     './assign-users',
-    './comments-list'
+    './comments-list',
+    './comment'
   ])
 }

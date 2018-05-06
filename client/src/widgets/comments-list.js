@@ -6,7 +6,7 @@ import { CommentService } from '../services/comments'
 @bindable('issueId')
 @customElement('comments-list')
 @inject(CommentService)
-export class Comments {
+export class CommentsList {
   constructor (commentService) {
     this.commentService = commentService
     this.loading = false
