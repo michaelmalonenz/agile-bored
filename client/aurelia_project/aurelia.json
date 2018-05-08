@@ -40,7 +40,7 @@
             "name": "core-js",
             "path": "../node_modules/core-js",
             "main": "client/core",
-            "deps":[
+            "deps": [
               "../node_modules/core-js/shim",
               "../node_modules/core-js/library/**/*.js",
               "../node_modules/core-js/modules/**/*.js"
@@ -69,7 +69,12 @@
           "aurelia-bootstrapper",
           "aurelia-dependency-injection",
           "aurelia-event-aggregator",
-          "aurelia-framework",
+          {
+            "name": "aurelia-framework",
+            "main": "aurelia-framework",
+            "path": "../node_modules/aurelia-framework/dist/amd",
+            "resources": []
+          },
           "aurelia-history",
           "aurelia-history-browser",
           "aurelia-loader",

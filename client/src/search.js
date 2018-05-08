@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework'
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator'
+import { PLATFORM } from 'aurelia-pal'
 
 import { IssueService } from './services/issues'
 import { SEARCH } from './events'
@@ -30,23 +31,21 @@ export class Search {
 
   attached () {
     this.searchInput = this.element.querySelector('#search-term')
-    this.searchInput.onkeypress = this.searchKeyPress.bind(this)
-  }
-
-  detached() {
-    this.searchInput.onkeypress = null
   }
 
   async activate (params, other) {
     this.searchTerm = params.search || ''
     if (this.searchTerm) {
-      this.eventAggregator.publish('search')
+      this.eventAggregator.publish(SEARCH)
     }
   }
 
   searchKeyPress (event) {
     if (event.which === 13) {
       this.triggerSearch()
+    }
+    else {
+      return true
     }
   }
 
@@ -55,9 +54,9 @@ export class Search {
   }
 
   triggerSearch () {
-    this.eventAggregator.publish('search')
+    this.eventAggregator.publish(SEARCH)
     // The || null ensures that the query param is excluded from the URL
-    this.router.navigateToRoute('search', { search: this.searchTerm || null })
+    this.router.navigateToRoute(PLATFORM.moduleName('search'), { search: this.searchTerm || null })
   }
 
   async _doSearch() {
@@ -65,8 +64,10 @@ export class Search {
       this.searching = true
       const issues = await this.issueService.search(this.searchTerm)
       this.results = []
-      for(let issue of issues) {
-        this.results.push(this.issueViewModelFactory.create(issue))
+      if (issues) {
+        for(let issue of issues) {
+          this.results.push(this.issueViewModelFactory.create(issue))
+        }
       }
       this.searching = false
     }

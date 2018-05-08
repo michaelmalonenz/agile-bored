@@ -2,7 +2,7 @@
   <form class="search-form" role="search">
     <div class="input-group add-on search-box">
       <input class="form-control" placeholder="Search" name="search-term" id="search-term"
-        type="text" value.bind="searchTerm">
+        type="text" value.bind="searchTerm" keypress.delegate="searchKeyPress($event)">
       <div class="input-group-btn">
         <button class="btn btn-default" type="button" click.delegate="searchButtonPress()">
           <i class="glyphicon glyphicon-search"></i></button>
