@@ -1,7 +1,8 @@
 <template>
-<div>
-  ${comment.body}
-</div>
-<div>-${comment.author.displayName}</div>
-<div>${date}</div>
+  <div class="comment">
+      <div class="comment-title">${comment.author.displayName} - <span class="date-format">${date | date}</span></div>
+      <div>
+        ${comment.body}
+      </div>
+    </div>
 </template>

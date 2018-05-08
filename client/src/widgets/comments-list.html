@@ -8,11 +8,11 @@
     </div>
   </div>
   <div class="row add-comment-container" >
-    <div class="col-xs-12 full-height">
-      <textarea class="add-comment" value.bind="newComment"></textarea>
-      <div class="row">
+    <div class="col-xs-12 full-height add-comment-content">
+      <textarea class="add-comment" value.bind="newComment" disabled.bind="addingComment"></textarea>
+      <div class="row save-comment-row">
         <div class="col-xs-12">
-          <button type="button" class="btn btn-primary" click.delegate="addComment()">Add Comment</button>
+          <button type="button" class="btn btn-primary" click.delegate="addComment()" disabled.bind="addingComment">Add Comment</button>
         </div>
       </div>
     </div>
