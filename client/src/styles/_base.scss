@@ -16,6 +16,12 @@ div {
     font-weight: 400;
 }
 
+@font-face {
+    font-family: Raleway;
+    src: url(src/styles/fonts/Raleway-SemiBold.ttf);
+    font-weight: 600;
+}
+
 body {
     font-family: Raleway;
 }
