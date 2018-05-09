@@ -10,8 +10,7 @@
       <div class="edit-issue-content">
         <div class="row full-height">
           <div class="${edit ? 'col-xs-8' : 'col-xs-12'} full-height">
-            <textarea class="markdown-editor" value.bind="issue.description"
-              attach-focus.bind="edit" placeholder="description"></textarea>
+            <viewing-text-editor value.bind="issue.description" placeholder="description"></viewing-text-editor>
           </div>
           <div class="${edit ? 'col-xs-4' : 'hidden'} full-height">
             <comments-list comments.bind="comments" issue-id.bind="issue.id"></comments-list>

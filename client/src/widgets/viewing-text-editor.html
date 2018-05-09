@@ -1,0 +1,12 @@
+<template>
+  <div class="full-height" mouseenter.trigger="showIcons()" mouseleave.trigger="hideIcons()">
+    <div show.bind="editMode" class="full-height editor-container">
+      <textarea class="markdown-editor" value.bind="value" placeholder.bind="placeholder"></textarea>
+      <icon icon='fa-eye' class="editor-icon ${showingIcons && editMode ? '' : 'hidden'}" click.delegate="stopEditing()"></icon>
+    </div>
+    <div show.bind="!editMode" class="editor-text-view">
+      ${value}
+      <icon class="editor-icon ${showingIcons && !editMode ? '' : 'hidden'}" click.delegate="startEditing()"></icon>
+    </div>
+  </div>
+</template>

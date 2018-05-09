@@ -5,6 +5,7 @@ export function configure (config) {
     './create-issue',
     './assign-users',
     './comments-list',
-    './comment'
+    './comment',
+    './viewing-text-editor'
   ])
 }

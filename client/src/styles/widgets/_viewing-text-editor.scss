@@ -1,0 +1,20 @@
+.editor-text-view {
+  background-color: #ddd;
+  border-radius: 3px;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  position: relative;
+
+}
+
+.editor-icon {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  text-align: center;
+}
+
+.editor-container {
+  position: relative;
+}
