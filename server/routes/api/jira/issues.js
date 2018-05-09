@@ -80,15 +80,17 @@ module.exports = {
     .catch(err => res.status(502).send(err))
   },
   standup: function (req, res) {
-    return settings.jiraProjectName()
-      .then(jiraProjectName => {
-        // If today is Monday, then include the last 3 days, otherwise include the last day
-        let dayCount = (new Date().getDay() === 1 ? 3 : 1)
-        return `project = ${jiraProjectName} AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by priority ASC`
-      })
-      .then(jql => getIssuesByJQL(req, jql))
-      .then(issues => res.send(issues))
-      .catch(err => res.status(502).send(err))
+    return settings.jiraRapidBoardId()
+    .then(jiraRapidBoardId => {
+      // If today is Monday, then include the last 3 days, otherwise include the last day
+      let dayCount = (new Date().getDay() === 1 ? 3 : 1)
+      const jql = encodeURIComponent(`(status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
+      const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+      return jiraRequestBuilder.agile(url, req)
+    })
+    .then(options => getIssues(options, req))
+    .then(issues => res.send(issues))
+    .catch(err => res.status(502).send(err))
   },
   create: function (req, res) {
     const issueObj = req.body

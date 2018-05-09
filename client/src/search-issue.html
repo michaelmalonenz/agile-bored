@@ -1,18 +1,36 @@
 <template>
   <div class="issue" dblclick.delegate="editIssue()" css.bind="typeStyle">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-6">
         <strong>${issue.title}</strong>
       </div>
+      <div class="col-xs-6 text-right">
+          <strong>${statusName}</strong>
+        </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="pull-left search-description">
+    <div class="row search-issue-middle-row">
+      <div class="col-xs-6">
+        <div class="date-format" title="Updated At">
+          ${issue.updatedAt | date}
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="epic-name" css.bind="epicStyle">
+          ${epicName}
+        </div>
+      </div>
+    </div>
+    <div class="row vertically-center-row">
+      <div class="col-xs-2 issue-key">
+        ${issue.key}
+      </div>
+      <div class="col-xs-8">
+        <div class="search-description">
           ${issue.description}
         </div>
-        <div class="pull-right avatar-container">
-          <img src.bind="avatarUrl" title.bind="displayName" height="24" />
-        </div>
+      </div>
+      <div class="col-xs-2 pull-right">
+        <assign-users assignee.bind="issue.assignee" issue-id.bind="issueId"></assign-users>
       </div>
     </div>
   </div>

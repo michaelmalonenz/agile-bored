@@ -55,6 +55,13 @@ export class Issue {
     return ''
   }
 
+  get statusName () {
+    if (this.issue && this.issue.IssueStatus && this.issue.IssueStatus.name) {
+      return this.issue.IssueStatus.name
+    }
+    return ''
+  }
+
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,
