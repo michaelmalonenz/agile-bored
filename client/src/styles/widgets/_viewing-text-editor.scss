@@ -5,7 +5,11 @@
   height: 100%;
   padding: 1rem;
   position: relative;
+}
 
+.editor-view-content {
+  overflow-y: auto;
+  height: 100%;
 }
 
 .editor-icon {
