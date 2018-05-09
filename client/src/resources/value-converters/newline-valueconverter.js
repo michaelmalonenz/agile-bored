@@ -1,4 +1,4 @@
-export class NewLineValueConverter {
+export class NewlineValueConverter {
   toView (value) {
     if (value) {
       return this._replaceAll(value, '\n', '<br>')

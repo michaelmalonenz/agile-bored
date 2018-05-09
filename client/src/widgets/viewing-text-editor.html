@@ -5,7 +5,7 @@
       <icon icon='fa-eye' class="editor-icon ${showingIcons && editMode ? '' : 'hidden'}" click.delegate="stopEditing()"></icon>
     </div>
     <div show.bind="!editMode" class="editor-text-view">
-      ${value}
+      <div class="editor-view-content" innerhtml="${value | newline}"></div>
       <icon class="editor-icon ${showingIcons && !editMode ? '' : 'hidden'}" click.delegate="startEditing()"></icon>
     </div>
   </div>

@@ -1,6 +1,9 @@
-import { bindable, customElement, inject } from 'aurelia-framework'
+import { bindable, customElement, inject, bindingMode } from 'aurelia-framework'
 
-@bindable('value')
+@bindable({
+  name: 'value',
+  defaultBindingMode: bindingMode.twoWay
+})
 @bindable('placeholder')
 @inject(Element)
 @customElement('viewing-text-editor')
