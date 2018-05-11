@@ -8,10 +8,29 @@
 }
 
 .stand-up-loading {
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 }
 
-.stand-up-issues {
-  max-height: 100%;
-  overflow-y: auto;
+.stand-up-display {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-template-rows: 100%;
+  grid-column-gap: 30px;
+  height: 100%;
+
+  .stand-up-displayed-issue {
+    height: 100%;
+  }
+
+  .stand-up-issues {
+    height: 100%;
+
+    .stand-up-issue-list {
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
 }

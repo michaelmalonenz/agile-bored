@@ -15,6 +15,7 @@ export class StandUpDialog {
     this.inFullScreen = false
     this.issues = []
     this.loading = true
+    this.displayedIssue = false
   }
 
   get contentHeight () {
@@ -23,6 +24,10 @@ export class StandUpDialog {
     } else {
       return '60vh';
     }
+  }
+
+  get displayingIssue () {
+    return !!this.displayedIssue
   }
 
   async bind () {
@@ -49,5 +54,9 @@ export class StandUpDialog {
       exitFn.call(document)
       this.inFullScreen = false
     }
+  }
+
+  display (issue) {
+    this.displayedIssue = issue
   }
 }
