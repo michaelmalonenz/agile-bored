@@ -16,13 +16,13 @@
 
 .stand-up-display {
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: 65% 35%;
   grid-template-rows: 100%;
-  grid-column-gap: 30px;
   height: 100%;
 
   .stand-up-displayed-issue {
     height: 100%;
+    padding-right: 2rem;
   }
 
   .stand-up-issues {
@@ -31,6 +31,7 @@
     .stand-up-issue-list {
       height: 100%;
       overflow-y: auto;
+      padding-right: 10px;
     }
   }
 }
