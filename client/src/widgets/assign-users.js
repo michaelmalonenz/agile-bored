@@ -11,6 +11,10 @@ import { IssueService } from '../services/issues';
   name: 'issueId',
   attribute: 'issue-id'
 })
+@bindable({
+  name: 'large',
+  default: false
+})
 @customElement('assign-users')
 export class AssignUsers {
 
@@ -28,11 +32,14 @@ export class AssignUsers {
   }
 
   get avatarUrl () {
-    if (this.assignee && this.assignee.avatarUrl) {
-      return this.assignee.avatarUrl
-    } else {
-      return ''
+    if (this.assignee) {
+      if (this.large && this.assignee.largeAvatarUrl) {
+        return this.assignee.largeAvatarUrl
+      } else if (!this.large && this.assignee.avatarUrl) {
+        return this.assignee.avatarUrl
+      }
     }
+    return ''
   }
 
   get displayName () {

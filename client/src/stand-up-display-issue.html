@@ -1,38 +1,35 @@
 <template>
   <div class="stand-up-issue" css.bind="typeStyle">
-    <div class="row">
-      <div class="col-xs-8 title">
-        <strong>${issue.title}</strong>
-      </div>
-      <div class="col-xs-4 text-right">
-        <strong>${statusName}</strong>
-      </div>
-    </div>
-    <div class="row search-issue-middle-row">
-      <div class="col-xs-12">
-        <div class="epic-name" css.bind="epicStyle">
-          ${epicName}
+    <div class="stand-up-row">
+      <div class=" stand-up-title-row">
+        <div class="title">
+          ${issue.title}
+        </div>
+        <div class="status">
+          ${statusName}
         </div>
       </div>
     </div>
-    <div class="row search-issue-middle-row">
-      <div class="col-xs-12">
+    <div class="stand-up-row search-issue-middle-row">
+      <div class="epic-name" css.bind="epicStyle">
+        ${epicName}
+      </div>
+    </div>
+    <div class="stand-up-row search-issue-middle-row">
         <div class="date-format" title="Updated At">
           Updated: ${issue.updatedAt | date}
         </div>
-      </div>
     </div>
-    <div class="row stand-up-description">
-      <div class="col-xs-12">
-        ${issue.description}
-      </div>
+    <div class="stand-up-row stand-up-description" innerhtml="${issue.description | newline}">
     </div>
-    <div class="row vertically-center-row">
-      <div class="col-xs-4 issue-key">
-        ${issue.key}
-      </div>
-      <div class="col-xs-offset-4 col-xs-4 pull-right">
-        <assign-users assignee.bind="issue.assignee" issue-id.bind="issueId"></assign-users>
+    <div class="stand-up-row stand-up-last-row">
+      <div class="stand-up-misc-row vertically-center-row">
+        <div class="issue-key">
+          ${issue.key}
+        </div>
+        <div class="pull-right">
+          <assign-users assignee.bind="issue.assignee" issue-id.bind="issueId" large.bind="true" ></assign-users>
+        </div>
       </div>
     </div>
   </div>

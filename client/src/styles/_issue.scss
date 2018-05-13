@@ -35,11 +35,34 @@
   border-left: solid 3px transparent;
   border-radius: 3px;
   height: 100%;
-  font-size: 5vh;
+  font-size: 30pt;
+  display: flex;
+  flex-direction: column;
+
+  .stand-up-title-row {
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+      margin-right: 0.5em;
+    }
+
+    .status {
+      white-space: nowrap;
+    }
+  }
 
   .stand-up-description {
-    font-size: 4vh;
-    max-height: 13vh;
+    font-size: 20pt;
     overflow-y: auto;
+  }
+
+  .stand-up-misc-row {
+    justify-content: space-between;
+  }
+
+  .stand-up-last-row {
+    margin-top: auto;
   }
 }

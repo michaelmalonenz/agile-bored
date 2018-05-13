@@ -11,4 +11,12 @@ export class User {
     }
   }
 
+  get largeAvatarUrl () {
+    if (this.avatarUrls) {
+      return this.avatarUrls['48x48']
+    } else {
+      return ''
+    }
+  }
+
 }

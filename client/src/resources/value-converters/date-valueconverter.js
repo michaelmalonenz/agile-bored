@@ -9,8 +9,13 @@ const options = {
 export class DateValueConverter {
   toView (value) {
     if (value) {
-      const date = new Date(value)
-      return new Intl.DateTimeFormat(navigator.language, options).format(date)
+      try {
+        const date = new Date(value)
+        return new Intl.DateTimeFormat(navigator.language, options).format(date)
+      } catch (err) {
+        console.log('got error from date: ', value)
+        return ''
+      }
     }
     return value
   }

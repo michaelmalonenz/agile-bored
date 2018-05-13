@@ -15,17 +15,19 @@
 }
 
 .stand-up-display {
-  display: grid;
-  grid-template-columns: 65% 35%;
-  grid-template-rows: 100%;
   height: 100%;
+  width: 100%;
 
   .stand-up-displayed-issue {
+    width: 65%;
     height: 100%;
     padding-right: 2rem;
+    float: left;
   }
 
   .stand-up-issues {
+    width: 35%;
+    float: left;
     height: 100%;
 
     .stand-up-issue-list {
