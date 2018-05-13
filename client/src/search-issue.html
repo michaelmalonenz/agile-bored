@@ -1,11 +1,13 @@
 <template>
   <div class="issue" dblclick.delegate="editIssue()" css.bind="typeStyle">
     <div class="row">
-      <div class="col-xs-8 col-md-9">
-        <strong>${issue.title}</strong>
-      </div>
-      <div class="col-xs-4 col-md-3 text-right">
-        <strong>${statusName}</strong>
+      <div class="col-xs-12 issue-title-row">
+        <div class="title">
+          ${issue.title}
+        </div>
+        <div class="status">
+          ${statusName}
+        </div>
       </div>
     </div>
     <div class="row search-issue-middle-row">

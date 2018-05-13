@@ -62,6 +62,13 @@ export class Issue {
     return ''
   }
 
+  get children () {
+    if (this.issue) {
+      return this.issue.children
+    }
+    return []
+  }
+
   editIssue () {
     this.dialogService.open({ viewModel: IssueEditorDialog,
       lock: true,

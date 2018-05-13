@@ -16,7 +16,14 @@
         </div>
         <div class="stand-up-issues">
           <div class="stand-up-issue-list">
-            <compose repeat.for="issue of issues" view-model.bind="issue" view="search-issue.html" click.delegate="display(issue)"></compose>
+            <div repeat.for="issue of issues">
+              <compose view-model.bind="issue" view="search-issue.html" click.delegate="display(issue)"></compose>
+              <div class="child-issues-row">
+                <compose repeat.for="child of issue.children"
+                  view-model.bind="child" view="search-issue.html"
+                  click.delegate="display(child)"></compose>
+              </div>
+            </div>
           </div>
         </div>
       </div>

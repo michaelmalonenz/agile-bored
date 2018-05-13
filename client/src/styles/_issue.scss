@@ -39,20 +39,6 @@
   display: flex;
   flex-direction: column;
 
-  .stand-up-title-row {
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-
-    .title {
-      margin-right: 0.5em;
-    }
-
-    .status {
-      white-space: nowrap;
-    }
-  }
-
   .stand-up-description {
     font-size: 20pt;
     overflow-y: auto;
@@ -64,5 +50,19 @@
 
   .stand-up-last-row {
     margin-top: auto;
+  }
+}
+
+.issue-title-row {
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+
+  .title {
+    margin-right: 0.5em;
+  }
+
+  .status {
+    white-space: nowrap;
   }
 }
