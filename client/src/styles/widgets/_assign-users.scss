@@ -2,6 +2,7 @@
   cursor: pointer;
   min-width: 24px;
   min-height: 24px;
+  position: relative;
 
   &:hover {
     border-color: $brand-primary;
@@ -18,20 +19,23 @@
 
 .assign-user-list {
   position: absolute;
-  top: 24px;
   left: 0px;
   box-shadow: 2px 2px 5px $gray;
-  max-height: 40rem;
-  width: 22rem;
+  max-height: 40em;
   background-color: white;
   z-index: 1;
   overflow-y: auto;
 }
 
+.assign-name {
+  margin-left: 0.5em;
+  white-space: nowrap;
+}
+
 .assign-list-user {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5em;
   cursor: pointer;
 
   &:hover {

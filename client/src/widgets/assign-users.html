@@ -1,22 +1,19 @@
 <template>
   <div class="pull-right assign-user avatar-container ${hasAssignee ? '' : 'assign-unassigned'} ${active ? 'assign-active' : ''}" click.delegate="clickUser()">
     <img src.bind="avatarUrl" title.bind="displayName" />
-  </div>
-  <div class="assign-user-list container-fluid" show.bind="active">
-    <div class="row assign-list-user" click.delegate="assignUser()" if.bind="hasAssignee">
-      <div class="col-xs-4">
+    <div if.bind="large" style="float: right;">${displayName}</div>
+    <div class="assign-user-list container-fluid" show.bind="active">
+      <div class="row assign-list-user" click.delegate="assignUser()" if.bind="hasAssignee">
         <i class="fa fa-remove fa-2x"></i>
+        <span class="assign-name">
+          Unassign
+        </span>
       </div>
-      <div class="col-xs-8">
-        Unassign
-      </div>
-    </div>
-    <div class="row assign-list-user" repeat.for="user of users" click.delegate="assignUser(user)">
-      <div class="col-xs-4">
-        <img src.bind="user.avatarUrl" alt="User Avatar">
-      </div>
-      <div class="col-xs-8">
-        ${user.displayName}
+      <div class="row assign-list-user" repeat.for="user of users" click.delegate="assignUser(user)">
+        <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl" alt="User Avatar">
+        <span class="assign-name">
+          ${user.displayName}
+        </span>
       </div>
     </div>
   </div>
