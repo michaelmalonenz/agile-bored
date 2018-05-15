@@ -67,6 +67,7 @@ export class IssueService {
     const res = await this._http
       .createRequest('/api/issues/standup')
       .asGet()
+      .withParams({ date: Date.now() })
       .withReviver(this._issueReviver)
       .send()
 

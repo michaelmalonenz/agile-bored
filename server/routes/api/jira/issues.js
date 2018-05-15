@@ -83,7 +83,7 @@ module.exports = {
     return settings.jiraRapidBoardId()
     .then(jiraRapidBoardId => {
       // If today is Monday, then include the last 3 days, otherwise include the last day
-      let dayCount = (new Date().getDay() === 1 ? 3 : 1)
+      let dayCount = (req.params.date.getDay() === 1 ? 3 : 1)
       const jql = encodeURIComponent(`type != Epic AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by "Epic Link", status DESC, Rank ASC`)
       const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
       return jiraRequestBuilder.agile(url, req)

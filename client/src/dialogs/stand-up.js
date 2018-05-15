@@ -16,18 +16,22 @@ export class StandUpDialog {
     this.issues = []
     this.loading = true
     this.displayedIssue = false
+    this.displayingComments = false
   }
 
   get contentHeight () {
-    if (this.inFullScreen) { 
-      return '89vh';
-    } else {
-      return '60vh';
-    }
+    return this.inFullScreen ? '89vh' : '60vh'
   }
 
   get displayingIssue () {
-    return !!this.displayedIssue
+    return !!this.displayedIssue && !this.displayingComments
+  }
+
+  get displayedIssueId () {
+    if (this.displayedIssue) {
+      return this.displayedIssue.id
+    }
+    return null
   }
 
   async bind () {

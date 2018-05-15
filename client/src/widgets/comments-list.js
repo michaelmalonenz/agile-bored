@@ -2,7 +2,6 @@ import { customElement, bindable, inject } from 'aurelia-framework'
 
 import { CommentService } from '../services/comments'
 
-@bindable('comments')
 @bindable('issueId')
 @customElement('comments-list')
 @inject(CommentService)

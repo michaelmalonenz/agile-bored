@@ -13,7 +13,7 @@
             <viewing-text-editor value.bind="issue.description" placeholder="description"></viewing-text-editor>
           </div>
           <div class="${edit ? 'col-xs-4' : 'hidden'} full-height">
-            <comments-list comments.bind="comments" issue-id.bind="issue.id"></comments-list>
+            <comments-list issue-id.bind="issue.id"></comments-list>
           </div>
         </div>
       </div>

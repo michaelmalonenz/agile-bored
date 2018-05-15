@@ -5,6 +5,7 @@ const cache = {}
 class CachedResponse {
   constructor (content) {
     this.content = content
+    this.cachedAt = Date.now()
   }
 }
 
