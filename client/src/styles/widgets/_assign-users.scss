@@ -9,10 +9,6 @@
   }
 }
 
-.assign-user-large {
-  min-width: 48px;
-  min-height: 48px;
-}
 
 .assign-unassigned {
   box-shadow: inset 0 0 2px #000000;
@@ -24,13 +20,24 @@
 
 .assign-user-list {
   position: absolute;
-  left: 0px;
   box-shadow: 2px 2px 5px $gray;
-  max-height: 40em;
+  max-height: 19em;
   background-color: white;
-  z-index: 1;
+  z-index: 1031;
   overflow-y: auto;
+  font-size: 14px;
+
+  &.assign-placement-bottom {
+    left: 0;
+  }
+  &.assign-placement-top {
+    bottom: 24px;
+  }
+  &.assign-placement-left {
+    right: 0px;
+  }
 }
+
 
 .assign-name {
   margin-left: 0.5em;
@@ -45,5 +52,22 @@
 
   &:hover {
     background-color: rgba($brand-primary, 0.4);
+  }
+
+}
+
+.assign-user-large {
+  min-width: 48px;
+  min-height: 48px;
+
+  .assign-user-list {
+    font-size: 28px;
+
+    &.assign-placement-bottom {
+      left: 0;
+    }
+    &.assign-placement-top {
+      bottom: 48px;
+    }
   }
 }

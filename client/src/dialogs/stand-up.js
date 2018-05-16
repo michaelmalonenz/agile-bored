@@ -27,6 +27,10 @@ export class StandUpDialog {
     return !!this.displayedIssue && !this.displayingComments
   }
 
+  get displaying () {
+    return this.displayingIssue || this.displayingComments
+  }
+
   get displayedIssueId () {
     if (this.displayedIssue) {
       return this.displayedIssue.issueId

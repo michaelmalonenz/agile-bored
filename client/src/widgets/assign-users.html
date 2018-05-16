@@ -3,7 +3,7 @@
      click.trigger="clickUser($event)">
     <img src.bind="avatarUrl" title.bind="displayName" />
     <div if.bind="large" style="float: right;">${displayName}</div>
-    <div class="assign-user-list container-fluid" show.bind="active">
+    <div class="assign-user-list assign-placement-${placement} container-fluid" show.bind="active">
       <div class="row assign-list-user" click.delegate="assignUser()" if.bind="hasAssignee">
         <i class="fa fa-remove fa-2x"></i>
         <span class="assign-name">

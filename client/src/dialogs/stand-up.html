@@ -17,7 +17,7 @@
             <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId"></comments-list>
             <!-- Consider having a history tab, also -->
           </div>
-          <div class="stand-up-tabs-panel">
+          <div class="stand-up-tabs-panel" if.bind="displaying">
             <div class="stand-up-tab" click.delegate="showView()"><i class="fa fa-eye"></i>&nbsp;View</div>
             <div class="stand-up-tab" click.delegate="showComments()"><i class="fa fa-commenting"></i>&nbsp;Comments</div>
           </div>
