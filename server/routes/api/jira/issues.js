@@ -82,15 +82,19 @@ module.exports = {
   standup: function (req, res) {
     return settings.jiraRapidBoardId()
     .then(jiraRapidBoardId => {
+      const date = new Date(req.params.date)
       // If today is Monday, then include the last 3 days, otherwise include the last day
-      let dayCount = (req.params.date.getDay() === 1 ? 3 : 1)
+      let dayCount = (date.getDay() === 1 ? 3 : 1)
       const jql = encodeURIComponent(`type != Epic AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by "Epic Link", status DESC, Rank ASC`)
       const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
       return jiraRequestBuilder.agile(url, req)
     })
     .then(options => getIssues(options, req))
     .then(issues => res.send(issues))
-    .catch(err => res.status(502).send(err))
+    .catch(err => {
+      console.error(err)
+      res.status(502).send(err)
+    })
   },
   create: function (req, res) {
     const issueObj = req.body
