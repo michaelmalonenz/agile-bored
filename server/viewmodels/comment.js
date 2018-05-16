@@ -30,8 +30,8 @@ module.exports = class CommentViewModel {
       result.id = obj.id
       result.body = obj.body
       result.author = UserViewModel.createFromLocal(obj.author)
-      result.createdAt = obj.created
-      result.updatedAt = obj.updated
+      result.createdAt = obj.createdAt
+      result.updatedAt = obj.updatedAt
     }
     return result
   }

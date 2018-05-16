@@ -35,6 +35,8 @@ Object.keys(db).forEach(function (modelName) {
 db.Issue.belongsTo(db.IssueStatus, { foreignKey: 'statusId' })
 db.Issue.belongsTo(db.IssueType, { foreignKey: 'typeId' })
 
+db.Comment.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' })
+
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
