@@ -58,13 +58,15 @@ export class AssignUsers {
     })
   }
 
-  clickUser () {
+  clickUser (event) {
+    event.stopPropagation();
     this.active = !this.active
     if (this.active) {
       this._addDeactivateListeners()
     } else {
       this._removeDeactivateListeners()
     }
+    return false
   }
 
   async assignUser (user) {

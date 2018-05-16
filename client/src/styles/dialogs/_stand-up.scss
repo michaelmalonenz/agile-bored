@@ -23,6 +23,35 @@
     height: 100%;
     padding-right: 2rem;
     float: left;
+    position: relative;
+
+    .stand-up-active-panel {
+      height: calc(100% - (5vh + 2vh));
+    }
+
+    .stand-up-tabs-panel {
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      flex-wrap: nowrap;
+      height: 5vh;
+      align-items: center;
+      width: 100%;
+
+      .stand-up-tab {
+        color: $brand-primary;
+        cursor: pointer;
+        margin-left: 1em;
+        margin-right: 1em;
+        padding: 0.3em;
+        box-sizing: border-box;
+
+        &:hover, &:active {
+          text-decoration: underline;
+          border: 1px solid $brand-primary;
+        }
+      }
+    }
   }
 
   .stand-up-issues {

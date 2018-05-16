@@ -29,9 +29,17 @@ export class StandUpDialog {
 
   get displayedIssueId () {
     if (this.displayedIssue) {
-      return this.displayedIssue.id
+      return this.displayedIssue.issueId
     }
     return null
+  }
+
+  showView () {
+    this.displayingComments = false
+  }
+
+  showComments () {
+    this.displayingComments = true
   }
 
   async bind () {
@@ -62,5 +70,6 @@ export class StandUpDialog {
 
   display (issue) {
     this.displayedIssue = issue
+    this.showView()
   }
 }

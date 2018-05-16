@@ -10,11 +10,17 @@
       <div if.bind="loading" class="stand-up-loading">
         <i class="fa fa-circle-o-notch fa-spin"></i> Loading&hellip;
       </div>
-      <div if.bind="!searching" class="stand-up-display">
+      <div if.bind="!loading" class="stand-up-display">
         <div class="stand-up-display-area">
-          <compose if.bind="displayingIssue" view="stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
-          <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId"></comments-list>
-          <!-- Consider having a history tab, also -->
+          <div class="stand-up-active-panel">
+            <compose if.bind="displayingIssue" view="stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
+            <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId"></comments-list>
+            <!-- Consider having a history tab, also -->
+          </div>
+          <div class="stand-up-tabs-panel">
+            <div class="stand-up-tab" click.delegate="showView()"><i class="fa fa-eye"></i>&nbsp;View</div>
+            <div class="stand-up-tab" click.delegate="showComments()"><i class="fa fa-commenting"></i>&nbsp;Comments</div>
+          </div>
         </div>
         <div class="stand-up-issues">
           <div class="stand-up-issue-list">
