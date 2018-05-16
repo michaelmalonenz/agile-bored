@@ -23,6 +23,17 @@ module.exports = class UserViewModel {
   }
 
   static createFromLocal (obj) {
-
+    let result
+    if (obj) {
+      result = new UserViewModel()
+      result.id = obj.id
+      result.externalId = obj.externalId
+      result.username = obj.username
+      result.displayName = obj.displayName
+      result.avatar = obj.avatar
+      result.createdAt = obj.created
+      result.updatedAt = obj.updated
+    }
+    return result
   }
 }

@@ -1,14 +1,16 @@
 const request = require('request-promise-native')
+const cachedRequest = require('./cached-request')
 const jiraRequestBuilder = require('./jira-request')
 const db = require('../../../models')
 const url = require('url')
+const UserViewModel = require('../../../viewmodels/user')
 
 module.exports = {
   me: function (req, res) {
     return jiraRequestBuilder.jira('/myself', req)
       .then(options => request(options))
       .then(user => {
-        return request({
+        return cachedRequest({
           uri: url.parse(user.avatarUrls['24x24'], true).query.d,
           encoding: null,
           headers: {
@@ -19,14 +21,14 @@ module.exports = {
           return db.User.findOrBuild({
             where: { externalId: user.accountId }
           })
-          .spread((userObj) => {
+          .spread((userObj, initialized) => {
             userObj.set({
               externalId: user.accountId,
               displayName: user.displayName,
               username: user.name,
               avatar: avatar.toString('base64')
             })
-            res.send(userObj)
+            res.send(UserViewModel.createFromLocal(userObj.get()))
             return userObj.save()
           })
         }).catch(err => {
