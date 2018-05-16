@@ -7,54 +7,53 @@
   &:hover {
     border-color: $brand-primary;
   }
-}
 
-
-.assign-unassigned {
-  box-shadow: inset 0 0 2px #000000;
-}
-
-.assign-active {
-  border: 1px solid $brand-primary !important;
-}
-
-.assign-user-list {
-  position: absolute;
-  box-shadow: 2px 2px 5px $gray;
-  max-height: 19em;
-  background-color: white;
-  z-index: 1031;
-  overflow-y: auto;
-  font-size: 14px;
-
-  &.assign-placement-bottom {
-    left: 0;
-  }
-  &.assign-placement-top {
-    bottom: 24px;
-  }
-  &.assign-placement-left {
-    right: 0px;
-  }
-}
-
-
-.assign-name {
-  margin-left: 0.5em;
-  white-space: nowrap;
-}
-
-.assign-list-user {
-  display: flex;
-  align-items: center;
-  padding: 0.5em;
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba($brand-primary, 0.4);
+  &.assign-unassigned {
+    box-shadow: inset 0 0 2px #000000;
   }
 
+  &.assign-active {
+    border: 1px solid $brand-primary !important;
+  }
+
+  .assign-user-list {
+    z-index: 1;
+    position: absolute;
+    box-shadow: 2px 2px 5px $gray;
+    max-height: 19em;
+    background-color: white;
+    overflow-y: auto;
+    font-size: 14px;
+
+    &.assign-placement-bottom {
+      left: 0;
+    }
+    &.assign-placement-top {
+      bottom: 24px;
+    }
+    &.assign-placement-left {
+      right: 0px;
+    }
+  }
+
+  .assign-name {
+    margin-left: 0.5em;
+    white-space: nowrap;
+  }
+
+  .assign-list-user {
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($brand-primary, 0.4);
+    }
+  }
 }
+
+
 
 .assign-user-large {
   min-width: 48px;

@@ -1,4 +1,4 @@
-import { bindable, inject, customElement, bindingMode } from 'aurelia-framework'
+import { bindable, inject, customElement, bindingMode, computedFrom } from 'aurelia-framework'
 import { AssigneeCache } from '../utils/assignees-cache'
 import { IssueService } from '../services/issues';
 
@@ -27,6 +27,7 @@ export class AssignUsers {
     this.issueService = issueService
     this.active = false
     this.autocompleteElement = null
+    this._users = AssigneeCache.getCachedAssignees()
 
     this.boundClickUser = this.clickUser.bind(this)
   }
@@ -54,8 +55,15 @@ export class AssignUsers {
     }
   }
 
+  @computedFrom('assignee')
   get users () {
-    return AssigneeCache.getCachedAssignees().sort(function (a, b){
+    const filteredUsers = this._users.filter(u => {
+      if (this.assignee) {
+        return u.accountId !== this.assignee.accountId
+      }
+      return true
+    })
+    return filteredUsers.sort(function (a, b){
       if(a.displayName.toLowerCase() < b.displayName.toLowerCase()) return -1;
       if(a.displayName.toLowerCase() > b.displayName.toLowerCase()) return 1;
       return 0;
