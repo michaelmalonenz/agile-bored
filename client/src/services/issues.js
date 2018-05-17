@@ -75,7 +75,6 @@ export class IssueService {
   }
 
   async assign (issueId, assignee) {
-    console.log(assignee)
     const res = await this._http
       .createRequest(`/api/issue/${issueId}/assign`)
       .asPut()

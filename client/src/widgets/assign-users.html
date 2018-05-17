@@ -4,13 +4,13 @@
     <img src.bind="avatarUrl" title.bind="displayName" />
     <div if.bind="large" style="float: right;">${displayName}</div>
     <div class="assign-user-list assign-placement-${placement} container-fluid" show.bind="active">
-      <div class="row assign-list-user" click.delegate="assignUser()" if.bind="hasAssignee">
+      <div class="row assign-list-user" click.trigger="assignUser($event)" if.bind="hasAssignee">
         <i class="fa fa-remove fa-2x"></i>
         <span class="assign-name">
           Unassign
         </span>
       </div>
-      <div class="row assign-list-user" repeat.for="user of users" click.delegate="assignUser(user)">
+      <div class="row assign-list-user" repeat.for="user of users" click.trigger="assignUser($event, user)">
         <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl" alt="User Avatar">
         <span class="assign-name">
           ${user.displayName}

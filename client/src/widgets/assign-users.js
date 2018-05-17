@@ -71,18 +71,19 @@ export class AssignUsers {
   }
 
   clickUser (event) {
-    event.stopPropagation();
+    if (event) {
+      event.stopPropagation();
+    }
     this.active = !this.active
     if (this.active) {
       this._addDeactivateListeners()
     } else {
       this._removeDeactivateListeners()
     }
-    return false
   }
 
-  async assignUser (user) {
-    this.clickUser()
+  async assignUser (event, user) {
+    this.clickUser(event)
     this.assignee = user
     await this.issueService.assign(this.issueId, this.assignee)
   }
