@@ -6,6 +6,7 @@ export function configure (config) {
     './assign-users',
     './comments-list',
     './comment',
-    './viewing-text-editor'
+    './viewing-text-editor',
+    './status-drop-down'
   ])
 }
