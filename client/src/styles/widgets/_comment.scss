@@ -1,7 +1,9 @@
+@import "../_colours.scss";
+
 .comment {
   border-radius: 3px;
   margin: 3px 0;
-  background-color: #ddd;
+  background-color: $background-grey;
   padding: 1rem;
 
   .comment-title {

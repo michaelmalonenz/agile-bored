@@ -1,5 +1,7 @@
+@import "./_colours.scss";
+
 .issue {
-  background-color: #ddd;
+  background-color: $background-grey;
   padding: 5px;
   border-left: solid 3px transparent;
   border-radius: 3px;
@@ -8,7 +10,7 @@
 
 .issue-title {
   padding: 0 1rem;
-  background-color: #ccc;
+  background-color: $background-grey;
 }
 
 .issue-description {
@@ -30,7 +32,7 @@
 }
 
 .stand-up-issue {
-  background-color: #ddd;
+  background-color: $background-grey;
   padding: 5px;
   border-left: solid 3px transparent;
   border-radius: 3px;

@@ -1,5 +1,17 @@
+.searching-icon-container {
+  display: flex;
+  height: calc(100vh - 50px);
+  align-items: center;
+  font-size: 10vh;
+  justify-content: center;
+}
+.search-results {
+  height: calc(100vh - (50px + 34px + 40px));
+}
+
 .search-form {
   margin-top: 20px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -17,4 +29,9 @@
 .search-issue-middle-row {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.scrolling-search-results {
+  height: 100%;
+  overflow-y: auto;
 }
