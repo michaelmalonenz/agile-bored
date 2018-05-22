@@ -1,7 +1,7 @@
 @import "./_colours.scss";
 
 .issue {
-  background-color: $background-grey;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
   padding: 5px;
   border-left: solid 3px transparent;
   border-radius: 3px;
@@ -10,7 +10,7 @@
 
 .issue-title {
   padding: 0 1rem;
-  background-color: $background-grey;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
 }
 
 .issue-description {
@@ -32,7 +32,7 @@
 }
 
 .stand-up-issue {
-  background-color: $background-grey;
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
   padding: 5px;
   border-left: solid 3px transparent;
   border-radius: 3px;
