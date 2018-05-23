@@ -27,7 +27,6 @@ export class StatusDropDown {
 
   currentStatusChanged (newStatus, oldStatus) {
     if (oldStatus != null && newStatus.id !== oldStatus.id) {
-      console.log('updateFn: ', this.updateFn)
       this.updateFn({status: newStatus})
     }
   }

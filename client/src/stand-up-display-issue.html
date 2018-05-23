@@ -5,7 +5,7 @@
         <div class="title">
           ${issue.title}
         </div>
-        <status-drop-down class="status" current-status.bind="issue.IssueStatus" issue-id.bind="issueId"></status-drop-down>
+        <status-drop-down class="status" current-status.bind="issue.IssueStatus" issue-id.bind="issueId" update-fn.call="updateStatus(status)"></status-drop-down>
       </div>
     </div>
     <div class="stand-up-row search-issue-middle-row">
@@ -26,7 +26,7 @@
           ${issue.key}
         </div>
         <div class="pull-right">
-          <assign-users placement="top" assignee.bind="issue.assignee" update-fn.call="updateStatus(status)" large.bind="true" ></assign-users>
+          <assign-users placement="top" assignee.bind="issue.assignee" large.bind="true" ></assign-users>
         </div>
       </div>
     </div>
