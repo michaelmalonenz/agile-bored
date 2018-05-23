@@ -1,3 +1,7 @@
 <template>
-
+  <select value.bind="currentStatus" matcher.bind="statusMatcher">
+    <option repeat.for="status of statuses" model.bind="status">
+      ${status.name}
+    </option>
+  </select>
 </template>

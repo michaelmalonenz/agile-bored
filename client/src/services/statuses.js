@@ -10,7 +10,7 @@ export class StatusService {
     this._http = http
   }
 
-  async findAllForProject (projectId) {
+  async findAllForProject () {
     const res = await this._http
       .createRequest('/api/statuses')
       .asGet()
