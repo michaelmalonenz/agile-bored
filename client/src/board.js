@@ -5,7 +5,7 @@ import { IssueService } from './services/issues'
 import { StatusService } from './services/statuses'
 
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
-import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD } from './events'
+import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD, REFRESH_BOARD_COMPLETE } from './events'
 import { AssigneeCache } from './utils/assignees-cache';
 
 @inject(StatusService, IssueService, IssueViewModelFactory, EventAggregator)
@@ -102,6 +102,8 @@ export class Board {
       this.statuses = statuses
     }).catch(err => console.error(err))
 
-    return Promise.all([ issuesPromise, statusesPromise ])
+    return Promise.all([ issuesPromise, statusesPromise ]).then(() => {
+      this.eventAggregator.publish(REFRESH_BOARD_COMPLETE)
+    })
   }
 }

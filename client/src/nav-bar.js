@@ -6,7 +6,7 @@ import { SettingsDialog } from 'dialogs/settings'
 import { StandUpDialog } from 'dialogs/stand-up'
 import { SecuritySettings } from './security/security-settings'
 import { SettingsService } from './services/settings'
-import { REFRESH_BOARD, LOG_OUT } from './events'
+import { REFRESH_BOARD, REFRESH_BOARD_COMPLETE, LOG_OUT } from './events'
 
 @customElement('nav-bar')
 @bindable('router')
@@ -20,8 +20,24 @@ export class NavBar {
     this.securitySettings = SecuritySettings.instance()
   }
 
+  bind () {
+    this.refreshBeginSub = this.eventAggregator
+      .subscribe(REFRESH_BOARD, this._refreshBegin.bind(this))
+    this.refreshCompleteSub = this.eventAggregator
+      .subscribe(REFRESH_BOARD_COMPLETE, this._refreshComplete.bind(this))
+  }
+
+  unbind () {
+    this.refreshCompleteSub.dispose()
+    this.refreshBeginSub.dispose()
+  }
+
   get loggedIn () {
     return this.securitySettings.loggedIn
+  }
+
+  get isLoading () {
+    return this.router.isNavigating || this.refreshing
   }
 
   async showSettings () {
@@ -43,6 +59,14 @@ export class NavBar {
 
   refreshBoard () {
     this.eventAggregator.publish(REFRESH_BOARD)
+  }
+
+  _refreshBegin () {
+    this.refreshing = true
+  }
+
+  _refreshComplete () {
+    this.refreshing = false
   }
 
   async standUp () {
