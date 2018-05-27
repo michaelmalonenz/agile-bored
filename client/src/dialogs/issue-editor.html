@@ -1,7 +1,7 @@
 <template>
   <ux-dialog class="issue-editor">
     <ux-dialog-header>
-      <h2>${heading}</h2>
+      <h2>${heading} ${issue.key}</h2>
     </ux-dialog-header>
     <ux-dialog-body>
       <div>
@@ -10,7 +10,7 @@
       <div class="edit-issue-content">
         <div class="row full-height">
           <div class="${edit ? 'col-xs-8' : 'col-xs-12'} full-height">
-            <viewing-text-editor value.bind="issue.description" placeholder="description"></viewing-text-editor>
+            <viewing-text-editor start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
           </div>
           <div class="${edit ? 'col-xs-4' : 'hidden'} full-height">
             <comments-list issue-id.bind="issue.id"></comments-list>

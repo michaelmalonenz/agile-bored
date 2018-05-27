@@ -5,12 +5,20 @@ import { bindable, customElement, inject, bindingMode } from 'aurelia-framework'
   defaultBindingMode: bindingMode.twoWay
 })
 @bindable('placeholder')
+@bindable({
+  name: 'startAsEdit',
+  default: false
+})
 @inject(Element)
 @customElement('viewing-text-editor')
 export class ViewingTextEditor {
   constructor (element) {
     this.element = element
     this.editMode = false
+  }
+
+  bind () {
+    this.editMode = this.startAsEdit
   }
 
   showIcons () {
