@@ -8,16 +8,20 @@ export class StatusService {
 
   constructor(http) {
     this._http = http
+    this.statuses = null
   }
 
   async findAllForProject () {
-    const res = await this._http
-      .createRequest('/api/statuses')
-      .asGet()
-      .withReviver(this._statusReviver)
-      .send()
+    if (this.statuses == null) {
+      const res = await this._http
+        .createRequest('/api/statuses')
+        .asGet()
+        .withReviver(this._statusReviver)
+        .send()
+      this.statuses = res.content
+    }
 
-    return res.content
+    return this.statuses
   }
 
   _statusReviver (key, value) {
