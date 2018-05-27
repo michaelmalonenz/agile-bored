@@ -6,6 +6,12 @@ describe('the markdown value converter', function () {
     this.converter = new MarkdownValueConverter()
   })
 
+  it('should not fail for an undefined value', function () {
+    const output = this.converter.toView(undefined)
+
+    expect(output).toBeUndefined()
+  })
+
   it('can convert a simple bold string', function () {
     const input = 'Some *bold* string'
 

@@ -4,6 +4,9 @@ export class TokenConverter {
   }
 
   convert (value) {
+    if (value == null) {
+      return value
+    }
     const syms = []
     let i = 0
     while (i < value.length) {
