@@ -107,7 +107,7 @@ module.exports = {
             reporter: issueObj.reporter.username,
             summary: issueObj.title,
             description: issueObj.description,
-            project: jiraProjectName
+            project: { key: jiraProjectName }
           }
         }
         return request(options)
