@@ -25,13 +25,15 @@
     font-size: 14px;
 
     &.assign-placement-bottom {
-      left: 0;
+      left: 12px;
+      top: 24px;
     }
     &.assign-placement-top {
       bottom: 24px;
     }
     &.assign-placement-left {
       right: 0px;
+      top: 24px;
     }
   }
 

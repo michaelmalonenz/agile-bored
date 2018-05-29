@@ -13,11 +13,11 @@ import { IssueService } from '../services/issues';
 })
 @bindable({
   name: 'large',
-  default: false
+  defaultValue: false
 })
 @bindable({
   name: 'placement',
-  default: 'bottom'
+  defaultValue: 'bottom'
 })
 @customElement('assign-users')
 export class AssignUsers {

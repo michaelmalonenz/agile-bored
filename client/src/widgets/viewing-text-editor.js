@@ -7,7 +7,7 @@ import { bindable, customElement, inject, bindingMode } from 'aurelia-framework'
 @bindable('placeholder')
 @bindable({
   name: 'startAsEdit',
-  default: false
+  defaultValue: false
 })
 @inject(Element)
 @customElement('viewing-text-editor')
