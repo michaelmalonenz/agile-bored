@@ -18,6 +18,6 @@ export class MarkdownValueConverter {
   }
 
   fromView (value) {
-
+    return value
   }
 }
