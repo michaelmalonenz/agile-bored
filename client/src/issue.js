@@ -1,4 +1,4 @@
-import {ISSUE_DELETED} from './events'
+import {ISSUE_DELETED, REFRESH_BOARD} from './events'
 import {IssueEditorDialog} from './dialogs/issue-editor'
 
 export class Issue {
@@ -95,6 +95,7 @@ export class Issue {
   updateStatus (status) {
     this.issueService.updateStatus(this.issue.id, status.id).then(() => {
       this.issue.IssueStatus = status
+      this.eventAggregator.publish(REFRESH_BOARD)
     })
   }
 }
