@@ -3,9 +3,9 @@ import environment from './environment'
 export function configure (aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature('resources')
     .plugin('aurelia-dialog')
     .plugin('aurelia-dragula')
+    .feature('resources')
     .feature('widgets')
 
   if (environment.debug) {
