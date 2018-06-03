@@ -39,7 +39,7 @@ module.exports = class IssueViewModel {
     result.description = obj.description
     result.updatedAt = obj.updatedAt
     result.createdAt = obj.createdAt
-    result.assignee = {}
+    result.assignee = null
     result.IssueStatus = StatusViewModel.createFromLocal(obj.IssueStatus)
     result.IssueType = IssueTypeViewModel.createFromLocal(obj.IssueType)
     return result
