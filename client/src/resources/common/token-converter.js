@@ -25,12 +25,14 @@ export class TokenConverter {
   // }
 
   convert (value) {
-    return value
-      .replace(/```\s([\s\S]*?)```/g, (_, innerString) => {
-        return `<div class="md-multiline-code">${innerString}</div>`
-      })
-      .replace(/`(.*?)`/g, (_, innerString) => {
-        return `<span class="md-inline-code">${innerString}</span>`
-      })
+    if (value) {
+      return value
+        .replace(/```\s([\s\S]*?)```/g, (_, innerString) => {
+          return `<div class="md-multiline-code">${innerString}</div>`
+        })
+        .replace(/`(.*?)`/g, (_, innerString) => {
+          return `<span class="md-inline-code">${innerString}</span>`
+        })
+    }
   }
 }

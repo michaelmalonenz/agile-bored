@@ -35,4 +35,12 @@ describe('the markdown value converter', function () {
 
     expect(output).toEqual('Some <span class="md-bold">bold <span class="md-italic">and</span> italic</span> string')
   })
+
+  it('can convert an inline formatted snippet', function () {
+    const input = 'this is `an inline` string'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toEqual('this is <span class="md-inline-code">an inline</span> string')
+  })
 })
