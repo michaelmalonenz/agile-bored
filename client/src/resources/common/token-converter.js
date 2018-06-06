@@ -3,24 +3,34 @@ export class TokenConverter {
     this.symbolList = symbolList
   }
 
-  convert (value) {
-    if (value == null) {
-      return value
-    }
-    const syms = []
-    let i = 0
-    while (i < value.length) {
-      for (let s = 0; s < this.symbolList.length; s++) {
-        const sym = this.symbolList[s]
-        if (value.substring(i, sym.len) === sym.value) {
-          syms.push({ index: i, symbol: sym })
-          i += sym.len
-        } else {
-          i += 1
-        }
-      }
-    }
+  // convert (value) {
+  //   if (value == null) {
+  //     return value
+  //   }
+  //   const syms = []
+  //   let i = 0
+  //   while (i < value.length) {
+  //     for (let s = 0; s < this.symbolList.length; s++) {
+  //       const sym = this.symbolList[s]
+  //       if (value.substring(i, sym.len) === sym.value) {
+  //         syms.push({ index: i, symbol: sym })
+  //         i += sym.len
+  //       } else {
+  //         i += 1
+  //       }
+  //     }
+  //   }
 
+  //   return value
+  // }
+
+  convert (value) {
     return value
+      .replace(/```\s([\s\S]*?)```/g, (_, innerString) => {
+        return `<div class="md-multiline-code">${innerString}</div>`
+      })
+      .replace(/`(.*?)`/g, (_, innerString) => {
+        return `<span class="md-inline-code">${innerString}</span>`
+      })
   }
 }

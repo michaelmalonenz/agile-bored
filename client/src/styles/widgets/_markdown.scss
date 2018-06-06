@@ -1,0 +1,17 @@
+@import "../_colours.scss";
+
+.md-inline-code {
+  background-color: $background-grey;
+  font-family: 'Courier New', Courier, monospace;
+  color: darkmagenta;
+}
+
+.md-multiline-code {
+  background-color: #eee;
+  font-family: 'Courier New', Courier, monospace;
+  color: blue;
+  font-weight: 500;
+  white-space: pre;
+  overflow: auto;
+  padding: 0.5em;
+}
