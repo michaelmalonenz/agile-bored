@@ -12,16 +12,33 @@ export class TokenConverter {
   //   while (i < value.length) {
   //     for (let s = 0; s < this.symbolList.length; s++) {
   //       const sym = this.symbolList[s]
-  //       if (value.substring(i, sym.len) === sym.value) {
-  //         syms.push({ index: i, symbol: sym })
+  //       const matchString = value.substring(i, sym.len)
+  //       if (matchString === sym.startToken) {
+  //         syms.push({ index: i, symbol: sym, isStart: true })
+  //         i += sym.len
+  //       } else if (matchString === sym.endToken) {
+  //         syms.push({ index: i, symbol: sym, isStart: false })
   //         i += sym.len
   //       } else {
-  //         i += 1
+  //         i++
   //       }
   //     }
   //   }
+  //   // Ensure the list of syms has matching pairs, dropping ones that don't??
+  //   i = 0
+  //   let result = ''
+  //   while (i < value.length) {
+  //     for (let s = 0; s < syms.length; s++) {
+  //     }
+  //   }
+  //   return result
+  // }
 
-  //   return value
+  // _parseSymbolList (syms) {
+  //   // how do I build an AST?  Some sort of binary tree, right?
+  //   for (let i = 0; i < syms.length; i++) {
+
+  //   }
   // }
 
   convert (value) {

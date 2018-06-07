@@ -1,14 +1,42 @@
 import {TokenConverter} from '../common/token-converter'
 
 const MARKDOWN_SYMBOLS = [
-  { name: 'BEG_MULTILINE_CODE', value: '```', len: 3, html: '<div class="md-multiline-code">' },
-  { name: 'END_MULTILINE_CODE', value: '```', len: 3, html: '</div>' },
-  { name: 'BEG_INLINE_CODE', value: '`', len: 1, html: '<span class="md-inline-code">' },
-  { name: 'END_INLINE_CODE', value: '`', len: 1, html: '</span>' },
-  { name: 'BEG_BOLD', value: '*', len: 1, html: '<span class="md-bold">' },
-  { name: 'END_BOLD', value: '*', len: 1, html: '</span>' },
-  { name: 'BEG_ITALIC', value: '_', len: 1, html: '<span class="md-italic">' },
-  { name: 'END_ITALIC', value: '_', len: 1, html: '</span>' }
+  {
+    name: 'MULTILINE_CODE',
+    startToken: '```',
+    endToken: '```',
+    len: 3,
+    startHtml: '<div class="md-multiline-code">',
+    endHtml: '</div>',
+    preFormatting: true
+  },
+  {
+    name: 'INLINE_CODE',
+    startToken: '`',
+    endToken: '`',
+    len: 1,
+    startHtml: '<span class="md-inline-code">',
+    endHtml: '</span>',
+    preFormatting: true
+  },
+  {
+    name: 'BOLD',
+    startToken: '*',
+    endToken: '*',
+    len: 1,
+    startHtml: '<span class="md-bold">',
+    endHtml: '</span>',
+    preFormatting: false
+  },
+  {
+    name: 'ITALIC',
+    startToken: '_',
+    endToken: '_',
+    len: 1,
+    startHtml: '<span class="md-italic">',
+    endHtml: '</span>',
+    preFormatting: false
+  }
 ]
 
 export class MarkdownValueConverter {
