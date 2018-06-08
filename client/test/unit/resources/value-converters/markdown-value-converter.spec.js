@@ -43,4 +43,12 @@ describe('the markdown value converter', function () {
 
     expect(output).toEqual('this is <span class="md-inline-code">an inline</span> string')
   })
+
+  it('can convert a multiline formatted snippet', function () {
+    const input = 'this is a string\n```\nThat has a\nmultiline thingy\nin it\n```'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toEqual('this is a string\n<div class="md-multiline-code">That has a\nmultiline thingy\nin it</div>')
+  })
 })
