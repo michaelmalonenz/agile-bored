@@ -51,4 +51,12 @@ describe('the markdown value converter', function () {
 
     expect(output).toEqual('this is a string\n<div class="md-multiline-code">That has a\nmultiline thingy\nin it</div>')
   })
+
+  it('can handle markdown finishing on the last character', function () {
+    const input = 'This is a *bold move*'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This is a <span class="md-bold">bold move</span>')
+  })
 })
