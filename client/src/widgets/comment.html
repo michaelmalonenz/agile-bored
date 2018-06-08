@@ -1,6 +1,6 @@
 <template>
   <div class="comment">
       <div class="comment-title">${comment.author.displayName} - <span class="date-format">${date | date}</span></div>
-      <div innerhtml="${comment.body | newline}"></div>
+      <div innerhtml="${comment.body | markdown | newline | sanitizeHTML}"></div>
     </div>
 </template>
