@@ -5,7 +5,6 @@ const MARKDOWN_SYMBOLS = [
     name: 'MULTILINE_CODE',
     startToken: '```',
     endToken: '```',
-    len: 3,
     startHtml: '<div class="md-multiline-code">',
     endHtml: '</div>',
     preFormatting: true
@@ -14,7 +13,6 @@ const MARKDOWN_SYMBOLS = [
     name: 'INLINE_CODE',
     startToken: '`',
     endToken: '`',
-    len: 1,
     startHtml: '<span class="md-inline-code">',
     endHtml: '</span>',
     preFormatting: true
@@ -23,7 +21,6 @@ const MARKDOWN_SYMBOLS = [
     name: 'BOLD',
     startToken: '*',
     endToken: '*',
-    len: 1,
     startHtml: '<span class="md-bold">',
     endHtml: '</span>',
     preFormatting: false
@@ -32,7 +29,6 @@ const MARKDOWN_SYMBOLS = [
     name: 'ITALIC',
     startToken: '_',
     endToken: '_',
-    len: 1,
     startHtml: '<span class="md-italic">',
     endHtml: '</span>',
     preFormatting: false
