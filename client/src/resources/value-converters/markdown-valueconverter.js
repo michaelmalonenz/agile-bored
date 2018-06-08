@@ -32,6 +32,22 @@ const MARKDOWN_SYMBOLS = [
     startHtml: '<span class="md-italic">',
     endHtml: '</span>',
     preFormatting: false
+  },
+  {
+    name: 'STRIKETHROUGH',
+    startToken: '~~',
+    endToken: '~~',
+    startHtml: '<span class="md-strikethrough">',
+    endHtml: '</span>',
+    preFormatting: false
+  },
+  {
+    name: 'TASK_LIST',
+    startToken: ' - [ ]',
+    endToken: '\n',
+    startHtml: '<input type="checkbox">',
+    endHtml: '',
+    preFormatting: false
   }
 ]
 
