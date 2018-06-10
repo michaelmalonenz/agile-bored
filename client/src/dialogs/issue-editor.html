@@ -1,7 +1,7 @@
 <template>
   <ux-dialog class="issue-editor">
     <ux-dialog-header>
-      <h2>${heading} ${issue.key}</h2>
+      <h2>${heading}</h2>
     </ux-dialog-header>
     <ux-dialog-body>
       <div>
@@ -20,8 +20,13 @@
     </ux-dialog-body>
 
     <ux-dialog-footer>
-      <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
-      <button type="button" class="btn btn-primary" click.trigger="save()">Save</button>
+      <div if.bind="isModified">
+        <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" click.trigger="save()">Save</button>
+      </div>
+      <div if.bind="!isModified">
+        <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Close</button>
+      </div>
     </ux-dialog-footer>
   </ux-dialog>
 </template>
