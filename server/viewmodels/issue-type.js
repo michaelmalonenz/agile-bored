@@ -9,9 +9,8 @@ module.exports = class IssueTypeViewModel {
     let result
     if (obj) {
       result = new IssueTypeViewModel()
-      result.id = Number(obj.value)
-      result.colour = obj.color
-      result.name = obj.displayValue
+      result.id = obj.id
+      result.name = obj.name
     }
     return result
   }

@@ -3,21 +3,25 @@ import { DialogController } from 'aurelia-dialog'
 
 import { Issue } from '../models/issue'
 import { SecuritySettings } from '../security/security-settings'
+import { IssueTypeService } from '../services/issue-types'
 
-@inject(DialogController)
+@inject(DialogController, IssueTypeService)
 export class IssueEditorDialog {
-  constructor (controller) {
+  constructor (controller, issueTypeService) {
     this.controller = controller
+    this.issueTypeService = issueTypeService
     this.issue = new Issue()
     this.edit = false
+    this.issueTypes = []
   }
 
-  activate (model) {
+  async activate (model) {
     if (model) {
       this.original = model.issue
       this.issue = Object.assign({}, model.issue)
       this.edit = model.edit
     }
+    this.issueTypes = await this.issueTypeService.getIssueTypes()
   }
 
   @computedFrom('issue.title', 'issue.description')
