@@ -44,12 +44,8 @@ module.exports = {
       })
   },
   update: function (req, res) {
-    const newIssueType = req.body.issueType || {}
-    return db.Issue.update({
-      title: req.body.title,
-      description: req.body.description,
-      typeId: newIssueType.id
-    }, { where: { id: req.params.issueId } }).then(() => {
+    const dbIssue = _dbIssueFromRequest(req.body)
+    return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
       res.send(req.body)
     })
   },
@@ -57,8 +53,18 @@ module.exports = {
     res.sendStatus(200)
   },
   create: function (req, res) {
-    return db.Issue.create(req.body).then(issue => {
+    const dbIssue = _dbIssueFromRequest(req.body)
+    return db.Issue.create(dbIssue).then(issue => {
       res.send(issue)
     })
+  }
+}
+
+function _dbIssueFromRequest (body) {
+  const newIssueType = body.issueType || {}
+  return {
+    title: body.title,
+    description: body.description,
+    typeId: newIssueType.id
   }
 }
