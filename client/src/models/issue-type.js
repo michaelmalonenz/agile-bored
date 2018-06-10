@@ -3,6 +3,7 @@ export class IssueType {
     this.id = null
     this.name = ''
     this.colour = ''
+    this.subtask = false
     Object.assign(this, it)
   }
 }

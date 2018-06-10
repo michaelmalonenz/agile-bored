@@ -91,7 +91,7 @@ export class IssueService {
         return new User(value)
       } else if (key === 'epic') {
         return new Epic(value)
-      } else if (key === 'issuetype') {
+      } else if (key === 'issueType') {
         return new IssueType(value)
       }
       return new Issue(value)
