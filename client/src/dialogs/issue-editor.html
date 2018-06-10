@@ -4,8 +4,19 @@
       <h2>${heading}</h2>
     </ux-dialog-header>
     <ux-dialog-body>
-      <div>
-        <input class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
+      <div class="row">
+        <div class="col-xs-8">
+          <input class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
+        </div>
+        <div class="col-xs-4">
+          <div class="pull-right">
+            <select value.bind="issue.issueType" matcher.bind="issueTypeMatcher">
+              <option repeat.for="issueType of issueTypes" model.bind="issueType">
+                ${issueType.name}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="edit-issue-content">
         <div class="row full-height">

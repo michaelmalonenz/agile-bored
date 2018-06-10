@@ -44,7 +44,12 @@ module.exports = {
       })
   },
   update: function (req, res) {
-    return db.Issue.update(req.body, { where: { id: req.params.issueId } }).then(() => {
+    const newIssueType = req.body.issueType || {}
+    return db.Issue.update({
+      title: req.body.title,
+      description: req.body.description,
+      typeId: newIssueType.id
+    }, { where: { id: req.params.issueId } }).then(() => {
       res.send(req.body)
     })
   },

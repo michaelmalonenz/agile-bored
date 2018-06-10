@@ -14,8 +14,8 @@ export class Issue {
   }
 
   get typeStyle () {
-    if (this.issue && this.issue.IssueType) {
-      return `border-color: ${this.issue.IssueType.colour};`
+    if (this.issue && this.issue.issueType) {
+      return `border-color: ${this.issue.issueType.colour};`
     } else {
       return ''
     }

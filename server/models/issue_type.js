@@ -3,6 +3,7 @@ module.exports = function (sequelize, DataTypes) {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: DataTypes.STRING(64),
     colour: DataTypes.STRING(64),
+    subtask: DataTypes.BOOLEAN,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {

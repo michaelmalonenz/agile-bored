@@ -21,14 +21,17 @@ export class IssueEditorDialog {
       this.issue = Object.assign({}, model.issue)
       this.edit = model.edit
     }
-    this.issueTypes = await this.issueTypeService.getIssueTypes()
+    const rawTypes = await this.issueTypeService.getIssueTypes()
+    this.issueTypes = rawTypes.filter(t => t.subtask === false)
   }
 
-  @computedFrom('issue.title', 'issue.description')
+  @computedFrom('issue.title', 'issue.description', 'issue.issueType')
   get isModified () {
     if (this.edit) {
       return (this.original.title !== this.issue.title ||
-        this.original.description !== this.issue.description)
+        this.original.description !== this.issue.description ||
+        !this.issueTypeMatcher(this.original.issueType, this.issue.issueType)
+      )
     } else {
       return true
     }
@@ -40,6 +43,16 @@ export class IssueEditorDialog {
     } else {
       return 'Create Issue'
     }
+  }
+
+  issueTypeMatcher (a, b) {
+    if (a == null && b == null) {
+      return true
+    }
+    if (a == null || b == null) {
+      return false
+    }
+    return a.id === b.id
   }
 
   save () {

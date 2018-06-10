@@ -60,7 +60,8 @@ module.exports = {
         options.body = {
           fields: {
             summary: req.body.title,
-            description: req.body.description
+            description: req.body.description,
+            issuetype: { id: req.body.issueType.id }
           }
         }
         return request(options)
