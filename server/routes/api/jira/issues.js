@@ -105,7 +105,7 @@ module.exports = {
       .then(options => {
         options.body = {
           fields: {
-            reporter: issueObj.reporter.username,
+            reporter: { id: issueObj.reporter.externalId },
             summary: issueObj.title,
             description: issueObj.description,
             project: { key: jiraProjectName },
