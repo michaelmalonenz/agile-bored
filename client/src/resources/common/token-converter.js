@@ -29,12 +29,14 @@ export class TokenConverter {
             }
           } else {
             let tempLines = [sym.startMarkup]
+            let tempResult = ''
             for (let k = i; k < lines.length && !multilineFound; k++) {
               if (sym.regex.test(lines[k])) {
-                tempLines.push(lines[k].replace(sym.regex, (_, innerString, other) => {
+                tempResult += lines[k].replace(sym.regex, (_, innerString, other) => {
                   return `${sym.lineStartMarkup}${this.convertInline(innerString)}${sym.lineEndMarkup}`
-                }))
+                })
               } else {
+                tempLines.push(tempResult)
                 tempLines.push(sym.endMarkup)
                 multilineFound = true
                 i = k - 1

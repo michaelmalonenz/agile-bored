@@ -65,6 +65,6 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toBe('This is a\n<ul>\n<li>list</li>\n<li>that</li>\n<li>has</li>\n<li>no order</li>\n</ul>\nand stuff')
+    expect(output).toBe('This is a\n<ul>\n<li>list</li><li>that</li><li>has</li><li>no order</li>\n</ul>\nand stuff')
   })
 })
