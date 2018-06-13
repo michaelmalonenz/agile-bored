@@ -28,19 +28,17 @@ export class TokenConverter {
               }
             }
           } else {
-            let tempLines = [sym.startMarkup]
-            let tempResult = ''
+            let tempResult = sym.startMarkup
             for (let k = i; k < lines.length && !multilineFound; k++) {
               if (sym.regex.test(lines[k])) {
                 tempResult += lines[k].replace(sym.regex, (_, innerString, other) => {
                   return `${sym.lineStartMarkup}${this.convertInline(innerString)}${sym.lineEndMarkup}`
                 })
               } else {
-                tempLines.push(tempResult)
-                tempLines.push(sym.endMarkup)
+                tempResult += sym.endMarkup
                 multilineFound = true
                 i = k - 1
-                resultLines = resultLines.concat(tempLines)
+                resultLines.push(tempResult)
               }
             }
           }
