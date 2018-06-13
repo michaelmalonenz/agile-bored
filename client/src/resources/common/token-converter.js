@@ -16,15 +16,15 @@ export class TokenConverter {
         const sym = this.multiLineSymbols[j]
         if (sym.regex.test(lines[i])) {
           if (sym.preFormatting) {
-            let tempLines = [sym.startMarkup]
+            let tempResult = sym.startMarkup
             for (let k = i + 1; (k < lines.length) && !multilineFound; k++) {
               if (sym.regex.test(lines[k])) {
                 multilineFound = true
-                tempLines.push(sym.endMarkup)
+                tempResult += sym.endMarkup
                 i = k
-                resultLines = resultLines.concat(tempLines)
+                resultLines.push(tempResult)
               } else {
-                tempLines.push(lines[k])
+                tempResult += (lines[k] + '\n')
               }
             }
           } else {
