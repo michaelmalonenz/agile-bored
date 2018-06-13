@@ -49,7 +49,7 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toEqual('this is a string\n<div class="md-multiline-code">That has a\nmultiline thingy\nin it</div>')
+    expect(output).toEqual('this is a string\n<div class="md-multiline-code">\nThat has a\nmultiline thingy\nin it\n</div>')
   })
 
   it('can handle markdown finishing on the last character', function () {
@@ -58,5 +58,13 @@ describe('the markdown value converter', function () {
     const output = this.converter.toView(input)
 
     expect(output).toBe('This is a <span class="md-bold">bold move</span>')
+  })
+
+  it('can handle an unordered list with dashes', function () {
+    const input = 'This is a\n - list\n - that\n - has\n - no order\nand stuff'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This is a\n<ul>\n<li>list</li>\n<li>that</li>\n<li>has</li>\n<li>no order</li>\n</ul>\nand stuff')
   })
 })

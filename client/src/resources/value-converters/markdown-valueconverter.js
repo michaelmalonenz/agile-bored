@@ -1,14 +1,36 @@
 import {TokenConverter} from '../common/token-converter'
 
-const MARKDOWN_SYMBOLS = [
+const MULTILINE_SYMBOLS = [
+  {
+    name: 'UNORDERED_LIST',
+    regex: /^\s*(?:\*|-)\s+(.*)$/,
+    startMarkup: '<ul>',
+    endMarkup: '</ul>',
+    lineStartMarkup: '<li>',
+    lineEndMarkup: '</li>',
+    preFormatting: false
+  },
   {
     name: 'MULTILINE_CODE',
-    startToken: '```',
-    endToken: '```',
-    startHtml: '<div class="md-multiline-code">',
-    endHtml: '</div>',
+    regex: /^```.*$/,
+    startMarkup: '<div class="md-multiline-code">',
+    endMarkup: '</div>',
+    lineStartMarkup: '',
+    lineEndMarkup: '',
     preFormatting: true
   },
+  {
+    name: 'ORDERED_LIST',
+    regex: /^\s*\d+\.\s*(.*)$/,
+    startMarkup: '<ol>',
+    endMarkup: '</ol>',
+    lineStartMarkup: '<li>',
+    lineEndMarkup: '</li>',
+    preFormatting: false
+  }
+]
+
+const INLINE_SYMBOLS = [
   {
     name: 'INLINE_CODE',
     startToken: '`',
@@ -54,7 +76,7 @@ const MARKDOWN_SYMBOLS = [
 export class MarkdownValueConverter {
 
   toView (value) {
-    return new TokenConverter(MARKDOWN_SYMBOLS).convert(value)
+    return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
   }
 
   fromView (value) {
