@@ -49,7 +49,7 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toEqual('this is a string\n<div class="md-multiline-code">\nThat has a\nmultiline thingy\nin it\n</div>')
+    expect(output).toEqual('this is a string\n<div class="md-multiline-code">That has a\nmultiline thingy\nin it\n</div>')
   })
 
   it('can handle markdown finishing on the last character', function () {
@@ -66,5 +66,21 @@ describe('the markdown value converter', function () {
     const output = this.converter.toView(input)
 
     expect(output).toBe('This is a\n<ul><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
+  })
+
+  it('can handle a link', function () {
+    const input = 'This has [a link](https://www.agilebored.com) in it and stuff'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This has <a href="https://www.agilebored.com" target="_blank">a link</a> in it and stuff')
+  })
+
+  it('can handle an image', function () {
+    const input = 'This has ![an image](https://www.agilebored.com) in it and stuff'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This has <img src="https://www.agilebored.com" alt="an image"> in it and stuff')
   })
 })

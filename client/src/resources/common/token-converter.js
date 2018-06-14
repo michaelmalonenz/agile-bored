@@ -61,22 +61,33 @@ export class TokenConverter {
     for (let i = 0; i < value.length;) {
       for (let s = 0; s < this.inlineSymbols.length; s++) {
         const sym = this.inlineSymbols[s]
-        if (value.substring(i, i + sym.startToken.length) === sym.startToken) {
-          let foundClosingTag = false
-          for (let j = i + sym.startToken.length; (j < value.length && !foundClosingTag);) {
-            if (value.substring(j, j + sym.endToken.length) === sym.endToken) {
-              foundClosingTag = true
-              result += sym.startHtml
-              const innerValue = value.substring(i + sym.startToken.length, j)
-              if (sym.preFormatting) {
-                result += innerValue.trim()
+        if (sym.regex) {
+          const val = value.substring(i)
+          if (sym.regex.test(val)) {
+            const res = val.replace(sym.regex, sym.replacer)
+            i += (res.length - sym.additionalCharCount)
+            result += res
+            s = 0
+          }
+        } else {
+          if (value.substring(i, i + sym.startToken.length) === sym.startToken) {
+            let foundClosingTag = false
+            for (let j = i + sym.startToken.length; (j < value.length && !foundClosingTag);) {
+              if (value.substring(j, j + sym.endToken.length) === sym.endToken) {
+                foundClosingTag = true
+                result += sym.startHtml
+                const innerValue = value.substring(i + sym.startToken.length, j)
+                if (sym.preFormatting) {
+                  result += innerValue.trim()
+                } else {
+                  result += this.convertInline(innerValue)
+                }
+                result += sym.endHtml
+                i = j + sym.endToken.length
+                s = 0
               } else {
-                result += this.convert(innerValue)
+                j++
               }
-              result += sym.endHtml
-              i = j + sym.endToken.length
-            } else {
-              j++
             }
           }
         }

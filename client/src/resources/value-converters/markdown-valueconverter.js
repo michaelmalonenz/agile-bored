@@ -2,15 +2,6 @@ import {TokenConverter} from '../common/token-converter'
 
 const MULTILINE_SYMBOLS = [
   {
-    name: 'UNORDERED_LIST',
-    regex: /^\s*(?:\*|-)\s+(.*)$/,
-    startMarkup: '<ul>',
-    endMarkup: '</ul>',
-    lineStartMarkup: '<li>',
-    lineEndMarkup: '</li>',
-    preFormatting: false
-  },
-  {
     name: 'MULTILINE_CODE',
     regex: /^```.*$/,
     startMarkup: '<div class="md-multiline-code">',
@@ -18,6 +9,15 @@ const MULTILINE_SYMBOLS = [
     lineStartMarkup: '',
     lineEndMarkup: '',
     preFormatting: true
+  },
+  {
+    name: 'UNORDERED_LIST',
+    regex: /^\s*(?:\*|-)\s+(.*)$/,
+    startMarkup: '<ul>',
+    endMarkup: '</ul>',
+    lineStartMarkup: '<li>',
+    lineEndMarkup: '</li>',
+    preFormatting: false
   },
   {
     name: 'ORDERED_LIST',
@@ -64,11 +64,21 @@ const INLINE_SYMBOLS = [
     preFormatting: false
   },
   {
-    name: 'TASK_LIST',
-    startToken: ' - [ ]',
-    endToken: '\n',
-    startHtml: '<input type="checkbox">',
-    endHtml: '',
+    name: 'IMAGE',
+    regex: /^!\[(.*?)]\((.*?)\)/,
+    replacer: function (_, altText, url) {
+      return `<img src="${url}" alt="${altText}">`
+    },
+    additionalCharCount: 14,
+    preFormatting: false
+  },
+  {
+    name: 'LINK',
+    regex: /^\[(.*?)]\((.*?)\)/,
+    replacer: function (_, display, href) {
+      return `<a href="${href}" target="_blank">${display}</a>`
+    },
+    additionalCharCount: 27,
     preFormatting: false
   }
 ]
