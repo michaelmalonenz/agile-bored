@@ -68,6 +68,22 @@ describe('the markdown value converter', function () {
     expect(output).toBe('This is a\n<ul><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
   })
 
+  it('can handle an unordered list with asterisks', function () {
+    const input = 'This is a\n * list\n * that\n * has\n * no order\nand stuff'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This is a\n<ul><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
+  })
+
+  it('can handle an unordered list of just one line', function () {
+    const input = 'This is a\n * list\n'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This is a\n<ul><li>list</li></ul>\n')
+  })
+
   it('can handle a link', function () {
     const input = 'This has [a link](https://www.agilebored.com) in it and stuff'
 
@@ -82,5 +98,21 @@ describe('the markdown value converter', function () {
     const output = this.converter.toView(input)
 
     expect(output).toBe('This has <img src="https://www.agilebored.com" alt="an image"> in it and stuff')
+  })
+
+  it('can handle a blockquote', function () {
+    const input = 'This has ![an image](https://www.agilebored.com) in it and stuff'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This has <img src="https://www.agilebored.com" alt="an image"> in it and stuff')
+  })
+
+  it('can handle a blockquote with embedded styles', function () {
+    const input = 'This has\n> a blockquote in it and stuff\n'
+
+    const output = this.converter.toView(input)
+
+    expect(output).toBe('This has\n<blockquote>a blockquote in it and stuff</blockquote>\n')
   })
 })

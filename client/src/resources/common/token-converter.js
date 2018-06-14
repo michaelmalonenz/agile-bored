@@ -31,7 +31,7 @@ export class TokenConverter {
             let tempResult = sym.startMarkup
             for (let k = i; k < lines.length && !multilineFound; k++) {
               if (sym.regex.test(lines[k])) {
-                tempResult += lines[k].replace(sym.regex, (_, innerString, other) => {
+                tempResult += lines[k].replace(sym.regex, (_, innerString) => {
                   return `${sym.lineStartMarkup}${this.convertInline(innerString)}${sym.lineEndMarkup}`
                 })
               } else {

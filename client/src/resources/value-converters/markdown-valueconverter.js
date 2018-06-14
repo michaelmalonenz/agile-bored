@@ -27,6 +27,15 @@ const MULTILINE_SYMBOLS = [
     lineStartMarkup: '<li>',
     lineEndMarkup: '</li>',
     preFormatting: false
+  },
+  {
+    name: 'BLOCKQUOTE',
+    regex: /^>\s*(.*)$/,
+    startMarkup: '<blockquote>',
+    endMarkup: '</blockquote>',
+    lineStartMarkup: '',
+    lineEndMarkup: '',
+    preFormatting: false
   }
 ]
 
