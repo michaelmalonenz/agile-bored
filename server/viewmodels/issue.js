@@ -25,7 +25,7 @@ module.exports = class IssueViewModel {
     result.updatedAt = obj.fields.updated
     result.createdAt = obj.fields.created
     result.IssueStatus = StatusViewModel.createFromJira(obj.fields.status)
-    result.issueType = IssueTypeViewModel.createFromJira(colorObj)
+    result.issueType = IssueTypeViewModel.createFromJira(obj.fields.issuetype, colorObj)
     result.epic = EpicViewModel.createFromJira(obj.fields.epic)
     result.children = []
     return result

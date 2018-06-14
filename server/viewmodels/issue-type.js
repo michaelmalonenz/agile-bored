@@ -5,13 +5,13 @@ module.exports = class IssueTypeViewModel {
     this.name = ''
   }
 
-  static createFromJira (obj) {
+  static createFromJira (obj, color) {
     let result
     if (obj) {
       result = new IssueTypeViewModel()
       result.id = obj.id
       result.name = obj.name
-      result.colour = obj.color
+      result.colour = color ? color.color : ''
       result.subtask = obj.subtask
     }
     return result

@@ -22,7 +22,7 @@ export class IssueEditorDialog {
       this.edit = model.edit
     }
     const rawTypes = await this.issueTypeService.getIssueTypes()
-    this.issueTypes = rawTypes.filter(t => t.subtask === false)
+    this.issueTypes = rawTypes.filter(t => t.subtask === this.original.issueType.subtask)
   }
 
   @computedFrom('issue.title', 'issue.description', 'issue.issueType')
