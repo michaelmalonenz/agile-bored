@@ -16,13 +16,15 @@ export class IssueEditorDialog {
   }
 
   async activate (model) {
+    let subtask = false
     if (model) {
       this.original = model.issue
       this.issue = Object.assign({}, model.issue)
       this.edit = model.edit
+      subtask = this.original.issueType.subtask
     }
     const rawTypes = await this.issueTypeService.getIssueTypes()
-    this.issueTypes = rawTypes.filter(t => t.subtask === this.original.issueType.subtask)
+    this.issueTypes = rawTypes.filter(t => t.subtask === subtask)
   }
 
   @computedFrom('issue.title', 'issue.description', 'issue.issueType')
