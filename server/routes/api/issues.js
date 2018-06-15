@@ -44,6 +44,16 @@ module.exports = function (router) {
     })
   })
 
+  router.get('/issues/backlog', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.backlog(req, res)
+      } else {
+        return localIssues.backlog(req, res)
+      }
+    })
+  })
+
   router.post('/issue', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {

@@ -1,0 +1,5 @@
+<template>
+  <div class="container-fluid scrolling-search-results">
+    <compose repeat.for="issue of issues" view-model.bind="issue" view="issue.html"></compose>
+  </div>
+</template>

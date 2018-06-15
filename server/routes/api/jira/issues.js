@@ -16,6 +16,16 @@ module.exports = {
     .then(issues => res.send(issues))
     .catch(err => res.status(502).send(err))
   },
+  backlog: function (req, res) {
+    return settings.jiraRapidBoardId()
+    .then(jiraRapidBoardId => {
+      const url = `/board/${jiraRapidBoardId}/backlog?maxResults=1000`
+      return jiraRequestBuilder.agile(url, req)
+    })
+    .then(options => getIssues(options, req))
+    .then(issues => res.send(issues))
+    .catch(err => res.status(502).send(err))
+  },
   get: function (req, res) {
     return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
       .then(options => request(options))

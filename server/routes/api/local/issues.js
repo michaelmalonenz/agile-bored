@@ -28,6 +28,28 @@ module.exports = {
     })
     .catch(err => res.status(500).send(err.message))
   },
+  backlog: function (req, res) {
+    return db.Issue.findAll({
+      order: [['createdAt', 'ASC']],
+      include: [{
+        model: db.IssueStatus,
+        required: false
+      }, {
+        model: db.IssueType,
+        required: false
+      }],
+      where: {
+        'statusId': { [op.eq]: null }
+      }
+    }).then(issues => {
+      const result = []
+      for (let issue of issues) {
+        result.push(IssueViewModel.createFromLocal(issue.dataValues))
+      }
+      res.send(result)
+    })
+    .catch(err => res.status(500).send(err.message))
+  },
   get: function (req, res) {
     return db.Issue.findById(req.params.issueId)
       .then(issue => IssueViewModel.createFromLocal(issue))

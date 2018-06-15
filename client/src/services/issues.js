@@ -81,6 +81,18 @@ export class IssueService {
       .asPut()
       .withContent(assignee)
       .send()
+
+    return res.content
+  }
+
+  async getBacklogIssues () {
+    const res = await this._http
+      .createRequest('/api/issues/backlog')
+      .asGet()
+      .withReviver(this._issueReviver)
+      .send()
+
+    return res.content
   }
 
   _issueReviver (key, value) {
