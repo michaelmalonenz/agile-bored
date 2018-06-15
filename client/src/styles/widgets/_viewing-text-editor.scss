@@ -23,4 +23,8 @@
 
 .editor-container {
   position: relative;
+
+  textarea {
+    resize: none;
+  }
 }
