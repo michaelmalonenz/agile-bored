@@ -115,7 +115,7 @@ module.exports = {
       .then(options => {
         options.body = {
           fields: {
-            reporter: { id: issueObj.reporter.externalId },
+            reporter: { name: issueObj.reporter.username },
             summary: issueObj.title,
             description: issueObj.description,
             project: { key: jiraProjectName },
@@ -124,7 +124,11 @@ module.exports = {
         }
         return request(options)
       })
-      .then(issue => res.send(issue))
+      .then(issue => {
+        issueObj.key = issue.key
+        issueObj.id = issue.id
+        res.send(issueObj)
+      })
     }).catch(err => res.status(502).send(err))
   }
 }
