@@ -12,6 +12,10 @@ module.exports = {
       }, {
         model: db.IssueType,
         required: false
+      }, {
+        model: db.Comment,
+        as: 'comments',
+        required: false
       }],
       where: {
         [op.or]: {
@@ -36,6 +40,9 @@ module.exports = {
         required: false
       }, {
         model: db.IssueType,
+        required: false
+      }, {
+        model: db.Comment,
         required: false
       }],
       where: {

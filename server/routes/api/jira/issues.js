@@ -14,7 +14,9 @@ module.exports = {
     })
     .then(options => getIssues(options, req))
     .then(issues => res.send(issues))
-    .catch(err => res.status(502).send(err))
+    .catch(err => {
+      res.status(502).send(err)
+    })
   },
   backlog: function (req, res) {
     return settings.jiraRapidBoardId()

@@ -3,6 +3,7 @@ import { customElement, bindable, inject } from 'aurelia-framework'
 import { CommentService } from '../services/comments'
 
 @bindable('issueId')
+@bindable('comments')
 @customElement('comments-list')
 @inject(CommentService)
 export class CommentsList {
@@ -11,16 +12,16 @@ export class CommentsList {
     this.loading = false
     this.newComment = ''
     this.addingComment = false
+    this.comments = []
   }
 
   async bind () {
-    if (this.issueId) {
+    if (this.issueId && !this.comments) {
       this.loading = true
       this.comments = await this.commentService.findAllForIssue(this.issueId)
       this.loading = false
     }
   }
-
   async addComment () {
     this.addingComment = true
     const created = await this.commentService.addComment(this.issueId, this.newComment)

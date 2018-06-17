@@ -96,7 +96,7 @@ export class IssueService {
   }
 
   _issueReviver (key, value) {
-    if (key !== '' && value != null && typeof value === 'object' && !isNaN(key)) {
+    if (key !== '' && value != null && typeof value === 'object' && isNaN(key)) {
       if (key === 'IssueStatus') {
         return new Status(value)
       } else if (key === 'assignee') {
@@ -105,6 +105,12 @@ export class IssueService {
         return new Epic(value)
       } else if (key === 'issueType') {
         return new IssueType(value)
+      } else if (key === 'children') {
+        return value
+      } else if (key === 'avatarUrls') {
+        return value
+      } else if (key === 'comments') {
+        return value
       }
       return new Issue(value)
     }

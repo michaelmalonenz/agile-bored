@@ -31,6 +31,13 @@ export class StandUpDialog {
     return this.displayingIssue || this.displayingComments
   }
 
+  get displayedIssueComments () {
+    if (this.displayedIssue) {
+      return this.displayedIssue.comments
+    }
+    return []
+  }
+
   get displayedIssueId () {
     if (this.displayedIssue) {
       return this.displayedIssue.issueId

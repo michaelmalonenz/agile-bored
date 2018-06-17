@@ -1,6 +1,7 @@
 const StatusViewModel = require('./status')
 const IssueTypeViewModel = require('./issue-type')
 const EpicViewModel = require('./epic')
+const CommentViewModel = require('./comment')
 
 module.exports = class IssueViewModel {
   constructor () {
@@ -28,6 +29,11 @@ module.exports = class IssueViewModel {
     result.issueType = IssueTypeViewModel.createFromJira(obj.fields.issuetype, colorObj)
     result.epic = EpicViewModel.createFromJira(obj.fields.epic)
     result.children = []
+    result.comments = []
+    const comments = obj.fields.comment ? obj.fields.comment.comments : []
+    for (let comment of comments) {
+      result.comments.push(CommentViewModel.createFromJira(comment))
+    }
     return result
   }
 
@@ -42,6 +48,10 @@ module.exports = class IssueViewModel {
     result.assignee = null
     result.IssueStatus = StatusViewModel.createFromLocal(obj.IssueStatus)
     result.issueType = IssueTypeViewModel.createFromLocal(obj.IssueType)
+    result.comments = []
+    for (let comment of obj.comments) {
+      result.comments.push(CommentViewModel.createFromLocal(comment))
+    }
     return result
   }
 }

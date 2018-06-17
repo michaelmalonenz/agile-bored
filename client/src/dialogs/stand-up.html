@@ -14,7 +14,7 @@
         <div class="stand-up-display-area">
           <div class="stand-up-active-panel">
             <compose if.bind="displayingIssue" view="stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
-            <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId"></comments-list>
+            <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId" comments.bind="displayedIssueComments"></comments-list>
             <!-- Consider having a history tab, also -->
           </div>
           <div class="stand-up-tabs-panel" if.bind="displaying">
