@@ -1,20 +1,30 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const IssueViewModel = require('../../../viewmodels/issue')
+const EpicViewModel = require('../../../viewmodels/epic')
 const settings = require('../../../settings')
 const localCache = require('./local-cache')
 
 module.exports = {
   findAllIssues: function (req, res) {
-    return settings.jiraRapidBoardId()
-    .then(jiraRapidBoardId => {
+    return settings.getSettings()
+    .then(settings => {
       const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
-      const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+      const url = `/board/${settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
       return jiraRequestBuilder.agile(url, req)
+        .then(options => getIssues(options, req))
+        .then(issues => {
+          if (settings.groupByEpic) {
+            return groupIssuesByEpic(issues, settings, req).then(sortedIssues => {
+              res.send(sortedIssues)
+            })
+          } else {
+            res.send(issues)
+          }
+        })
     })
-    .then(options => getIssues(options, req))
-    .then(issues => res.send(issues))
     .catch(err => {
+      console.log(err)
       res.status(502).send(err)
     })
   },
@@ -162,4 +172,18 @@ function getIssues (options, req) {
       return issues
     })
   })
+}
+
+function groupIssuesByEpic (issues, settings, req) {
+  const epics = []
+  const url = `/board/${settings.jiraRapidBoardId}/epic?done=false`
+  return jiraRequestBuilder.agile(url, req)
+    .then(options => request(options))
+    .then(response => {
+      for (let epic of response.values) {
+        epic.children = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
+        epics.push(EpicViewModel.createFromJira(epic))
+      }
+      return epics.concat(issues.filter(issue => issue.epic == null))
+    })
 }

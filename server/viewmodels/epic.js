@@ -16,6 +16,7 @@ module.exports = class EpicViewModel {
       result.name = obj.name
       result.summary = obj.summary
       result.colour = translateEpicColour(obj.color.key)
+      result.children = obj.children
     }
     return result
   }

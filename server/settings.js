@@ -33,6 +33,14 @@ module.exports = {
       return _settingsInstance.jiraRapidBoardId
     })
   },
+  groupByEpic () {
+    return init().then(() => {
+      return _settingsInstance.groupByEpic
+    })
+  },
+  getSettings () {
+    return init().then(() => _settingsInstance)
+  },
   updateSettings (settings) {
     _settingsInstance = settings
   }

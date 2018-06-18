@@ -22,6 +22,7 @@ export class CommentsList {
       this.loading = false
     }
   }
+
   async addComment () {
     this.addingComment = true
     const created = await this.commentService.addComment(this.issueId, this.newComment)

@@ -7,6 +7,8 @@ export function configure (aurelia) {
     .plugin('aurelia-dragula')
     .feature('resources')
     .feature('widgets')
+    .feature('issues')
+    .globalResources('./status-column')
 
   if (environment.debug) {
     aurelia.use.developmentLogging()

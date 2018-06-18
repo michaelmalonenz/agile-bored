@@ -5,7 +5,8 @@ module.exports = function (sequelize, DataTypes) {
       jiraUrl: DataTypes.TEXT,
       jiraProjectName: DataTypes.TEXT,
       jiraRapidBoardId: DataTypes.INTEGER,
-      useJira: DataTypes.BOOLEAN
+      useJira: DataTypes.BOOLEAN,
+      groupByEpic: DataTypes.BOOLEAN
     }, {
       tableName: 'settings'
     })
