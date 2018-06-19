@@ -8,9 +8,9 @@ const localCache = require('./local-cache')
 module.exports = {
   findAllIssues: function (req, res) {
     return settings.getSettings()
-    .then(settings => {
+    .then(dbSettings => {
       const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
-      const url = `/board/${settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+      const url = `/board/${dbSettings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
       return jiraRequestBuilder.agile(url, req)
         .then(options => getIssues(options, req))
         .then(issues => {
@@ -27,6 +27,23 @@ module.exports = {
       console.log(err)
       res.status(502).send(err)
     })
+  },
+  issuesByEpic: function (req, res) {
+    return settings.getSettings()
+      .then(dbSettings => {
+        const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
+        const url = `/board/${dbSettings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+        return jiraRequestBuilder.agile(url, req)
+          .then(options => getIssues(options, req))
+          .then(issues => groupIssuesByEpic(issues, dbSettings, req))
+          .then(sortedIssues => {
+            res.send(sortedIssues)
+          })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(502).send(err)
+      })
   },
   backlog: function (req, res) {
     return settings.jiraRapidBoardId()
@@ -174,16 +191,24 @@ function getIssues (options, req) {
   })
 }
 
-function groupIssuesByEpic (issues, settings, req) {
+function groupIssuesByEpic (issues, dbSettings, req) {
   const epics = []
-  const url = `/board/${settings.jiraRapidBoardId}/epic?done=false`
+  const url = `/board/${dbSettings.jiraRapidBoardId}/epic?done=false`
   return jiraRequestBuilder.agile(url, req)
     .then(options => request(options))
     .then(response => {
       for (let epic of response.values) {
-        epic.children = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
-        epics.push(EpicViewModel.createFromJira(epic))
+        let epicIssues = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
+        if (epicIssues && epicIssues.length > 0) {
+          let e = EpicViewModel.createFromJira(epic)
+          e.issues = epicIssues
+          epics.push(e)
+        }
       }
-      return epics.concat(issues.filter(issue => issue.epic == null))
+      const issuesWithNoEpic = issues.filter(issue => issue.epic == null)
+      if (issuesWithNoEpic) {
+        epics.push(EpicViewModel.createNullEpic(issuesWithNoEpic))
+      }
+      return epics.filter(e => e.issues && e.issues.length > 0)
     })
 }

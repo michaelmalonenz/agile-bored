@@ -14,6 +14,16 @@ module.exports = function (router) {
     })
   })
 
+  router.get('/issues-by-epic', function (req, res) {
+    return settings.useJira().then(useJira => {
+      if (useJira) {
+        return jiraIssues.issuesByEpic(req, res)
+      } else {
+        return localIssues.findAllIssues(req, res)
+      }
+    })
+  })
+
   router.get('/issue/:issueId', function (req, res) {
     return settings.useJira().then(useJira => {
       if (useJira) {

@@ -64,6 +64,20 @@ export class IssueService {
     return res.content
   }
 
+  async getIssuesByEpic () {
+    const res = await this._http
+      .createRequest('/api/issues-by-epic')
+      .asGet()
+      .withReviver(this._epicReviver)
+      .send()
+
+    let epics = []
+    for (let epic of res.content) {
+      epics.push(new Epic(epic))
+    }
+    return epics
+  }
+
   async getStandUpIssues () {
     const res = await this._http
       .createRequest('/api/issues/standup')
@@ -113,6 +127,33 @@ export class IssueService {
         return value
       }
       return new Issue(value)
+    }
+    return value
+  }
+
+  _epicReviver (key, value) {
+    if (key !== '' && value != null && typeof value === 'object' && isNaN(key)) {
+      if (key === 'IssueStatus') {
+        return new Status(value)
+      } else if (key === 'assignee') {
+        return new User(value)
+      } else if (key === 'epic') {
+        return new Epic(value)
+      } else if (key === 'issueType') {
+        return new IssueType(value)
+      } else if (key === 'children') {
+        return value
+      } else if (key === 'avatarUrls') {
+        return value
+      } else if (key === 'comments') {
+        return value
+      } else if (key === 'author') {
+        return value
+      } else if (key === 'comment') {
+        return value
+      } else if (key === 'issues') {
+        return value
+      }
     }
     return value
   }

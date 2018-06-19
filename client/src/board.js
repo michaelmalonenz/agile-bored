@@ -3,20 +3,24 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 
 import { IssueService } from './services/issues'
 import { StatusService } from './services/statuses'
+import { SettingsService } from './services/settings'
 
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD, REFRESH_BOARD_COMPLETE } from './events'
 import { AssigneeCache } from './utils/assignees-cache';
 
-@inject(StatusService, IssueService, IssueViewModelFactory, EventAggregator)
+@inject(StatusService, IssueService, SettingsService, IssueViewModelFactory, EventAggregator)
 export class Board {
 
-  constructor(statusService, issueService, issueViewModelFactory, eventAggregator) {
+  constructor(statusService, issueService, settingsService, issueViewModelFactory, eventAggregator) {
     this.statusService = statusService
     this.issueService = issueService
+    this.settingsService = settingsService
     this.issueViewModelFactory = issueViewModelFactory
     this.eventAggregator = eventAggregator
 
+    this.settings = {}
+    this.epics = []
     this.issues = []
   }
 
@@ -56,11 +60,21 @@ export class Board {
     return this.parentIssues.length > 0
   }
 
-  canMove (item, source, handle, sibling) {
+  @computedFrom('issues')
+  get haveOtherIssues () {
+    return this.otherIssues.length > 0
+  }
+
+  @computedFrom('settings')
+  get groupByEpic () {
+    return this.settings.groupByEpic
+  }
+
+  canMove (item, _source, _handle, _sibling) {
     return !item.classList.contains('status-name')
   }
 
-  dropIssue (item, target, source, sibling, itemVM, siblingVM) {
+  dropIssue (_item, target, source, _sibling, itemVM, siblingVM) {
     const targetVM = this._getViewModel(target)
     if (target !== source && targetVM) {
       targetVM.dropInto(itemVM, siblingVM)
@@ -90,20 +104,40 @@ export class Board {
   }
 
   _refreshBoard () {
-    const issuesPromise = this.issueService.findAll().then(issues => {
-      this.issues = []
-      AssigneeCache.clearCache()
-      for(let issue of issues) {
-        this.issues.push(this.issueViewModelFactory.create(issue))
+    return this.settingsService.get().then(settings => {
+      this.settings = settings
+      let issuesPromise
+      if (settings.groupByEpic) {
+        issuesPromise = this.issueService.getIssuesByEpic()
+        .then(epics => {
+          this.epics = []
+          AssigneeCache.clearCache()
+          for(let epic of epics) {
+              let issues = []
+              for (let issue of epic.issues) {
+                issues.push(this.issueViewModelFactory.create(issue))
+              }
+              epic.issues = issues
+              this.epics.push(epic)
+            }
+          }).catch(err => console.error(err))
+      } else {
+        issuesPromise = this.issueService.findAll().then(issues => {
+          this.issues = []
+          AssigneeCache.clearCache()
+          for(let issue of issues) {
+            this.issues.push(this.issueViewModelFactory.create(issue))
+          }
+        }).catch(err => console.error(err))
       }
-    }).catch(err => console.error(err))
 
-    const statusesPromise = this.statusService.findAllForProject().then(statuses => {
-      this.statuses = statuses
-    }).catch(err => console.error(err))
+      const statusesPromise = this.statusService.findAllForProject().then(statuses => {
+        this.statuses = statuses
+      }).catch(err => console.error(err))
 
-    return Promise.all([ issuesPromise, statusesPromise ]).then(() => {
-      this.eventAggregator.publish(REFRESH_BOARD_COMPLETE)
+      return Promise.all([ issuesPromise, statusesPromise ]).then(() => {
+        this.eventAggregator.publish(REFRESH_BOARD_COMPLETE)
+      })
     })
   }
 }

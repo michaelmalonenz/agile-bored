@@ -5,6 +5,7 @@ module.exports = class EpicViewModel {
     this.name = ''
     this.summary = ''
     this.colour = ''
+    this.issues = []
   }
 
   static createFromJira (obj) {
@@ -16,8 +17,15 @@ module.exports = class EpicViewModel {
       result.name = obj.name
       result.summary = obj.summary
       result.colour = translateEpicColour(obj.color.key)
-      result.children = obj.children
     }
+    return result
+  }
+
+  static createNullEpic (children) {
+    let result = new EpicViewModel()
+    result.name = 'No Epic'
+    result.colour = 'none'
+    result.issues = children
     return result
   }
 }
