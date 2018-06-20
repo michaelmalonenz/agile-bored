@@ -196,7 +196,7 @@ function getEpics (jiraRapidBoardId, req) {
 
 function groupIssuesByEpic (issues, jiraRapidBoardId, req) {
   const epics = []
-  getEpics(jiraRapidBoardId, req)
+  return getEpics(jiraRapidBoardId, req)
     .then(boardEpics => {
       for (let epic of boardEpics) {
         let epicIssues = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
