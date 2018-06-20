@@ -7,8 +7,14 @@ const cachedRequest = require('./cached-request')
 module.exports = {
   getStatuses: function (req, res) {
     return settings.jiraProjectName()
-      .then(jiraProjectName => `project/${jiraProjectName}/statuses`)
-      .then(url => jiraRequestBuilder.jira(url, req))
+      .then(jiraProjectName =>
+        this.retrieveStatuses(req, jiraProjectName))
+      .then(result => res.send(result))
+      .catch(err => res.status(502).send(err))
+  },
+  retrieveStatuses: function (req, jiraProjectName) {
+    const url = `project/${jiraProjectName}/statuses`
+    return jiraRequestBuilder.jira(url, req)
       .then(options => cachedRequest(options))
       .then(statuses => {
         const result = []
@@ -26,8 +32,6 @@ module.exports = {
         localCache.cacheStatuses(result)
         return result
       })
-      .then(result => res.send(result))
-      .catch(err => res.status(502).send(err))
   }
 }
 
