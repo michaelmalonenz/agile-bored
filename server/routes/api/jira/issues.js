@@ -8,25 +8,25 @@ const localCache = require('./local-cache')
 module.exports = {
   findAllIssues: function (req, res) {
     return settings.getSettings()
-    .then(dbSettings => {
-      const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
-      const url = `/board/${dbSettings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
-      return jiraRequestBuilder.agile(url, req)
-        .then(options => getIssues(options, req))
-        .then(issues => {
-          if (settings.groupByEpic) {
-            return groupIssuesByEpic(issues, settings, req).then(sortedIssues => {
-              res.send(sortedIssues)
-            })
-          } else {
-            res.send(issues)
-          }
-        })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(502).send(err)
-    })
+      .then(dbSettings => {
+        const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
+        const url = `/board/${dbSettings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+        return jiraRequestBuilder.agile(url, req)
+          .then(options => getIssues(options, req))
+          .then(issues => {
+            if (dbSettings.groupByEpic) {
+              return groupIssuesByEpic(issues, dbSettings, req).then(sortedIssues => {
+                res.send(sortedIssues)
+              })
+            } else {
+              res.send(issues)
+            }
+          })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(502).send(err)
+      })
   },
   issuesByEpic: function (req, res) {
     return settings.getSettings()

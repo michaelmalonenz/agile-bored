@@ -70,10 +70,6 @@ export class Board {
     return this.settings.groupByEpic
   }
 
-  canMove (item, _source, _handle, _sibling) {
-    return !item.classList.contains('status-name')
-  }
-
   dropIssue (_item, target, source, _sibling, itemVM, siblingVM) {
     const targetVM = this._getViewModel(target)
     if (target !== source && targetVM) {

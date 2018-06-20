@@ -1,6 +1,5 @@
 <template>
-  <dragula-and-drop moves.call="canMove(item, source, handle, sibling)"
-    drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)">
+  <dragula-and-drop drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)">
   </dragula-and-drop>
   <create-issue-button></create-issue-button>
   <div class="main-content">
