@@ -191,7 +191,7 @@ function getEpics (jiraRapidBoardId, req) {
   const url = `/board/${jiraRapidBoardId}/epic?done=false`
   return jiraRequestBuilder.agile(url, req)
     .then(options => request(options))
-    .then(response => response.values``)
+    .then(response => response.values)
 }
 
 function groupIssuesByEpic (issues, jiraRapidBoardId, req) {
