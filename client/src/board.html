@@ -8,19 +8,9 @@
     </div>
     <div class="status-cols-area">
       <div if.bind="groupByEpic" repeat.for="epic of epics">
-        <div class="row epic-title">
-          <div class="col-xs-12"><h3>${epic.name}</h3></div>
-        </div>
-        <div repeat.for="issue of epic.issuesWithChildren">
-          <parent-issue parent.bind="issue" statuses.bind="statuses"></parent-issue>
-        </div>
-        <div css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
-          <div class="status-col drag-source drop-target" as-element="status-col"
-            issues.bind="epic.issuesWithoutChildren" status.bind="status" repeat.for="status of statuses">
-          </div>
-        </div>
+        <epic epic.bind="epic" statuses.bind="statuses"></epic>
       </div>
-      <div if.bind="!groupByEpic" repeat.for="parent of parentIssues">
+      <div else repeat.for="parent of parentIssues">
         <parent-issue parent.bind="parent" statuses.bind="statuses"></parent-issue>
       </div>
       <div class="row issue-title" if.bind="haveOtherIssues">
