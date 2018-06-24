@@ -8,8 +8,8 @@
     </div>
     <div class="status-cols-area">
       <div if.bind="groupByEpic" repeat.for="epic of epics">
-        <div class="row issue-title">
-          <div class="col-xs-12"><h4>${epic.name}</h4></div>
+        <div class="row epic-title">
+          <div class="col-xs-12"><h3>${epic.name}</h3></div>
         </div>
         <div repeat.for="issue of epic.issuesWithChildren">
           <parent-issue parent.bind="issue" statuses.bind="statuses"></parent-issue>
