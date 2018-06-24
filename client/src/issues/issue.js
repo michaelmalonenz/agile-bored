@@ -1,5 +1,5 @@
-import {ISSUE_DELETED, REFRESH_BOARD} from './events'
-import {IssueEditorDialog} from './dialogs/issue-editor'
+import {ISSUE_DELETED, REFRESH_BOARD} from '../events'
+import {IssueEditorDialog} from '../dialogs/issue-editor'
 
 export class Issue {
   constructor (i, dialogService, issueService, eventAggregator) {
