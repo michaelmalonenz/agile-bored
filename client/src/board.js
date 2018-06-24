@@ -88,10 +88,9 @@ export class Board {
   }
 
   _issueCreated (issue) {
-    this.issues.push(this.issueViewModelFactory.create(issue))
-    this.issues.sort((a,b) => {
-      return a.createdAt - b.createdAt
-    })
+    const createdVm = this.issueViewModelFactory.create(issue)
+    // This works around the observer, forcing a re-render
+    this.issues = this.issues.concat([createdVm])
   }
 
   _issueDeleted (issue) {

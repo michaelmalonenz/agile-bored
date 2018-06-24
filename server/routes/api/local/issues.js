@@ -4,26 +4,15 @@ const IssueViewModel = require('../../../viewmodels/issue')
 
 module.exports = {
   findAllIssues: function (req, res) {
-    return db.Issue.findAll({
-      order: [['createdAt', 'ASC']],
-      include: [{
-        model: db.IssueStatus,
-        required: false
-      }, {
-        model: db.IssueType,
-        required: false
-      }, {
-        model: db.Comment,
-        as: 'comments',
-        required: false
-      }],
-      where: {
-        [op.or]: {
-          'statusId': { [op.eq]: null },
-          '$IssueStatus.name$': { [op.ne]: 'Done' }
-        }
+    let props = _baseIssueQueryProps()
+    props.where = {
+      [op.or]: {
+        'statusId': { [op.eq]: null },
+        '$IssueStatus.name$': { [op.ne]: 'Done' }
       }
-    }).then(issues => {
+    }
+    return db.Issue.findAll(props)
+    .then(issues => {
       const result = []
       for (let issue of issues) {
         result.push(IssueViewModel.createFromLocal(issue.dataValues))
@@ -33,22 +22,12 @@ module.exports = {
     .catch(err => res.status(500).send(err.message))
   },
   backlog: function (req, res) {
-    return db.Issue.findAll({
-      order: [['createdAt', 'ASC']],
-      include: [{
-        model: db.IssueStatus,
-        required: false
-      }, {
-        model: db.IssueType,
-        required: false
-      }, {
-        model: db.Comment,
-        required: false
-      }],
-      where: {
-        'statusId': { [op.eq]: null }
-      }
-    }).then(issues => {
+    let props = _baseIssueQueryProps()
+    props.where = {
+      'statusId': { [op.eq]: null }
+    }
+    return db.Issue.findAll(props)
+    .then(issues => {
       const result = []
       for (let issue of issues) {
         result.push(IssueViewModel.createFromLocal(issue.dataValues))
@@ -58,8 +37,10 @@ module.exports = {
     .catch(err => res.status(500).send(err.message))
   },
   get: function (req, res) {
-    return db.Issue.findById(req.params.issueId)
-      .then(issue => IssueViewModel.createFromLocal(issue))
+    return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
+      .then(dbIssue => {
+        IssueViewModel.createFromLocal(dbIssue.dataValues)
+      })
       .then(result => res.send(result))
   },
   search: function (req, res) {
@@ -83,9 +64,29 @@ module.exports = {
   },
   create: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)
-    return db.Issue.create(dbIssue).then(issue => {
-      res.send(issue)
-    })
+    return db.Issue.create(dbIssue)
+      .then(issue => db.findById(issue.id, _baseIssueQueryProps()))
+      .then(dbIssue => {
+        IssueViewModel.createFromLocal(dbIssue.dataValues)
+      })
+      .then(issue => res.send(issue))
+  }
+}
+
+function _baseIssueQueryProps () {
+  return {
+    order: [['createdAt', 'ASC']],
+    include: [{
+      model: db.IssueStatus,
+      required: false
+    }, {
+      model: db.IssueType,
+      required: false
+    }, {
+      model: db.Comment,
+      as: 'comments',
+      required: false
+    }]
   }
 }
 

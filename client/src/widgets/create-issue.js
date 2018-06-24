@@ -21,7 +21,7 @@ export class CreateIssueButton {
       lock: true
     }).whenClosed(response => {
       if (!response.wasCancelled) {
-        this.issueService.create(response.output).then(issue => {
+        return this.issueService.create(response.output).then(issue => {
           this.eventAggregator.publish(ISSUE_CREATED, issue)
         })
       }
