@@ -2,7 +2,7 @@ import {DialogService} from 'aurelia-dialog'
 import {Container} from 'aurelia-framework'
 import {EventAggregator} from 'aurelia-event-aggregator'
 
-import {Issue} from '../issue'
+import {Issue} from '../issues/issue'
 import {IssueService} from '../services/issues'
 
 import {AssigneeCache} from '../utils/assignees-cache'

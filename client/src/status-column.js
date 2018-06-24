@@ -1,4 +1,4 @@
-import { customElement, bindable, computedFrom } from 'aurelia-framework'
+import { customElement, bindable } from 'aurelia-framework'
 
 @customElement('status-col')
 @bindable('issues')
