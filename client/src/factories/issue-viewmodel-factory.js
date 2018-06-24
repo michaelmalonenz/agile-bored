@@ -6,7 +6,7 @@ import {Issue} from '../issue'
 import {IssueService} from '../services/issues'
 
 import {AssigneeCache} from '../utils/assignees-cache'
-import { User } from '../models/user'
+import {User} from '../models/user'
 
 export class IssueViewModelFactory {
 
