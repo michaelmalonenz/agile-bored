@@ -1,5 +1,5 @@
 const request = require('request-promise-native')
-const cachedRequest = require('./cached-request')
+const avatarCache = require('./avatar-cache')
 const jiraRequestBuilder = require('./jira-request')
 const db = require('../../../models')
 const url = require('url')
@@ -10,7 +10,7 @@ module.exports = {
     return jiraRequestBuilder.jira('/myself', req)
       .then(options => request(options))
       .then(user => {
-        return cachedRequest({
+        return avatarCache({
           uri: url.parse(user.avatarUrls['24x24'], true).query.d,
           encoding: null,
           headers: {
