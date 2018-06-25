@@ -21,7 +21,9 @@ export class IssueEditorDialog {
       this.original = model.issue
       this.issue = Object.assign({}, model.issue)
       this.edit = model.edit
-      subtask = this.original.issueType.subtask
+      if (this.original.issueType != null) {
+        subtask = this.original.issueType.subtask
+      }
     }
     const rawTypes = await this.issueTypeService.getIssueTypes()
     this.issueTypes = rawTypes.filter(t => t.subtask === subtask)
