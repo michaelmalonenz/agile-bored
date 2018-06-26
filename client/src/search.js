@@ -19,6 +19,7 @@ export class Search {
     this.results = []
     this.doSearch = this._doSearch.bind(this)
     this.searching = false
+    this.noResults = false
   }
 
   bind () {
@@ -69,6 +70,7 @@ export class Search {
           this.results.push(this.issueViewModelFactory.create(issue))
         }
       }
+      this.noResults = this.results.length === 0
       this.searching = false
     }
   }

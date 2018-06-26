@@ -44,7 +44,24 @@ module.exports = {
       .then(result => res.send(result))
   },
   search: function (req, res) {
-    res.send(200)
+    let props = _baseIssueQueryProps()
+    const terms = req.query.search.split(' ').map(t => `%${t}%`)
+    console.log(terms)
+    props.where = {
+      [op.or]: {
+        'title': { [op.iLike]: { [op.any]: terms } },
+        'description': { [op.iLike]: { [op.any]: terms } }
+      }
+    }
+    return db.Issue.findAll(props)
+    .then(issues => {
+      const result = []
+      for (let issue of issues) {
+        result.push(IssueViewModel.createFromLocal(issue.dataValues))
+      }
+      res.send(result)
+    })
+    .catch(err => res.status(500).send(err.message))
   },
   updateStatus: function (req, res) {
     return db.Issue.update(

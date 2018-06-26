@@ -1,19 +1,20 @@
 <template>
-  <div class="searching-icon-container" if.bind="searching">
-    <div><i class="fa fa-circle-notch fa-spin"></i> Searching&hellip;</div>
-  </div>
-  <div class="search-results" if.bind="!searching">
+  <div class="search-results">
     <form class="search-form" role="search">
       <div class="input-group add-on search-box">
-        <input class="form-control" placeholder="Search" name="search-term" id="search-term"
-          type="text" value.bind="searchTerm" keypress.delegate="searchKeyPress($event)">
-        <div class="input-group-btn">
-          <button class="btn btn-default" type="button" click.delegate="searchButtonPress()">
-            <i class="glyphicon glyphicon-search"></i></button>
+      <input class="form-control" placeholder="Search" name="search-term" id="search-term"
+        type="text" value.bind="searchTerm" keypress.delegate="searchKeyPress($event)">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="button" click.delegate="searchButtonPress()">
+          <i class="glyphicon glyphicon-search"></i></button>
         </div>
       </div>
     </form>
-    <div class="container-fluid scrolling-search-results">
+    <div class="searching-icon-container" if.bind="searching"><i class="fa fa-circle-notch fa-spin"></i> Searching&hellip;</div>
+    <div class="search-no-results" if.bind="noResults">
+      Couldn't find any matching issues
+    </div>
+    <div else class="container-fluid scrolling-search-results ${searching ? 'hidden' : ''}">
       <compose repeat.for="issue of results" view-model.bind="issue" view="issues/search-issue.html"></compose>
     </div>
   </div>
