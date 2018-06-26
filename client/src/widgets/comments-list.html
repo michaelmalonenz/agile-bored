@@ -1,7 +1,7 @@
 <template>
   <div class="row view-comments-container">
     <div if.bind="loading" class="col-xs-12 loading-comments">
-      <span class="fa fa-circle-o-notch fa-spin fa-2x"></span> &nbsp;Loading&hellip;
+      <span class="fa fa-circle-notch fa-spin fa-2x"></span> &nbsp;Loading&hellip;
     </div>
     <div if.bind="!loading" class="col-xs-12 comments-container">
       <comment  repeat.for="comment of comments" comment.bind="comment"></comment>

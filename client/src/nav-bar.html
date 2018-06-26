@@ -22,13 +22,13 @@
 
       <div class="navbar-center">
         <icon icon="fa-cog" click.delegate="showSettings()"></icon>
-        <icon icon="fa-refresh" click.delegate="refreshBoard()"></icon>
+        <icon icon="fa-sync" click.delegate="refreshBoard()"></icon>
         <icon icon="fa-users" click.delegate="standUp()"></icon>
       </div>
 
       <ul class="nav navbar-nav navbar-right">
         <li class="loader navbar-icon" if.bind="isLoading">
-          <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
+          <i class="fa fa-circle-notch fa-spin fa-2x"></i>
         </li>
         <li class="navbar-icon">
           <user-panel></user-panel>

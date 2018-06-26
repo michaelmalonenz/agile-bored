@@ -1,12 +1,12 @@
 <template>
   <div class="pull-right assign-user avatar-container ${active ? 'assign-active' : ''} ${large ? 'assign-user-large' : ''}"
      click.trigger="clickUser($event)">
-    <div if.bind="!hasAssignee" class="fa fa-user-o"></div>
+    <div if.bind="!hasAssignee" class="far fa-user"></div>
     <img src.bind="avatarUrl" title.bind="displayName" />
     <div if.bind="large" style="float: right;">${displayName}</div>
     <div class="assign-user-list assign-placement-${placement} container-fluid" show.bind="active">
       <div class="row assign-list-user" click.trigger="assignUser($event)" if.bind="hasAssignee">
-        <i class="fa fa-user-o fa-2x"></i>
+        <i class="far fa-user fa-2x"></i>
         <span class="assign-name">
           Unassign
         </span>

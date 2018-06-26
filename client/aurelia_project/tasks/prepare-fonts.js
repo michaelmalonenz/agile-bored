@@ -4,19 +4,19 @@ import changedInPlace from 'gulp-changed-in-place'
 import project from '../aurelia.json'
 
 export default function prepareFonts () {
-  const source = 'node_modules/font-awesome'
+  const source = 'node_modules/@fortawesome/fontawesome-free'
 
-  const taskCss = gulp.src(`${source}/css/font-awesome.min.css`)
+  const taskFaCss = gulp.src(`${source}/css/all.css`)
     .pipe(changedInPlace({ firstPass: true }))
     .pipe(gulp.dest(`${project.platform.output}/css`))
 
-  const taskFonts = gulp.src(`${source}/fonts/*`)
+  const taskFaFonts = gulp.src(`${source}/webfonts/*`)
     .pipe(changedInPlace({ firstPass: true }))
-    .pipe(gulp.dest(`${project.platform.output}/fonts`))
+    .pipe(gulp.dest(`${project.platform.output}/webfonts`))
 
   const taskBootstrapFonts = gulp.src('node_modules/bootstrap-sass/assets/fonts/bootstrap/*')
     .pipe(changedInPlace({ firstPass: true }))
     .pipe(gulp.dest(`${project.platform.output}/fonts/bootstrap`))
 
-  return merge(taskCss, taskFonts, taskBootstrapFonts)
+  return merge(taskFaCss, taskFaFonts, taskBootstrapFonts)
 }

@@ -7,6 +7,7 @@
     "url": "???"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.0",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.2.0",
     "aurelia-dialog": "^1.0.0-rc.2.0.0",
@@ -17,7 +18,6 @@
     "bluebird": "^3.4.1",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.5.6",
-    "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "systemjs": "0.20.13",
     "systemjs-plugin-text": "0.0.9"
