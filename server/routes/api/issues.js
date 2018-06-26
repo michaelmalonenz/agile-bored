@@ -19,7 +19,7 @@ module.exports = function (router) {
       if (useJira) {
         return jiraIssues.issuesByEpic(req, res)
       } else {
-        return localIssues.findAllIssues(req, res)
+        return localIssues.issuesByEpic(req, res)
       }
     })
   })
@@ -49,7 +49,7 @@ module.exports = function (router) {
       if (useJira) {
         return jiraIssues.standup(req, res)
       } else {
-        return localIssues.findAllIssues(req, res)
+        return localIssues.standup(req, res)
       }
     })
   })

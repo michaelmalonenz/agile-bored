@@ -1,6 +1,7 @@
 const db = require('../../../models')
 const op = db.Sequelize.Op
 const IssueViewModel = require('../../../viewmodels/issue')
+const settings = require('../../../settings')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -11,30 +12,24 @@ module.exports = {
         '$IssueStatus.name$': { [op.ne]: 'Done' }
       }
     }
-    return db.Issue.findAll(props)
-    .then(issues => {
-      const result = []
-      for (let issue of issues) {
-        result.push(IssueViewModel.createFromLocal(issue.dataValues))
+    return _sendList(props, res)
+  },
+  issuesByEpic: function (req, res) {
+    let props = _baseIssueQueryProps()
+    props.where = {
+      [op.or]: {
+        'statusId': { [op.eq]: null },
+        '$IssueStatus.name$': { [op.ne]: 'Done' }
       }
-      res.send(result)
-    })
-    .catch(err => res.status(500).send(err.message))
+    }
+    return _sendList(props, res)
   },
   backlog: function (req, res) {
     let props = _baseIssueQueryProps()
     props.where = {
       'statusId': { [op.eq]: null }
     }
-    return db.Issue.findAll(props)
-    .then(issues => {
-      const result = []
-      for (let issue of issues) {
-        result.push(IssueViewModel.createFromLocal(issue.dataValues))
-      }
-      res.send(result)
-    })
-    .catch(err => res.status(500).send(err.message))
+    return _sendList(props, res)
   },
   get: function (req, res) {
     return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
@@ -46,22 +41,13 @@ module.exports = {
   search: function (req, res) {
     let props = _baseIssueQueryProps()
     const terms = req.query.search.split(' ').map(t => `%${t}%`)
-    console.log(terms)
     props.where = {
       [op.or]: {
         'title': { [op.iLike]: { [op.any]: terms } },
         'description': { [op.iLike]: { [op.any]: terms } }
       }
     }
-    return db.Issue.findAll(props)
-    .then(issues => {
-      const result = []
-      for (let issue of issues) {
-        result.push(IssueViewModel.createFromLocal(issue.dataValues))
-      }
-      res.send(result)
-    })
-    .catch(err => res.status(500).send(err.message))
+    return _sendList(props, res)
   },
   updateStatus: function (req, res) {
     return db.Issue.update(
@@ -79,6 +65,34 @@ module.exports = {
   assign: function (req, res) {
     res.sendStatus(200)
   },
+  standup: function (req, res) {
+    return settings.getSettings()
+    .then(dbSettings => {
+      const date = new Date(req.params.date)
+      // If today is Monday, then include the last 3 days, otherwise include the last day
+      const dayCount = (date.getDay() === 1 ? 3 : 1)
+      const doneAfterDate = new Date(new Date() - (dayCount * 24 * 60 * 60 * 1000))
+      let props = _baseIssueQueryProps()
+      // WHERE (("IssueStatus"."name" = 'Done' AND "Issue"."updatedAt" >= '2018-06-25 21:30:09.577 +00:00') OR ("IssueStatus"."name" IS NOT NULL))
+      props.where = {
+        [op.or]: [{
+          [op.and]: {
+            '$IssueStatus.name$': { [op.and]: [ { [op.ne]: 'Done' }, { [op.ne]: null } ] }
+          }
+        }, {
+          [op.and]: {
+            '$IssueStatus.name$': { [op.eq]: 'Done' },
+            'updatedAt': { [op.gte]: doneAfterDate }
+          }
+        }]
+      }
+      return _sendList(props, res)
+    })
+    .catch(err => {
+      console.error(err)
+      res.status(500).send(err)
+    })
+  },
   create: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)
     return db.Issue.create(dbIssue)
@@ -88,6 +102,21 @@ module.exports = {
       })
       .then(issue => res.send(issue))
   }
+}
+
+function _sendList (props, res) {
+  return db.Issue.findAll(props)
+    .then(issues => {
+      const result = []
+      for (let issue of issues) {
+        result.push(IssueViewModel.createFromLocal(issue.dataValues))
+      }
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(err)
+    })
 }
 
 function _baseIssueQueryProps () {
