@@ -26,9 +26,9 @@ export class App {
     config.title = 'Agile Bored'
     config.addPipelineStep('authorize', AuthorizeStep)
     config.map([
-      { route: ['', 'board'], name: 'board', moduleId: 'board', nav: true, title: 'Board', auth: true },
-      { route: 'backlog', name: 'backlog', moduleId: 'backlog', nav: true, title: 'Backlog', auth: true },
-      { route: 'search', name: 'search', moduleId: 'search', nav: true, title: 'Search', auth: true },
+      { route: ['', 'board'], name: 'board', moduleId: 'board', nav: true, title: 'Board', auth: true, settings: { icon: 'fa-th' } },
+      { route: 'backlog', name: 'backlog', moduleId: 'backlog', nav: true, title: 'Backlog', auth: true, settings: { icon: 'fa-th-list' } },
+      { route: 'search', name: 'search', moduleId: 'search', nav: true, title: 'Search', auth: true, settings: { icon: 'fa-search' } },
       { route: 'login', name: 'login', moduleId: 'security/login', nav: false, title: 'Login' }
     ])
 

@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse" id="navigation-navbar-collapse" if.bind="loggedIn">
       <ul class="nav navbar-nav">
         <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
-          <a data-toggle="collapse" data-target="#navigation-navbar-collapse.in" href.bind="row.href">${row.title}</a>
+          <a data-toggle="collapse" data-target="#navigation-navbar-collapse.in" href.bind="row.href"><i class="fa ${row.settings.icon}"></i> ${row.title}</a>
         </li>
       </ul>
 
