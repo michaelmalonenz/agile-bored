@@ -13,7 +13,7 @@
       <div if.bind="!loading" class="stand-up-display">
         <div class="stand-up-display-area">
           <div class="stand-up-active-panel">
-            <compose if.bind="displayingIssue" view="stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
+            <compose if.bind="displayingIssue" view="issues/stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
             <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId" comments.bind="displayedIssueComments"></comments-list>
             <!-- Consider having a history tab, also -->
           </div>
@@ -25,10 +25,10 @@
         <div class="stand-up-issues">
           <div class="stand-up-issue-list">
             <div repeat.for="issue of issues">
-              <compose view-model.bind="issue" view="search-issue.html" click.delegate="display(issue)"></compose>
+              <compose view-model.bind="issue" view="issues/search-issue.html" click.delegate="display(issue)"></compose>
               <div class="child-issues-row">
                 <compose repeat.for="child of issue.children"
-                  view-model.bind="child" view="search-issue.html"
+                  view-model.bind="child" view="issues/search-issue.html"
                   click.delegate="display(child)"></compose>
               </div>
             </div>
