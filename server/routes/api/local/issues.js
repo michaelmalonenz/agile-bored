@@ -73,7 +73,6 @@ module.exports = {
       const dayCount = (date.getDay() === 1 ? 3 : 1)
       const doneAfterDate = new Date(new Date() - (dayCount * 24 * 60 * 60 * 1000))
       let props = _baseIssueQueryProps()
-      // WHERE (("IssueStatus"."name" = 'Done' AND "Issue"."updatedAt" >= '2018-06-25 21:30:09.577 +00:00') OR ("IssueStatus"."name" IS NOT NULL))
       props.where = {
         [op.or]: [{
           [op.and]: {
