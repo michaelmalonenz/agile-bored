@@ -91,14 +91,19 @@ module.exports = {
   update: function (req, res) {
     return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req, 'PUT')
       .then(options => {
-        options.body = {
-          fields: {
-            summary: req.body.title,
-            description: req.body.description,
-            issuetype: { id: req.body.issueType.id }
-          }
-        }
-        return request(options)
+        return settings.jiraEpicField()
+          .then(field => {
+            const updater = req.body
+            options.body = {
+              fields: {
+                summary: updater.title,
+                description: updater.description,
+                issuetype: { id: updater.issueType.id },
+                [field]: updater.epic ? updater.epic.key : null
+              }
+            }
+            return request(options)
+          })
       })
       .then(() => res.send(req.body))
       .catch(err => res.status(502).send(err))

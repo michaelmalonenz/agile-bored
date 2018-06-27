@@ -6,9 +6,12 @@
     <ux-dialog-body>
       <div class="row">
         <div class="col-xs-8">
-          <input class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
+          <input type="text" class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-2">
+          <input type="text" value.bind="issue.epic.key" disabled="true" placeholder="epic" />
+        </div>
+        <div class="col-xs-2">
           <div class="pull-right">
             <select value.bind="issue.issueType" matcher.bind="issueTypeMatcher">
               <option repeat.for="issueType of issueTypes" model.bind="issueType">
@@ -20,10 +23,10 @@
       </div>
       <div class="edit-issue-content">
         <div class="row full-height">
-          <div class="${edit ? 'col-xs-8' : 'col-xs-12'} full-height">
+          <div class="${edit ? 'col-md-8' : 'col-md-12'} full-height">
             <viewing-text-editor start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
           </div>
-          <div class="${edit ? 'col-xs-4' : 'hidden'} full-height">
+          <div class="${edit ? 'col-md-4' : 'hidden'} full-height">
             <comments-list issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
           </div>
         </div>
