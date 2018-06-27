@@ -14,32 +14,25 @@ function init () {
 
 module.exports = {
   useJira () {
-    return init().then(() => {
-      return _settingsInstance.useJira
-    })
+    return init().then(() => _settingsInstance.useJira)
   },
   jiraUrl () {
-    return init().then(() => {
-      return _settingsInstance.jiraUrl
-    })
+    return init().then(() => _settingsInstance.jiraUrl)
   },
   jiraProjectName () {
-    return init().then(() => {
-      return _settingsInstance.jiraProjectName
-    })
+    return init().then(() => _settingsInstance.jiraProjectName)
   },
   jiraRapidBoardId () {
-    return init().then(() => {
-      return _settingsInstance.jiraRapidBoardId
-    })
+    return init().then(() => _settingsInstance.jiraRapidBoardId)
   },
   groupByEpic () {
-    return init().then(() => {
-      return _settingsInstance.groupByEpic
-    })
+    return init().then(() => _settingsInstance.groupByEpic)
   },
   getSettings () {
     return init().then(() => _settingsInstance)
+  },
+  jiraEpicField () {
+    return init().then(() => _settingsInstance.jiraEpicField)
   },
   updateSettings (settings) {
     _settingsInstance = settings
