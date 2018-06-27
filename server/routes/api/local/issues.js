@@ -45,7 +45,8 @@ module.exports = {
       [op.or]: {
         'title': { [op.iLike]: { [op.any]: terms } },
         'description': { [op.iLike]: { [op.any]: terms } }
-      }
+      },
+      '$IssueStatus.name$': { [op.ne]: 'Done' }
     }
     return _sendList(props, res)
   },
