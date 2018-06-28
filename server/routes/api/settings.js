@@ -1,18 +1,20 @@
 const db = require('../../models')
-const settings = require('../../settings')
 
 module.exports = function (router) {
   router.get('/settings', function (req, res) {
-    db.Settings.findOne().then((settings) => {
-      return res.send(settings)
-    })
+    if (req.settings) {
+      res.send(req.settings)
+    } else {
+      db.Settings.findOne().then((settings) => {
+        res.send(settings)
+      })
+    }
   })
 
   router.put('/settings', function (req, res) {
     let newSettings = req.body
     db.Settings.upsert(newSettings).then(() => {
-      settings.updateSettings(newSettings)
-      return res.send(newSettings)
+      res.send(newSettings)
     })
   })
 }

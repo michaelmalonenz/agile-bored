@@ -1,11 +1,25 @@
-var path = require('path')
+const path = require('path')
 require('envoodoo')(path.join(__dirname, '.env'))
 
-var express = require('express')
-var favicon = require('serve-favicon')
-var logger = require('morgan')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
+const express = require('express')
+const favicon = require('serve-favicon')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const db = require('./models')
+
+function loadSettings (req, res, next) {
+  const userId = req.get('X-User-Id')
+  if (userId !== 'undefined') {
+    return db.Settings.findOrCreate({ where: { userId: userId }, defaults: { userId: userId } })
+      .spread((settings, created) => {
+        req.settings = settings
+        next()
+      })
+  } else {
+    next()
+  }
+}
 
 var app = express()
 
@@ -19,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../client')))
 app.use(express.static(path.join(__dirname, '../client/scripts')))
+app.use(loadSettings)
 
 app.set('port', process.env.PORT || 5000)
 

@@ -3,6 +3,7 @@ export class Settings {
     this.jiraUrl = ''
     this.jiraProjectName = ''
     this.jiraRapidBoardId = 0
+    this.userId = 0
     this.useJira = false
     this.groupByEpic = false
     this.jiraEpicField = ''

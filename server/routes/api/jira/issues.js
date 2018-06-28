@@ -8,12 +8,9 @@ const statusApi = require('./status')
 
 module.exports = {
   findAllIssues: function (req, res) {
-    return settings.jiraRapidBoardId()
-      .then(jiraRapidBoardId => {
-        const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
-        const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
-        return jiraRequestBuilder.agile(url, req)
-      })
+    const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
+    const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+    return jiraRequestBuilder.agile(url, req)
       .then(options => getIssues(options, req))
       .then(issues => {
         res.send(issues)
@@ -24,16 +21,14 @@ module.exports = {
       })
   },
   issuesByEpic: function (req, res) {
-    return settings.jiraRapidBoardId()
-      .then(jiraRapidBoardId => {
-        const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
-        const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
-        return jiraRequestBuilder.agile(url, req)
-          .then(options => getIssues(options, req))
-          .then(issues => groupIssuesByEpic(issues, jiraRapidBoardId, req))
-          .then(sortedIssues => {
-            res.send(sortedIssues)
-          })
+    const jiraRapidBoardId = req.settings.jiraRapidBoardId
+    const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
+    const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+    return jiraRequestBuilder.agile(url, req)
+      .then(options => getIssues(options, req))
+      .then(issues => groupIssuesByEpic(issues, jiraRapidBoardId, req))
+      .then(sortedIssues => {
+        res.send(sortedIssues)
       })
       .catch(err => {
         console.log(err)

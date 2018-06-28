@@ -7,7 +7,7 @@ export class AuthHttpClient extends HttpClient {
     super()
 
     this.configure((x) => {
-      x.transformers.push((client, processor, message) => {
+      x.transformers.push((_client, _processor, message) => {
         const security = SecuritySettings.instance()
         message.headers.add('Authorization', security.getAuthorizationHeader())
         if (security.loggedIn) {
