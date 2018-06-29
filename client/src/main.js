@@ -1,6 +1,6 @@
 import environment from './environment'
 
-export function configure (aurelia) {
+export async function configure (aurelia) {
   aurelia.use
     .standardConfiguration()
     .plugin('aurelia-dialog')
@@ -18,5 +18,6 @@ export function configure (aurelia) {
     aurelia.use.plugin('aurelia-testing')
   }
 
-  aurelia.start().then(() => aurelia.setRoot())
+  await aurelia.start()
+  await aurelia.setRoot()
 }

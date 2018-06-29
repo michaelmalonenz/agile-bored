@@ -7,6 +7,8 @@ export function configure (config) {
     './comments-list',
     './comment',
     './viewing-text-editor',
-    './status-drop-down'
+    './status-drop-down',
+    './select-dropdown',
+    './issue-type'
   ])
 }

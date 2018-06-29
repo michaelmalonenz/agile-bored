@@ -13,11 +13,7 @@
         </div>
         <div class="col-xs-2">
           <div class="pull-right">
-            <select value.bind="issue.issueType" matcher.bind="issueTypeMatcher">
-              <option repeat.for="issueType of issueTypes" model.bind="issueType">
-                ${issueType.name}
-              </option>
-            </select>
+            <select-dropdown value.bind="issue.issueType" options.bind="issueTypes"></select-dropdown>
           </div>
         </div>
       </div>
