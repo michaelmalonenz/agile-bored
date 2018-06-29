@@ -2,6 +2,7 @@ const jiraRequestBuilder = require('./jira-request')
 const IssueTypeViewModel = require('../../../viewmodels/issue-type')
 const settings = require('../../../settings')
 const cachedRequest = require('./cached-request')
+const cardColours = require('./card-colours')
 
 module.exports = {
   getIssueTypes: function (req, res) {
@@ -9,11 +10,15 @@ module.exports = {
       .then(projectName => jiraRequestBuilder.jira(`project/${projectName}`, req))
       .then(options => cachedRequest(options))
       .then(project => {
-        const result = []
-        for (let issueType of project.issueTypes) {
-          result.push(IssueTypeViewModel.createFromJira(issueType))
-        }
-        res.send(result)
+        return cardColours.getCardColours(req)
+          .then((colours) => {
+            const result = []
+            for (let issueType of project.issueTypes) {
+              let colour = colours.find(c => c.displayValue === issueType.name)
+              result.push(IssueTypeViewModel.createFromJira(issueType, colour))
+            }
+            res.send(result)
+          })
       })
       .catch(err => res.status(502).send(err))
   }

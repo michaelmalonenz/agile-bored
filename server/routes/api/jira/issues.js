@@ -3,8 +3,8 @@ const jiraRequestBuilder = require('./jira-request')
 const IssueViewModel = require('../../../viewmodels/issue')
 const EpicViewModel = require('../../../viewmodels/epic')
 const settings = require('../../../settings')
-const localCache = require('./local-cache')
 const statusApi = require('./status')
+const cardColours = require('./card-colours')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -69,7 +69,9 @@ module.exports = {
     .catch(err => res.status(502).send(err))
   },
   updateStatus: function (req, res) {
-    return localCache.getCachedStatus(req.params.statusId)
+    return settings.jiraProjectName()
+      .then(jiraProjectName => statusApi.retrieveStatuses(req, jiraProjectName))
+      .then(statuses => statuses.find(s => s.id === req.params.statusId))
       .then(status => {
         return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/transitions`, req)
           .then(options => {
@@ -171,7 +173,7 @@ function getIssuesByJQL (req, jql) {
 
 function getIssues (options, req) {
   return request(options).then(result => {
-    return localCache.getCardColours(req).then(colours => {
+    return cardColours.getCardColours(req).then(colours => {
       let issues = []
       for (let issue of result.issues) {
         let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
