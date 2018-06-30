@@ -1,5 +1,5 @@
+require('dotenv').config()
 var path = require('path')
-require('envoodoo')(path.join(__dirname, '.env'))
 
 var express = require('express')
 var favicon = require('serve-favicon')
@@ -28,6 +28,7 @@ app.use(express.static(path.join(__dirname, '../client/scripts')))
 
 app.set('port', process.env.PORT || 5000)
 
+require('./auth')(app)
 require('./routes/index')(app)
 
 var server = app.listen(app.get('port'), function () {
