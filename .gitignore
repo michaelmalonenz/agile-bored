@@ -5,3 +5,4 @@ server/.env
 server/config/config.json
 .vscode/
 client/scripts
+oauth-config.json
