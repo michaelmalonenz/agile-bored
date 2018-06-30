@@ -19,7 +19,7 @@ module.exports = {
         })
         .then(avatar => {
           return db.User.findOrBuild({
-            where: { externalId: user.accountId }
+            where: { jiraId: user.accountId }
           })
           .spread((userObj, initialized) => {
             userObj.set({
