@@ -19,7 +19,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(require('express-session')({
-  secret: process.env.SESSION_SECRET
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUnitialized: true,
+  cookie: {
+    secure: app.get('env') === 'production'
+  }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
