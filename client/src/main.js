@@ -1,4 +1,6 @@
 import environment from './environment'
+import { UserService } from './services/users'
+import { SecuritySettings } from './security/security-settings'
 
 export async function configure (aurelia) {
   aurelia.use
@@ -19,5 +21,10 @@ export async function configure (aurelia) {
   }
 
   await aurelia.start()
-  await aurelia.setRoot()
+  return aurelia.container.get(UserService).me()
+    .then(user => {
+      SecuritySettings.instance().user = user
+    })
+    .catch(_err => {})
+    .then(() => aurelia.setRoot())
 }
