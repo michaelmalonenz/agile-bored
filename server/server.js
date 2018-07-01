@@ -21,8 +21,8 @@ app.use(cookieParser())
 app.use(require('express-session')({
   secret: process.env.SESSION_SECRET,
   resave: true,
+  saveUninitialized: true,
   maxAge: 24 * 60 * 60 * 1000,
-  saveUnitialized: true,
   cookie: {
     secure: app.get('env') === 'production'
   }

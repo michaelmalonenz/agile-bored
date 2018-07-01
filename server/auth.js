@@ -3,10 +3,17 @@ const Auth0Strategy = require('passport-auth0')
 const db = require('./models')
 
 function loginSuccess (accessToken, refreshToken, extraParams, profile, done) {
-  // Change to find or create - possibly update values?
-  db.User.findOne({ where: { externalId: profile.id } })
-    .then(user => done(null, user))
-    .catch(err => done(err))
+  db.User.findOrCreate({
+    where: { externalId: profile.id },
+    defaults: {
+      displayName: profile.displayName,
+      username: profile.nickname,
+      avatar: profile.picture,
+      externalId: profile.id
+    }
+  })
+  .spread((user, created) => done(null, user))
+  .catch(err => done(err))
 }
 const config = require('./oauth-config')
 passport.use(new Auth0Strategy(config, loginSuccess))
@@ -34,6 +41,11 @@ module.exports = (app) => {
 
   app.get('/login',
     passport.authenticate('auth0', {
+      clientID: config.cliendID,
+      domain: config.domain,
+      redirectUri: config.callbackURL,
+      responseType: 'code',
+      audience: 'https://' + config.domain + '/userinfo',
       scope: 'openid profile email'
     }),
     (req, res) => res.redirect('/'))

@@ -1,15 +1,17 @@
 const router = require('express').Router()
 
 const ensureLoggedIn = (req, res, next) => {
-  if (!req.user) {
-    res.redirect('/login')
-  } else {
+  if (req.session.passport && typeof req.session.passport.user !== 'undefined') {
     next()
+  } else {
+    res.redirect('/login')
   }
 }
 
 const ensureApiLoggedIn = (req, res, next) => {
-  if (!req.session.userId) {
+  if (req.session.passport && typeof req.session.passport.user !== 'undefined') {
+    next()
+  } else {
     res.status(401).send('Unauthorized')
   }
 }

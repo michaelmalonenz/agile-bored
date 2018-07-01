@@ -23,7 +23,7 @@ module.exports = {
           })
           .spread((userObj, initialized) => {
             userObj.set({
-              externalId: user.accountId,
+              jiraId: user.accountId,
               displayName: user.displayName,
               username: user.name,
               avatar: avatar.toString('base64')
