@@ -7,6 +7,10 @@ const UserViewModel = require('../../../viewmodels/user')
 
 module.exports = {
   me: function (req, res) {
+    if (req.get('Authorization') === 'Basic Og==') {
+      res.status(401).send('Unauthorized')
+      return Promise.resolve()
+    }
     return jiraRequestBuilder.jira('/myself', req)
       .then(options => request(options))
       .then(user => {
