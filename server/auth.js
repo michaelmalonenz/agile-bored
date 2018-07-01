@@ -13,7 +13,10 @@ function loginSuccess (accessToken, refreshToken, extraParams, profile, done) {
     }
   })
   .spread((user, created) => done(null, user))
-  .catch(err => done(err))
+  .catch(err => {
+    console.log(err)
+    done(err)
+  })
 }
 const config = require('./oauth-config')
 passport.use(new Auth0Strategy(config, loginSuccess))
