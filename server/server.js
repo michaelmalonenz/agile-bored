@@ -22,10 +22,7 @@ app.use(require('express-session')({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  maxAge: 24 * 60 * 60 * 1000,
-  cookie: {
-    secure: app.get('env') === 'production'
-  }
+  maxAge: 24 * 60 * 60 * 1000
 }))
 app.use(passport.initialize())
 app.use(passport.session())
