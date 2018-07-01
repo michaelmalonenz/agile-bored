@@ -3,7 +3,6 @@ const Auth0Strategy = require('passport-auth0')
 const db = require('./models')
 
 function loginSuccess (accessToken, refreshToken, extraParams, profile, done) {
-  console.log(profile)
   // Change to find or create - possibly update values?
   db.User.findOne({ where: { externalId: profile.id } })
     .then(user => done(null, user))
