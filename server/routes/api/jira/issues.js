@@ -225,6 +225,17 @@ function sortStandUpIssues (issues, dbSettings, req) {
   return statusApi.retrieveStatuses(req, dbSettings.jiraProjectName)
     .then(statuses => {
       return issues.sort((a, b) => {
+        if (dbSettings.groupIssuesByEpic) {
+          if (a.epic && b.epic && a.epic.id !== b.epic.id) {
+            if (a.epic.name > b.epic.name) {
+              return 1
+            } else if (a.epic.name < b.epic.name) {
+              return -1
+            } else {
+              return 0
+            }
+          }
+        }
         const aStatusIndex = statuses.findIndex(s => s.id === a.IssueStatus.id)
         const bStatusIndex = statuses.findIndex(s => s.id === b.IssueStatus.id)
         // We want descending order, so opposite world
