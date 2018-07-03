@@ -22,7 +22,7 @@ app.use(require('express-session')({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  maxAge: 24 * 60 * 60 * 1000
+  maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
 }))
 app.use(passport.initialize())
 app.use(passport.session())
