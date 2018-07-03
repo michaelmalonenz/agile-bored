@@ -10,7 +10,10 @@ export async function configure (aurelia) {
     .feature('resources')
     .feature('widgets')
     .feature('issues')
-    .globalResources('./status-column')
+    .globalResources([
+      './status-column',
+      './nav-bar'
+    ])
 
   if (environment.debug) {
     aurelia.use.developmentLogging()
