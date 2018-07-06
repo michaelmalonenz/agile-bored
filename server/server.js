@@ -1,14 +1,27 @@
 require('dotenv').config()
-var path = require('path')
+const path = require('path')
 
-var express = require('express')
-var favicon = require('serve-favicon')
-var logger = require('morgan')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
+const express = require('express')
+const favicon = require('serve-favicon')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const passport = require('passport')
+const session = require('express-session')
+const PgSession = require('connect-pg-simple')(session)
 
-var app = express()
+const env = process.env.NODE_ENV || 'development'
+const dbConfig = require('./config/config')[env]
+const { Pool } = require('pg')
+const pgPool = new Pool({
+  user: dbConfig.username,
+  password: dbConfig.password,
+  host: dbConfig.host,
+  port: dbConfig.port,
+  database: dbConfig.database
+})
+
+const app = express()
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
@@ -18,10 +31,13 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(require('express-session')({
+app.use(session({
+  store: new PgSession({
+    pool: pgPool
+  }),
   secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
 }))
 app.use(passport.initialize())

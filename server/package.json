@@ -12,6 +12,7 @@
   "dependencies": {
     "8": "0.0.1",
     "body-parser": "^1.18.3",
+    "connect-pg-simple": "^5.0.0",
     "cookie-parser": "^1.4.1",
     "dotenv": "^6.0.0",
     "ejs": "^2.6.1",
