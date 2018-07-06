@@ -73,6 +73,8 @@ export class NavBar {
     await this.dialogService.open({
       viewModel: StandUpDialog,
       lock: false
+    }).whenClosed(async () => {
+      this.refreshBoard()
     })
   }
 }

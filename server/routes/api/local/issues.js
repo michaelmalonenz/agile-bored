@@ -34,7 +34,7 @@ module.exports = {
   get: function (req, res) {
     return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
       .then(dbIssue => {
-        IssueViewModel.createFromLocal(dbIssue.dataValues)
+        return IssueViewModel.createFromLocal(dbIssue.dataValues)
       })
       .then(result => res.send(result))
   },
