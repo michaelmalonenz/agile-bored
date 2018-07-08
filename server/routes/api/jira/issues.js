@@ -3,8 +3,8 @@ const jiraRequestBuilder = require('./jira-request')
 const IssueViewModel = require('../../../viewmodels/issue')
 const EpicViewModel = require('../../../viewmodels/epic')
 const settings = require('../../../settings')
-const localCache = require('./local-cache')
 const statusApi = require('./status')
+const cardColours = require('./card-colours')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -64,7 +64,9 @@ module.exports = {
     .catch(err => res.status(502).send(err))
   },
   updateStatus: function (req, res) {
-    return localCache.getCachedStatus(req.params.statusId)
+    return settings.jiraProjectName()
+      .then(jiraProjectName => statusApi.retrieveStatuses(req, jiraProjectName))
+      .then(statuses => statuses.find(s => s.id === req.params.statusId))
       .then(status => {
         return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/transitions`, req)
           .then(options => {
@@ -166,7 +168,7 @@ function getIssuesByJQL (req, jql) {
 
 function getIssues (options, req) {
   return request(options).then(result => {
-    return localCache.getCardColours(req).then(colours => {
+    return cardColours.getCardColours(req).then(colours => {
       let issues = []
       for (let issue of result.issues) {
         let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
@@ -218,6 +220,17 @@ function sortStandUpIssues (issues, dbSettings, req) {
   return statusApi.retrieveStatuses(req, dbSettings.jiraProjectName)
     .then(statuses => {
       return issues.sort((a, b) => {
+        if (dbSettings.groupIssuesByEpic) {
+          if (a.epic && b.epic && a.epic.id !== b.epic.id) {
+            if (a.epic.name > b.epic.name) {
+              return 1
+            } else if (a.epic.name < b.epic.name) {
+              return -1
+            } else {
+              return 0
+            }
+          }
+        }
         const aStatusIndex = statuses.findIndex(s => s.id === a.IssueStatus.id)
         const bStatusIndex = statuses.findIndex(s => s.id === b.IssueStatus.id)
         // We want descending order, so opposite world

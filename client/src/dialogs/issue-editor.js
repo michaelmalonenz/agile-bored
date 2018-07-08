@@ -4,6 +4,7 @@ import { DialogController } from 'aurelia-dialog'
 import { Issue } from '../models/issue'
 import { SecuritySettings } from '../security/security-settings'
 import { IssueTypeService } from '../services/issue-types'
+import { IssueTypeViewmodel } from '../widgets/issue-type'
 
 @inject(DialogController, IssueTypeService)
 export class IssueEditorDialog {
@@ -26,7 +27,9 @@ export class IssueEditorDialog {
       }
     }
     const rawTypes = await this.issueTypeService.getIssueTypes()
-    this.issueTypes = rawTypes.filter(t => t.subtask === subtask)
+    this.issueTypes = rawTypes
+      .filter(t => t.subtask === subtask)
+      .map(t => new IssueTypeViewmodel(t))
   }
 
   @computedFrom('issue.title', 'issue.description', 'issue.issueType')

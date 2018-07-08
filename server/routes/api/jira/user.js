@@ -7,6 +7,10 @@ const UserViewModel = require('../../../viewmodels/user')
 
 module.exports = {
   me: function (req, res) {
+    if (req.get('Authorization') === 'Basic Og==') {
+      res.status(401).send('Unauthorized')
+      return Promise.resolve()
+    }
     return jiraRequestBuilder.jira('/myself', req)
       .then(options => request(options))
       .then(user => {
@@ -19,11 +23,11 @@ module.exports = {
         })
         .then(avatar => {
           return db.User.findOrBuild({
-            where: { externalId: user.accountId }
+            where: { jiraId: user.accountId }
           })
           .spread((userObj, initialized) => {
             userObj.set({
-              externalId: user.accountId,
+              jiraId: user.accountId,
               displayName: user.displayName,
               username: user.name,
               avatar: avatar.toString('base64')

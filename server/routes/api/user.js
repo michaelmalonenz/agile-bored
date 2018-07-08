@@ -1,4 +1,5 @@
 const jiraUser = require('./jira/user')
+const localUser = require('./local/user')
 const settings = require('../../settings')
 
 module.exports = function (router) {
@@ -7,10 +8,7 @@ module.exports = function (router) {
       if (useJira) {
         return jiraUser.me(req, res)
       } else {
-        return res.send({
-          displayName: 'Current User',
-          avatarUrls: { '24x24': '' }
-        })
+        return localUser.me(req, res)
       }
     })
   })

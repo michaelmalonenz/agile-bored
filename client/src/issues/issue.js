@@ -1,4 +1,4 @@
-import {ISSUE_DELETED, REFRESH_BOARD} from '../events'
+import {ISSUE_DELETED} from '../events'
 import {IssueEditorDialog} from '../dialogs/issue-editor'
 
 export class Issue {
@@ -77,25 +77,20 @@ export class Issue {
         issue: this.issue,
         edit: true
       }
-    }).whenClosed(response => {
+    }).whenClosed(async response => {
       if (!response.wasCancelled) {
-        this.issueService.update(response.output).then(issue => {
-          this.issue = issue
-        })
+        this.issue = await this.issueService.update(response.output)
       }
     })
   }
 
-  deleteIssue () {
-    return this.issueService.delete(this.issue).then(() => {
-      this.eventAggregator.publish(ISSUE_DELETED, this.issue)
-    })
+  async deleteIssue () {
+    await this.issueService.delete(this.issue)
+    this.eventAggregator.publish(ISSUE_DELETED, this.issue)
   }
 
-  updateStatus (status) {
-    this.issueService.updateStatus(this.issue.id, status.id).then(() => {
-      this.issue.IssueStatus = status
-      this.eventAggregator.publish(REFRESH_BOARD)
-    })
+  async updateStatus (status) {
+    await this.issueService.updateStatus(this.issueId, status.id)
+    this.issue = await this.issueService.get(this.issueId)
   }
 }

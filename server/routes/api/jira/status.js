@@ -1,7 +1,6 @@
 const jiraRequestBuilder = require('./jira-request')
 const StatusViewModel = require('../../../viewmodels/status')
 const settings = require('../../../settings')
-const localCache = require('./local-cache')
 const cachedRequest = require('./cached-request')
 
 module.exports = {
@@ -28,10 +27,6 @@ module.exports = {
         return result
       })
       .then(statusViewModels => orderStatuses(statusViewModels, req))
-      .then(result => {
-        localCache.cacheStatuses(result)
-        return result
-      })
   }
 }
 

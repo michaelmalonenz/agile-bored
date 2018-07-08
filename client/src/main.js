@@ -1,6 +1,8 @@
 import environment from './environment'
+import { UserService } from './services/users'
+import { SecuritySettings } from './security/security-settings'
 
-export function configure (aurelia) {
+export async function configure (aurelia) {
   aurelia.use
     .standardConfiguration()
     .plugin('aurelia-dialog')
@@ -8,7 +10,10 @@ export function configure (aurelia) {
     .feature('resources')
     .feature('widgets')
     .feature('issues')
-    .globalResources('./status-column')
+    .globalResources([
+      './status-column',
+      './nav-bar'
+    ])
 
   if (environment.debug) {
     aurelia.use.developmentLogging()
@@ -18,5 +23,11 @@ export function configure (aurelia) {
     aurelia.use.plugin('aurelia-testing')
   }
 
-  aurelia.start().then(() => aurelia.setRoot())
+  await aurelia.start()
+  return aurelia.container.get(UserService).me()
+    .then(user => {
+      SecuritySettings.instance().user = user
+    })
+    .catch(_err => {})
+    .then(() => aurelia.setRoot())
 }
