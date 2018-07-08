@@ -77,24 +77,20 @@ export class Issue {
         issue: this.issue,
         edit: true
       }
-    }).whenClosed(response => {
+    }).whenClosed(async response => {
       if (!response.wasCancelled) {
-        this.issueService.update(response.output).then(issue => {
-          this.issue = issue
-        })
+        this.issue = await this.issueService.update(response.output)
       }
     })
   }
 
-  deleteIssue () {
-    return this.issueService.delete(this.issue).then(() => {
-      this.eventAggregator.publish(ISSUE_DELETED, this.issue)
-    })
+  async deleteIssue () {
+    await this.issueService.delete(this.issue)
+    this.eventAggregator.publish(ISSUE_DELETED, this.issue)
   }
 
   async updateStatus (status) {
     await this.issueService.updateStatus(this.issueId, status.id)
-    const updated = await this.issueService.get(this.issueId)
-    Object.assign(this.issue, updated)
+    this.issue = await this.issueService.get(this.issueId)
   }
 }
