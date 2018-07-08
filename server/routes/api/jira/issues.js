@@ -9,8 +9,8 @@ module.exports = {
   findAllIssues: function (req, res) {
     const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
     const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
-    return jiraRequestBuilder.agile(url, req)
-      .then(options => getIssues(options, req))
+    const options = jiraRequestBuilder.agile(url, req)
+    return getIssues(options, req)
       .then(issues => {
         res.send(issues)
       })
@@ -23,8 +23,8 @@ module.exports = {
     const jiraRapidBoardId = req.settings.jiraRapidBoardId
     const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
     const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
-    return jiraRequestBuilder.agile(url, req)
-      .then(options => getIssues(options, req))
+    const options = jiraRequestBuilder.agile(url, req)
+    return getIssues(options, req)
       .then(issues => groupIssuesByEpic(issues, jiraRapidBoardId, req))
       .then(sortedIssues => {
         res.send(sortedIssues)
@@ -42,7 +42,7 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
-    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
+    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req)
     return request(options)
       .then(issue => IssueViewModel.createFromJira(issue))
       .then(result => res.send(result))

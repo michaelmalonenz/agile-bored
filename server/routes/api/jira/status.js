@@ -10,8 +10,8 @@ module.exports = {
   },
   retrieveStatuses: function (req, jiraProjectName) {
     const url = `project/${jiraProjectName}/statuses`
-    return jiraRequestBuilder.jira(url, req)
-      .then(options => cachedRequest(options))
+    const options = jiraRequestBuilder.jira(url, req)
+    return cachedRequest(options)
       .then(statuses => {
         const result = []
         for (let statusList of statuses) {
