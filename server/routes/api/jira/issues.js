@@ -2,7 +2,6 @@ const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const IssueViewModel = require('../../../viewmodels/issue')
 const EpicViewModel = require('../../../viewmodels/epic')
-const settings = require('../../../settings')
 const statusApi = require('./status')
 const cardColours = require('./card-colours')
 
@@ -36,127 +35,103 @@ module.exports = {
       })
   },
   backlog: function (req, res) {
-    return settings.jiraRapidBoardId()
-    .then(jiraRapidBoardId => {
-      const url = `/board/${jiraRapidBoardId}/backlog?maxResults=1000`
-      return jiraRequestBuilder.agile(url, req)
-    })
-    .then(options => getIssues(options, req))
-    .then(issues => res.send(issues))
-    .catch(err => res.status(502).send(err))
+    const url = `/board/${req.settings.jiraRapidBoardId}/backlog?maxResults=1000`
+    const options = jiraRequestBuilder.agile(url, req)
+    return getIssues(options, req)
+      .then(issues => res.send(issues))
+      .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
-    return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
-      .then(options => request(options))
-      .then(issue => {
-        return IssueViewModel.createFromJira(issue)
-      })
+    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`)
+    return request(options)
+      .then(issue => IssueViewModel.createFromJira(issue))
       .then(result => res.send(result))
       .catch(err => res.status(502).send(err))
   },
   search: function (req, res) {
-    return settings.jiraProjectName()
-    .then(jiraProjectName => {
-      const jql = `project = ${jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
-      return getIssuesByJQL(req, jql)
-    })
-    .then(issues => res.send(issues))
-    .catch(err => res.status(502).send(err))
+    const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
+    return getIssuesByJQL(req, jql)
+      .then(issues => res.send(issues))
+      .catch(err => res.status(502).send(err))
   },
   updateStatus: function (req, res) {
-    return settings.jiraProjectName()
-      .then(jiraProjectName => statusApi.retrieveStatuses(req, jiraProjectName))
+    return statusApi.retrieveStatuses(req, req.settings.jiraProjectName)
       .then(statuses => statuses.find(s => s.id === req.params.statusId))
       .then(status => {
-        return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/transitions`, req)
-          .then(options => {
-            return request(options).then(transitions => {
-              const trans = transitions.transitions.find(t => t.name === status.name)
-              return trans.id
-            })
-            .then(transitionId => {
-              options.body = {
-                transition: { id: transitionId }
-              }
-              options.method = 'POST'
-              return request(options).then(result => res.sendStatus(200))
-            })
+        const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/transitions`, req)
+        return request(options)
+          .then(transitions => {
+            const trans = transitions.transitions.find(t => t.name === status.name)
+            return trans.id
+          })
+          .then(transitionId => {
+            options.body = {
+              transition: { id: transitionId }
+            }
+            options.method = 'POST'
+            return request(options).then(result => res.sendStatus(200))
           })
       })
       .catch(err => res.status(502).send(err))
   },
   update: function (req, res) {
-    return jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req, 'PUT')
-      .then(options => {
-        return settings.jiraEpicField()
-          .then(field => {
-            const updater = req.body
-            options.body = {
-              fields: {
-                summary: updater.title,
-                description: updater.description,
-                issuetype: { id: updater.issueType.id },
-                [field]: updater.epic ? updater.epic.key : null
-              }
-            }
-            return request(options)
-          })
-      })
+    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req, 'PUT')
+    const updater = req.body
+    options.body = {
+      fields: {
+        summary: updater.title,
+        description: updater.description,
+        issuetype: { id: updater.issueType.id },
+        [req.settings.jiraEpicField]: updater.epic ? updater.epic.key : null
+      }
+    }
+    return request(options)
       .then(() => res.send(req.body))
       .catch(err => res.status(502).send(err))
   },
   assign: function (req, res) {
-    return jiraRequestBuilder.jira(`/issue/${req.params.issueId}/assignee`, req, 'PUT')
-    .then(options => {
-      options.body = {
-        name: req.body.name
-      }
-      return request(options)
-    })
-    .then(() => res.sendStatus(200))
-    .catch(err => res.status(502).send(err))
+    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/assignee`, req, 'PUT')
+    options.body = {
+      name: req.body.name
+    }
+    return request(options)
+      .then(() => res.sendStatus(200))
+      .catch(err => res.status(502).send(err))
   },
   standup: function (req, res) {
-    return settings.getSettings()
-    .then(dbSettings => {
-      const date = new Date(req.params.date)
-      // If today is Monday, then include the last 3 days, otherwise include the last day
-      let dayCount = (date.getDay() === 1 ? 3 : 1)
-      const jql = encodeURIComponent(`type != Epic AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
-      const url = `/board/${dbSettings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
-      return jiraRequestBuilder.agile(url, req)
-        .then(options => getIssues(options, req))
-        .then(issues => sortStandUpIssues(issues, dbSettings, req))
-        .then((issues) => res.send(issues))
-    })
-    .catch(err => {
-      console.error(err)
-      res.status(502).send(err)
-    })
+    const date = new Date(req.params.date)
+    // If today is Monday, then include the last 3 days, otherwise include the last day
+    let dayCount = (date.getDay() === 1 ? 3 : 1)
+    const jql = encodeURIComponent(`type != Epic AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
+    const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+    const options = jiraRequestBuilder.agile(url, req)
+    return getIssues(options, req)
+      .then(issues => sortStandUpIssues(issues, req.settings, req))
+      .then((issues) => res.send(issues))
+      .catch(err => {
+        console.error(err)
+        res.status(502).send(err)
+      })
   },
   create: function (req, res) {
     const issueObj = req.body
-    return settings.jiraProjectName()
-    .then(jiraProjectName => {
-      return jiraRequestBuilder.jira('/issue', req, 'POST')
-      .then(options => {
-        options.body = {
-          fields: {
-            reporter: { name: issueObj.reporter.username },
-            summary: issueObj.title,
-            description: issueObj.description,
-            project: { key: jiraProjectName },
-            issuetype: { id: issueObj.issueType.id }
-          }
-        }
-        return request(options)
-      })
+    const options = jiraRequestBuilder.jira('/issue', req, 'POST')
+    options.body = {
+      fields: {
+        reporter: { name: issueObj.reporter.username },
+        summary: issueObj.title,
+        description: issueObj.description,
+        project: { key: req.settings.jiraProjectName },
+        issuetype: { id: issueObj.issueType.id }
+      }
+    }
+    return request(options)
       .then(issue => {
         issueObj.key = issue.key
         issueObj.id = issue.id
         res.send(issueObj)
       })
-    }).catch(err => res.status(502).send(err))
+      .catch(err => res.status(502).send(err))
   }
 }
 

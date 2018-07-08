@@ -1,14 +1,12 @@
 const jiraRequestBuilder = require('./jira-request')
 const IssueTypeViewModel = require('../../../viewmodels/issue-type')
-const settings = require('../../../settings')
 const cachedRequest = require('./cached-request')
 const cardColours = require('./card-colours')
 
 module.exports = {
   getIssueTypes: function (req, res) {
-    return settings.jiraProjectName()
-      .then(projectName => jiraRequestBuilder.jira(`project/${projectName}`, req))
-      .then(options => cachedRequest(options))
+    const options = jiraRequestBuilder.jira(`project/${req.settings.projectName}`, req)
+    return cachedRequest(options)
       .then(project => {
         return cardColours.getCardColours(req)
           .then((colours) => {

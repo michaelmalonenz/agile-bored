@@ -12,8 +12,10 @@ const PgSession = require('connect-pg-simple')(session)
 const db = require('./models')
 
 function loadSettings (req, res, next) {
-  const userId = req.get('X-User-Id')
-  if (userId !== 'undefined') {
+  const userId = req.headers['x-user-id']
+  console.log(req.headers)
+  console.log('thing: ', userId)
+  if (userId != null) {
     return db.Settings.findOrCreate({ where: { userId: userId }, defaults: { userId: userId } })
       .spread((settings, created) => {
         req.settings = settings

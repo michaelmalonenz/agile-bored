@@ -1,13 +1,10 @@
 const jiraRequestBuilder = require('./jira-request')
 const StatusViewModel = require('../../../viewmodels/status')
-const settings = require('../../../settings')
 const cachedRequest = require('./cached-request')
 
 module.exports = {
   getStatuses: function (req, res) {
-    return settings.jiraProjectName()
-      .then(jiraProjectName =>
-        this.retrieveStatuses(req, jiraProjectName))
+    return this.retrieveStatuses(req, req.settings.jiraProjectName)
       .then(result => res.send(result))
       .catch(err => res.status(502).send(err))
   },
@@ -31,12 +28,9 @@ module.exports = {
 }
 
 function orderStatuses (statusViewModels, req) {
-  return settings.jiraRapidBoardId()
-    .then(rapidBoardId => {
-      const url = `board/${rapidBoardId}/configuration`
-      return jiraRequestBuilder.agile(url, req)
-    })
-    .then(options => cachedRequest(options))
+  const url = `board/${req.settings.rapidBoardId}/configuration`
+  const options = jiraRequestBuilder.agile(url, req)
+  return cachedRequest(options)
     .then(config => {
       const columns = config.columnConfig.columns
 

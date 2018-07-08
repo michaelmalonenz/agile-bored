@@ -1,7 +1,6 @@
 const db = require('../../../models')
 const op = db.Sequelize.Op
 const IssueViewModel = require('../../../viewmodels/issue')
-const settings = require('../../../settings')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -67,31 +66,24 @@ module.exports = {
     res.sendStatus(200)
   },
   standup: function (req, res) {
-    return settings.getSettings()
-    .then(dbSettings => {
-      const date = new Date(req.params.date)
-      // If today is Monday, then include the last 3 days, otherwise include the last day
-      const dayCount = (date.getDay() === 1 ? 3 : 1)
-      const doneAfterDate = new Date(new Date() - (dayCount * 24 * 60 * 60 * 1000))
-      let props = _baseIssueQueryProps()
-      props.where = {
-        [op.or]: [{
-          [op.and]: {
-            '$IssueStatus.name$': { [op.and]: [ { [op.ne]: 'Done' }, { [op.ne]: null } ] }
-          }
-        }, {
-          [op.and]: {
-            '$IssueStatus.name$': { [op.eq]: 'Done' },
-            'updatedAt': { [op.gte]: doneAfterDate }
-          }
-        }]
-      }
-      return _sendList(props, res)
-    })
-    .catch(err => {
-      console.error(err)
-      res.status(500).send(err)
-    })
+    const date = new Date(req.params.date)
+    // If today is Monday, then include the last 3 days, otherwise include the last day
+    const dayCount = (date.getDay() === 1 ? 3 : 1)
+    const doneAfterDate = new Date(new Date() - (dayCount * 24 * 60 * 60 * 1000))
+    let props = _baseIssueQueryProps()
+    props.where = {
+      [op.or]: [{
+        [op.and]: {
+          '$IssueStatus.name$': { [op.and]: [ { [op.ne]: 'Done' }, { [op.ne]: null } ] }
+        }
+      }, {
+        [op.and]: {
+          '$IssueStatus.name$': { [op.eq]: 'Done' },
+          'updatedAt': { [op.gte]: doneAfterDate }
+        }
+      }]
+    }
+    return _sendList(props, res)
   },
   create: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)

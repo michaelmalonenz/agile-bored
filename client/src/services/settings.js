@@ -1,9 +1,9 @@
 import {inject} from 'aurelia-framework'
-import {HttpClient} from 'aurelia-http-client'
 
+import {AuthHttpClient} from './auth-http-client'
 import {Settings} from '../models/settings'
 
-@inject(HttpClient)
+@inject(AuthHttpClient)
 export class SettingsService {
   constructor(http) {
     this._http = http

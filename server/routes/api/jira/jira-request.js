@@ -1,5 +1,4 @@
 const urlJoin = require('url-join')
-const settings = require('../../../settings')
 
 module.exports = {
   jira: function (apiSuffix, req, method = 'GET') {
@@ -14,14 +13,12 @@ module.exports = {
 }
 
 function _buildRequestOptions (apiPrefix, apiSuffix, req, method = 'GET') {
-  return settings.jiraUrl().then(jiraUrl => {
-    return {
-      uri: urlJoin(jiraUrl, apiPrefix, apiSuffix),
-      method: method,
-      headers: {
-        'Authorization': req.get('Authorization')
-      },
-      json: true // Automatically parses the JSON string in the response
-    }
-  })
+  return {
+    uri: urlJoin(req.settings.jiraUrl, apiPrefix, apiSuffix),
+    method: method,
+    headers: {
+      'Authorization': req.get('Authorization')
+    },
+    json: true // Automatically parses the JSON string in the response
+  }
 }

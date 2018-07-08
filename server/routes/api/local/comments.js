@@ -21,7 +21,7 @@ module.exports = {
   addComment: function (req, res) {
     return db.Comment.create({
       body: req.body.body,
-      authorId: req.headers['X-User-Id'],
+      authorId: req.user.id,
       issueId: req.params.issueId
     })
     .then(comment => res.send(comment))
