@@ -11,8 +11,8 @@ module.exports = {
       res.status(401).send('Unauthorized')
       return Promise.resolve()
     }
-    return jiraRequestBuilder.jira('/myself', req)
-      .then(options => request(options))
+    const options = jiraRequestBuilder.jira('/myself', req)
+    return request(options)
       .then(user => {
         return avatarCache({
           uri: url.parse(user.avatarUrls['24x24'], true).query.d,

@@ -12,13 +12,15 @@ const PgSession = require('connect-pg-simple')(session)
 const db = require('./models')
 
 function loadSettings (req, res, next) {
-  const userId = req.headers['x-user-id']
-  if (userId != null) {
-    return db.Settings.findOrCreate({ where: { userId: userId }, defaults: { userId: userId } })
-      .spread((settings, created) => {
-        req.settings = settings
-        next()
-      })
+  if (req.user != null) {
+    return db.Settings.findOrCreate({
+      where: { userId: req.user.id },
+      defaults: { userId: req.user.id }
+    })
+    .spread((settings, created) => {
+      req.settings = settings
+      next()
+    })
   } else {
     next()
   }

@@ -28,7 +28,7 @@ module.exports = {
 }
 
 function orderStatuses (statusViewModels, req) {
-  const url = `board/${req.settings.rapidBoardId}/configuration`
+  const url = `board/${req.settings.jiraRapidBoardId}/configuration`
   const options = jiraRequestBuilder.agile(url, req)
   return cachedRequest(options)
     .then(config => {

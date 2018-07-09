@@ -137,8 +137,8 @@ module.exports = {
 
 function getIssuesByJQL (req, jql) {
   const encodedJQL = encodeURIComponent(jql)
-  return jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
-    .then(options => getIssues(options, req))
+  const options = jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
+  return getIssues(options, req)
 }
 
 function getIssues (options, req) {
@@ -166,8 +166,8 @@ function getIssues (options, req) {
 
 function getEpics (jiraRapidBoardId, req) {
   const url = `/board/${jiraRapidBoardId}/epic?done=false`
-  return jiraRequestBuilder.agile(url, req)
-    .then(options => request(options))
+  const options = jiraRequestBuilder.agile(url, req)
+  return request(options)
     .then(response => response.values)
 }
 
