@@ -5,7 +5,7 @@ const cardColours = require('./card-colours')
 
 module.exports = {
   getIssueTypes: function (req, res) {
-    const options = jiraRequestBuilder.jira(`project/${req.settings.projectName}`, req)
+    const options = jiraRequestBuilder.jira(`project/${req.settings.jiraProjectName}`, req)
     return cachedRequest(options)
       .then(project => {
         return cardColours.getCardColours(req)
