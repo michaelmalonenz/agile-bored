@@ -32,6 +32,8 @@ Object.keys(db).forEach(function (modelName) {
 
 db.Issue.belongsTo(db.IssueStatus, { foreignKey: 'statusId' })
 db.Issue.belongsTo(db.IssueType, { foreignKey: 'typeId' })
+db.Issue.belongsTo(db.User, { as: 'reporter', foreignKey: 'reporterId' })
+db.Issue.belongsTo(db.User, { as: 'assignee', foreignKey: 'assigneeId' })
 db.Issue.hasMany(db.Comment, { as: 'comments', foreignKey: 'issueId' })
 
 db.Comment.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' })

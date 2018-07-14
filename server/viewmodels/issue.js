@@ -2,6 +2,7 @@ const StatusViewModel = require('./status')
 const IssueTypeViewModel = require('./issue-type')
 const EpicViewModel = require('./epic')
 const CommentViewModel = require('./comment')
+const UserViewModel = require('./user')
 
 module.exports = class IssueViewModel {
   constructor () {
@@ -45,7 +46,8 @@ module.exports = class IssueViewModel {
     result.description = obj.description
     result.updatedAt = obj.updatedAt
     result.createdAt = obj.createdAt
-    result.assignee = null
+    result.assignee = UserViewModel.createFromLocal(obj.assignee)
+    result.reporter = UserViewModel.createFromLocal(obj.reporter)
     result.IssueStatus = StatusViewModel.createFromLocal(obj.IssueStatus)
     result.issueType = IssueTypeViewModel.createFromLocal(obj.IssueType)
     result.comments = []

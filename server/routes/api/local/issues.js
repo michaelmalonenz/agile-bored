@@ -124,6 +124,14 @@ function _baseIssueQueryProps () {
       model: db.Comment,
       as: 'comments',
       required: false
+    }, {
+      model: db.User,
+      as: 'assignee',
+      required: false
+    }, {
+      model: db.User,
+      as: 'reporter',
+      required: false
     }]
   }
 }

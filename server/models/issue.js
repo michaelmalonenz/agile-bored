@@ -18,6 +18,20 @@ module.exports = function (sequelize, DataTypes) {
           model: 'issue_type',
           key: 'id'
         }
+      },
+      assigneeId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
+      },
+      reporterId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
       }
     }, {
       tableName: 'issues'
