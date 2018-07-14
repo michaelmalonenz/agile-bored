@@ -42,11 +42,16 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
-    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req)
-    return request(options)
-      .then(issue => IssueViewModel.createFromJira(issue))
-      .then(result => res.send(result))
-      .catch(err => res.status(502).send(err))
+    return cardColours.getCardColours(req).then(colours => {
+      const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req)
+      return request(options)
+        .then(issue => {
+          let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
+          return IssueViewModel.createFromJira(issue, colour)
+        })
+        .then(result => res.send(result))
+        .catch(err => res.status(502).send(err))
+    })
   },
   search: function (req, res) {
     const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
