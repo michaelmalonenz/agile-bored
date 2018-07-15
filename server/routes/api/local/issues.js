@@ -52,7 +52,8 @@ module.exports = {
   updateStatus: function (req, res) {
     return db.Issue.update(
       { statusId: req.params.statusId },
-      { where: { id: req.params.issueId } }).then(issue => {
+      { where: { id: req.params.issueId } })
+      .then(issue => {
         res.sendStatus(200)
       })
   },
@@ -63,7 +64,12 @@ module.exports = {
     })
   },
   assign: function (req, res) {
-    res.sendStatus(200)
+    return db.Issue.update(
+      { assigneeId: req.body.id },
+      { where: { id: req.params.issueId } })
+      .then((issue) => {
+        res.send(issue)
+      })
   },
   standup: function (req, res) {
     const date = new Date(req.params.date)
@@ -87,10 +93,11 @@ module.exports = {
   },
   create: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)
+    dbIssue.reporterId = req.user.id
     return db.Issue.create(dbIssue)
-      .then(issue => db.findById(issue.id, _baseIssueQueryProps()))
+      .then(issue => db.Issue.findById(issue.id, _baseIssueQueryProps()))
       .then(dbIssue => {
-        IssueViewModel.createFromLocal(dbIssue.dataValues)
+        return IssueViewModel.createFromLocal(dbIssue.dataValues)
       })
       .then(issue => res.send(issue))
   }
