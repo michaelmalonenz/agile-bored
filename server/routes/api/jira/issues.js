@@ -123,7 +123,7 @@ module.exports = {
     const options = jiraRequestBuilder.jira('/issue', req, 'POST')
     options.body = {
       fields: {
-        reporter: { name: issueObj.reporter.username },
+        reporter: { name: req.user.username },
         summary: issueObj.title,
         description: issueObj.description,
         project: { key: req.settings.jiraProjectName },

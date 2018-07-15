@@ -63,9 +63,6 @@ export class IssueEditorDialog {
   }
 
   save () {
-    if (!this.edit) {
-      this.issue.reporter = SecuritySettings.instance().user
-    }
     this.controller.ok(this.issue)
   }
 }
