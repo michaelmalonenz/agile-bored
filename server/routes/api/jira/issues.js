@@ -199,6 +199,7 @@ function groupIssuesByEpic (issues, jiraRapidBoardId, req) {
 function sortStandUpIssues (issues, dbSettings, req) {
   return statusApi.retrieveStatuses(req, dbSettings.jiraProjectName)
     .then(statuses => {
+      sortChildren(issues, dbSettings, statuses)
       return issues.sort((a, b) => {
         if (dbSettings.groupIssuesByEpic) {
           if (a.epic && b.epic && a.epic.id !== b.epic.id) {
@@ -217,4 +218,28 @@ function sortStandUpIssues (issues, dbSettings, req) {
         return bStatusIndex - aStatusIndex
       })
     })
+}
+
+function sortChildren (issues, settings, statuses) {
+  for (let issue of issues) {
+    if (issue.children) {
+      issue.children = issue.children.sort((a, b) => {
+        if (settings.groupIssuesByEpic) {
+          if (a.epic && b.epic && a.epic.id !== b.epic.id) {
+            if (a.epic.name > b.epic.name) {
+              return 1
+            } else if (a.epic.name < b.epic.name) {
+              return -1
+            } else {
+              return 0
+            }
+          }
+        }
+        const aStatusIndex = statuses.findIndex(s => s.id === a.IssueStatus.id)
+        const bStatusIndex = statuses.findIndex(s => s.id === b.IssueStatus.id)
+        // We want descending order, so opposite world
+        return bStatusIndex - aStatusIndex
+      })
+    }
+  }
 }
