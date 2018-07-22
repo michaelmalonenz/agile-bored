@@ -14,27 +14,18 @@ module.exports = {
     const options = jiraRequestBuilder.jira('/myself', req)
     return request(options)
       .then(user => {
-        return avatarCache({
-          uri: url.parse(user.avatarUrls['24x24'], true).query.d,
-          encoding: null,
-          headers: {
-            'Authorization': req.get('Authorization')
-          }
+        return db.User.findOrBuild({
+          where: { jiraId: user.accountId }
         })
-        .then(avatar => {
-          return db.User.findOrBuild({
-            where: { jiraId: user.accountId }
+        .spread((userObj) => {
+          userObj.set({
+            jiraId: user.accountId,
+            displayName: user.displayName,
+            username: user.name,
+            avatar: user.avatarUrls['24x24']
           })
-          .spread((userObj, initialized) => {
-            userObj.set({
-              jiraId: user.accountId,
-              displayName: user.displayName,
-              username: user.name,
-              avatar: avatar.toString('base64')
-            })
-            res.send(UserViewModel.createFromLocal(userObj.get()))
-            return userObj.save()
-          })
+          res.send(UserViewModel.createFromLocal(userObj.get()))
+          return userObj.save()
         }).catch(err => {
           console.log(err)
           return res.sendStatus(503)
