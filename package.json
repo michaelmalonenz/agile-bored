@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/michaelmalonenz/node-board#readme",
   "dependencies": {
-    "concurrently": "^3.6.0"
+    "concurrently": "^3.6.1"
   }
 }
