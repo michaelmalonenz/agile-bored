@@ -7,7 +7,7 @@ const cardColours = require('./card-colours')
 
 module.exports = {
   findAllIssues: function (req, res) {
-    const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
+    const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") order by Rank ASC')
     const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
@@ -21,7 +21,7 @@ module.exports = {
   },
   issuesByEpic: function (req, res) {
     const jiraRapidBoardId = req.settings.jiraRapidBoardId
-    const jql = encodeURIComponent('status not in (Done,"To Do") order by Rank ASC')
+    const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") order by Rank ASC')
     const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
@@ -107,7 +107,7 @@ module.exports = {
     const date = new Date(req.params.date)
     // If today is Monday, then include the last 3 days, otherwise include the last day
     let dayCount = (date.getDay() === 1 ? 3 : 1)
-    const jql = encodeURIComponent(`type != Epic AND (status not in (Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
+    const jql = encodeURIComponent(`type != Epic AND (status not in (Cancelled,Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
     const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
