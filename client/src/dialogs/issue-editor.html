@@ -9,10 +9,10 @@
           <input type="text" class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
         </div>
         <div class="col-xs-2">
-          <input type="text" value.bind="issue.epic.key" disabled="true" placeholder="epic" />
+          <input class="edit-control" type="text" value.bind="issue.epic.key" disabled="true" placeholder="epic" />
         </div>
         <div class="col-xs-2">
-          <div class="pull-right">
+          <div class="edit-control pull-right">
             <select-dropdown value.bind="issue.issueType" options.bind="issueTypes"></select-dropdown>
           </div>
         </div>
