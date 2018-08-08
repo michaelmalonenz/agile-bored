@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently --prefix '[{name}]' --names 'SERVER,CLIENT' -c 'white.bgBlue.bold,black.bgGreen.bold' 'cd server; npm run start' 'cd client; au run --watch'",
-    "install-all": "cd client && npm install && cd ../server && npm install"
+    "install-all": "npm install && cd client; npm install && cd ../server; npm install"
   },
   "repository": {
     "type": "git",
