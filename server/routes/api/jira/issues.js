@@ -21,7 +21,7 @@ module.exports = {
   },
   issuesByEpic: function (req, res) {
     const jiraRapidBoardId = req.settings.jiraRapidBoardId
-    const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") order by Rank ASC')
+    const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") and type != Epic order by Rank ASC')
     const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
