@@ -120,7 +120,7 @@ export class Board {
           this.issues = []
           AssigneeCache.clearCache()
           for(let issue of issues) {
-            this.issues.push(this.issueViewModelFactory.create(issue))
+            this.issues.push(IssueViewModelFactory.create(issue))
           }
         }).catch(err => console.error(err))
       }
