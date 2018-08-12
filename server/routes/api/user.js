@@ -9,4 +9,9 @@ module.exports = function (router) {
       return localUser.me(req, res)
     }
   })
+
+  router.get('/users/search', function (req, res) {
+    console.log(req.query.term)
+    res.send([], 200)
+  })
 }

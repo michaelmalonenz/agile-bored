@@ -11,6 +11,17 @@
           Unassign
         </span>
       </div>
+      <div class="row assign-list-user">
+        <div class="input-group">
+          <input type="text" class="form-control search-box" placeholder="Search..."
+            value.two-way="searchText" click.trigger="ignoreClick($event)">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" click.trigger="searchUsers($event)">
+              <i class="fas fa-search"></i>
+            </button>
+          </span>
+        </div>
+      </div>
       <div class="row assign-list-user" repeat.for="user of users" click.trigger="assignUser($event, user)">
         <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl" alt="User Avatar">
         <span class="assign-name">

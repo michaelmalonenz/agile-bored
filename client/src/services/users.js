@@ -19,6 +19,17 @@ export class UserService {
     return res.content
   }
 
+  async search (term) {
+    const res = await this._http
+      .createRequest('/api/users/search')
+      .asGet()
+      .withParams({term})
+      .withReviver(this._userReviver)
+      .send()
+
+    return res.content
+  }
+
   _userReviver (key, value) {
     if (key === '' && value != null && typeof value === 'object') {
       return new User(value)

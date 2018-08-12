@@ -1,8 +1,9 @@
 import { bindable, inject, customElement, bindingMode, computedFrom } from 'aurelia-framework'
 import { AssigneeCache } from '../utils/assignees-cache'
 import { IssueService } from '../services/issues';
+import { UserService } from '../services/users';
 
-@inject(Element, IssueService)
+@inject(Element, IssueService, UserService)
 @bindable({
   name: 'assignee',
   defaultBindingMode: bindingMode.twoWay
@@ -22,11 +23,13 @@ import { IssueService } from '../services/issues';
 @customElement('assign-users')
 export class AssignUsers {
 
-  constructor (element, issueService) {
+  constructor (element, issueService, userService) {
     this.element = element
     this.issueService = issueService
+    this.userService = userService
     this.active = false
     this.autocompleteElement = null
+    this.searchText = ''
     this._users = AssigneeCache.getCachedAssignees()
 
     this.boundClickUser = this.clickUser.bind(this)
@@ -86,6 +89,18 @@ export class AssignUsers {
     this.clickUser(event)
     this.assignee = user
     await this.issueService.assign(this.issueId, this.assignee)
+  }
+
+  async searchUsers (event) {
+    event.stopPropagation();
+    this._users = await this.userService.search(this.searchText)
+    return true
+  }
+
+  ignoreClick (event) {
+    event.target.focus()
+    event.stopPropagation();
+    return true
   }
 
   _addDeactivateListeners () {
