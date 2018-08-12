@@ -10,7 +10,7 @@ import {User} from '../models/user'
 
 export class IssueViewModelFactory {
 
-  create (issueDTO) {
+  static create (issueDTO) {
     const children = []
     if (issueDTO.assignee) {
       AssigneeCache.cacheUser(new User(issueDTO.assignee))
@@ -27,7 +27,7 @@ export class IssueViewModelFactory {
     return this._createViewModel(issueDTO)
   }
 
-  _createViewModel (dto) {
+  static _createViewModel (dto) {
     const container = Container.instance
     return new Issue(dto,
       container.get(DialogService),

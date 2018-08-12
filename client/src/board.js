@@ -9,14 +9,13 @@ import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD, REFRESH_BOARD_COMPLETE } from './events'
 import { AssigneeCache } from './utils/assignees-cache';
 
-@inject(StatusService, IssueService, SettingsService, IssueViewModelFactory, EventAggregator)
+@inject(StatusService, IssueService, SettingsService, EventAggregator)
 export class Board {
 
-  constructor(statusService, issueService, settingsService, issueViewModelFactory, eventAggregator) {
+  constructor(statusService, issueService, settingsService, eventAggregator) {
     this.statusService = statusService
     this.issueService = issueService
     this.settingsService = settingsService
-    this.issueViewModelFactory = issueViewModelFactory
     this.eventAggregator = eventAggregator
 
     this.settings = {}
@@ -88,7 +87,7 @@ export class Board {
   }
 
   _issueCreated (issue) {
-    const createdVm = this.issueViewModelFactory.create(issue)
+    const createdVm = IssueViewModelFactory.create(issue)
     // This works around the observer, forcing a re-render
     this.issues = this.issues.concat([createdVm])
   }
@@ -110,7 +109,7 @@ export class Board {
           for(let epic of epics) {
               let issues = []
               for (let issue of epic.issues) {
-                issues.push(this.issueViewModelFactory.create(issue))
+                issues.push(IssueViewModelFactory.create(issue))
               }
               epic.issues = issues
               this.epics.push(epic)
