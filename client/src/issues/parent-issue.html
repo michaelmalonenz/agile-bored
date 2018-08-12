@@ -1,6 +1,6 @@
 <template>
   <div class="row issue-title">
-    <div class="col-xs-12 parent-issue-title-row">
+    <div class="col-xs-12 parent-issue-title-row" dblclick.delegate="editIssue()">
       <h4>${parent.issue.title}</h4>
       <div class="epic-name" css.bind="parent.epicStyle">
         ${parent.epicName}
