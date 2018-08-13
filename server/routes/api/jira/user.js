@@ -31,5 +31,9 @@ module.exports = {
           return res.sendStatus(503)
         })
       })
+  },
+
+  search: function (req, res) {
+    res.send([], 200)
   }
 }

@@ -11,7 +11,10 @@ module.exports = function (router) {
   })
 
   router.get('/users/search', function (req, res) {
-    console.log(req.query.term)
-    res.send([], 200)
+    if (req.settings && req.settings.useJira) {
+      return jiraUser.search(req, res)
+    } else {
+      return localUser.search(req, res)
+    }
   })
 }

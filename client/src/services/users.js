@@ -24,7 +24,6 @@ export class UserService {
       .createRequest('/api/users/search')
       .asGet()
       .withParams({term})
-      .withReviver(this._userReviver)
       .send()
 
     return res.content

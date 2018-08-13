@@ -58,7 +58,13 @@ export class AssignUsers {
     }
   }
 
-  @computedFrom('assignee')
+  @computedFrom('large')
+  get avatarStyle () {
+    const size = this.large ? '48px' : '24px'
+    return `height: ${size}; width: ${size}`
+  }
+
+  @computedFrom('assignee', '_users')
   get users () {
     const filteredUsers = this._users.filter(u => {
       if (this.assignee) {
@@ -94,6 +100,7 @@ export class AssignUsers {
   async searchUsers (event) {
     event.stopPropagation();
     this._users = await this.userService.search(this.searchText)
+    console.log(this._users)
     return true
   }
 

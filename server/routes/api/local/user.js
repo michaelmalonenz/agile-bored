@@ -1,4 +1,5 @@
 const db = require('../../../models')
+const op = db.Sequelize.Op
 const UserViewModel = require('../../../viewmodels/user')
 
 module.exports = {
@@ -12,5 +13,27 @@ module.exports = {
         }
       })
       .catch(err => res.status(500).send(err.message))
+  },
+
+  search: function (req, res) {
+    const searchTerm = req.query.term
+    return db.User.findAll({
+      where: {
+        [op.or]: {
+          'username': { [op.iLike]: `%${searchTerm}%` },
+          'displayName': { [op.iLike]: `%${searchTerm}%` }
+        }
+      }
+    }).then(users => {
+      const result = []
+      for (let user of users) {
+        result.push(UserViewModel.createFromLocal(user.dataValues))
+      }
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(err)
+    })
   }
 }
