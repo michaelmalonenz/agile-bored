@@ -7,12 +7,11 @@ import { IssueService } from './services/issues'
 import { SEARCH } from './events'
 import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 
-@inject(IssueService, IssueViewModelFactory, Router, EventAggregator, Element)
+@inject(IssueService, Router, EventAggregator, Element)
 export class Search {
 
-  constructor (issueService, issueViewModelFactory, router, eventAggregator, element) {
+  constructor (issueService, router, eventAggregator, element) {
     this.issueService = issueService
-    this.issueViewModelFactory = issueViewModelFactory
     this.router = router
     this.eventAggregator = eventAggregator
     this.element = element
@@ -67,7 +66,7 @@ export class Search {
       this.results = []
       if (issues) {
         for(let issue of issues) {
-          this.results.push(this.issueViewModelFactory.create(issue))
+          this.results.push(IssueViewModelFactory.create(issue))
         }
       }
       this.noResults = this.results.length === 0

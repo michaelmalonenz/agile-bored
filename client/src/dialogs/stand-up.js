@@ -4,14 +4,13 @@ import { DialogController } from 'aurelia-dialog'
 import { IssueService } from 'services/issues'
 import { IssueViewModelFactory } from 'factories/issue-viewmodel-factory'
 
-@inject(DialogController, Element, IssueService, IssueViewModelFactory)
+@inject(DialogController, Element, IssueService)
 export class StandUpDialog {
 
-  constructor (controller, elem, issueService, issueViewModelFactory) {
+  constructor (controller, elem, issueService) {
     this.controller = controller
     this.element = elem
     this.issueService = issueService
-    this.issueViewModelFactory = issueViewModelFactory
     this.inFullScreen = false
     this.issues = []
     this.loading = true
@@ -57,7 +56,7 @@ export class StandUpDialog {
     const resIssues = await this.issueService.getStandUpIssues()
     this.issues = []
     for(let issue of resIssues) {
-      this.issues.push(this.issueViewModelFactory.create(issue))
+      this.issues.push(IssueViewModelFactory.create(issue))
     }
     this.loading = false
   }
