@@ -60,8 +60,12 @@ export class AssignUsers {
 
   @computedFrom('large')
   get avatarStyle () {
-    const size = this.large ? '48px' : '24px'
-    return `height: ${size}; width: ${size}`
+    if (this.hasAssignee) {
+      const size = this.large ? '48px' : '24px'
+      return `height: ${size}; width: ${size}`
+    } else {
+      return ''
+    }
   }
 
   @computedFrom('assignee', '_users')
