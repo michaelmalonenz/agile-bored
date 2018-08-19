@@ -34,6 +34,18 @@ module.exports = {
   },
 
   search: function (req, res) {
-    res.send([], 200)
+    const url = `/user/assignable/search?query=${req.query.term}&project=${req.settings.jiraProjectName}&maxResults=10`
+    const options = jiraRequestBuilder.jira(url, req)
+    return request(options)
+      .then(users => {
+        const result = []
+        for (let user of users) {
+          result.push(UserViewModel.createFromJira(user))
+        }
+        res.send(result, 200)
+      }).catch(err => {
+        console.log(err)
+        return res.sendStatus(502)
+      })
   }
 }
