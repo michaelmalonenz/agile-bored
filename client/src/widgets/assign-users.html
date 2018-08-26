@@ -14,7 +14,7 @@
       <div class="row assign-list-user">
         <div class="input-group">
           <input type="text" class="form-control search-box" placeholder="Search..."
-            value.two-way="searchText" click.trigger="ignoreClick($event)">
+            value.two-way="searchText" click.trigger="ignoreClick($event)" keyup.trigger="keyUp($event)">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" click.trigger="searchUsers($event)">
               <i class="fas fa-search"></i>

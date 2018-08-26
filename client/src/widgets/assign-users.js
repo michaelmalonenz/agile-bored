@@ -104,7 +104,6 @@ export class AssignUsers {
   async searchUsers (event) {
     event.stopPropagation();
     this._users = await this.userService.search(this.searchText)
-    console.log(this._users)
     return true
   }
 
@@ -112,6 +111,12 @@ export class AssignUsers {
     event.target.focus()
     event.stopPropagation();
     return true
+  }
+
+  async keyUp (event) {
+    if (event.which === 13) {
+      await this.searchUsers(event)
+    }
   }
 
   _addDeactivateListeners () {

@@ -18,6 +18,8 @@ module.exports = class UserViewModel {
       result.displayName = obj.displayName
       result.createdAt = obj.created
       result.updatedAt = obj.updated
+      result.avatarUrl = obj.avatarUrls['24x24']
+      result.largeAvatarUrl = obj.avatarUrls['48x48']
     }
     return result
   }
@@ -30,7 +32,7 @@ module.exports = class UserViewModel {
       result.externalId = obj.externalId
       result.username = obj.username
       result.displayName = obj.displayName
-      result.avatar = obj.avatar
+      result.avatarUrl = obj.avatar
       result.createdAt = obj.created
       result.updatedAt = obj.updated
     }
