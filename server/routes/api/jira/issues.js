@@ -104,7 +104,8 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   standup: function (req, res) {
-    const date = new Date(req.params.date)
+    const offset = Number(req.params.offset)
+    const date = new Date(Date.now() + (offset * 60 * 1000))
     // If today is Monday, then include the last 3 days, otherwise include the last day
     let dayCount = (date.getDay() === 1 ? 3 : 1)
     const jql = encodeURIComponent(`type != Epic AND (status not in (Cancelled,Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)

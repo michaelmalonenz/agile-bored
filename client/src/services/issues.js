@@ -82,7 +82,7 @@ export class IssueService {
     const res = await this._http
       .createRequest('/api/issues/standup')
       .asGet()
-      .withParams({ date: Date.now() })
+      .withParams({ offset: new Date().getTimezoneOffset() })
       .withReviver(this._issueReviver)
       .send()
 
