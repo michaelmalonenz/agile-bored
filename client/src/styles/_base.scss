@@ -50,6 +50,11 @@ body {
     color: $brand-primary;
 }
 
+.navbar-default {
+    padding-left: 0.5em;
+    padding-right: calc(0.5em + 16px);
+}
+
 .loader {
     margin-right: 10px;
     margin-top: 5px;
