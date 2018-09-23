@@ -3,6 +3,7 @@ const IssueTypeViewModel = require('./issue-type')
 const EpicViewModel = require('./epic')
 const CommentViewModel = require('./comment')
 const UserViewModel = require('./user')
+const JiraToMarkdown = require('./jira-to-markdown')
 
 module.exports = class IssueViewModel {
   constructor () {
@@ -22,7 +23,7 @@ module.exports = class IssueViewModel {
     result.id = obj.id
     result.key = obj.key
     result.title = obj.fields.summary
-    result.description = obj.fields.description
+    result.description = JiraToMarkdown.convert(obj.fields.description)
     result.assignee = obj.fields.assignee
     result.updatedAt = obj.fields.updated
     result.createdAt = obj.fields.created
