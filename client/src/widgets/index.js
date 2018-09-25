@@ -9,6 +9,7 @@ export function configure (config) {
     './viewing-text-editor',
     './status-drop-down',
     './select-dropdown',
-    './issue-type'
+    './issue-type',
+    './autocomplete'
   ])
 }

@@ -1,0 +1,21 @@
+<template>
+  <div class="autocomplete" show.bind="editing">
+    <div class="input-group">
+      <input type="text" class="form-control search-box" placeholder.bind="placeholder"
+        value.two-way="value" keyup.trigger="keyUp($event)">
+      <span class="input-group-btn" if.bind="!compact">
+        <button class="btn btn-default" type="button" click.trigger="_search($event)">
+          <i class="fas fa-search"></i>
+        </button>
+      </span>
+    </div>
+    <div class="autcomplete-suggestions">
+      <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions">
+        <compose view-model.bind="suggestion" ></compose>
+      </div>
+    </div>
+  </div>
+  <div class="autocomplete autocomplete-display form-control" show.bind="!editing" click.trigger="toggleEdit()">
+    <label>${value}</label>
+  </div>
+</template>

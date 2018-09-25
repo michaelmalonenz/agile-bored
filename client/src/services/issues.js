@@ -64,6 +64,17 @@ export class IssueService {
     return res.content
   }
 
+  async searchEpics (searchTerm) {
+    const res = await this._http
+      .createRequest('/api/epics/search')
+      .asGet()
+      .withParams({ search: searchTerm })
+      .withReviver(this._epicReviver)
+      .send()
+
+    return res.content
+  }
+
   async getIssuesByEpic () {
     const res = await this._http
       .createRequest('/api/issues-by-epic')

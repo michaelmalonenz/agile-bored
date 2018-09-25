@@ -6,10 +6,11 @@
     <ux-dialog-body>
       <div class="row">
         <div class="col-xs-8">
-          <input type="text" class="edit-issue-title" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
+          <input type="text" class="edit-issue-title form-control" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
         </div>
         <div class="col-xs-2">
-          <input class="edit-control" type="text" value.bind="issue.epic.key" disabled="true" placeholder="epic" />
+          <autocomplete value.bind="issue.epic.key" search.call="epicSearch(value)" placeholder="Epic"
+            select.call="epicSelect" compact="true"></autocomplete>
         </div>
         <div class="col-xs-2">
           <div class="edit-control pull-right">
