@@ -11,6 +11,15 @@ const MULTILINE_SYMBOLS = [
     preFormatting: true
   },
   {
+    name: 'MULTILINE_PREFORMATTED',
+    regex: /^\{noformat\}.*$/,
+    startMarkup: '```',
+    endMarkup: '```',
+    lineStartMarkup: '',
+    lineEndMarkup: '',
+    preFormatting: true
+  },
+  {
     name: 'UNORDERED_LIST',
     regex: /^\s*(?:\*|-)\s+(.*)$/,
     startMarkup: '',
@@ -93,7 +102,7 @@ const INLINE_SYMBOLS = [
 ]
 
 module.exports = class JiraToMarkdown {
-    static convert (value) {
-        return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
-    }
+  static convert (value) {
+    return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
+  }
 }
