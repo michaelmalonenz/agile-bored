@@ -2,12 +2,18 @@
 
 .issue {
   box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
-  padding: 5px;
+  padding: 0.5em;
   border-left: solid 3px transparent;
   border-radius: 3px;
   margin-bottom: 5px;
   background-color: white;
+
+  .issue-mid-row {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
 }
+
 
 epic .issue-title {
   margin: 0;
@@ -33,7 +39,7 @@ epic .issue-title {
 
 .epic-name {
   border-radius: 2px;
-  padding: 0 0.3rem;
+  padding: 0.3em 0.5em;
   display: inline-block;
 }
 
