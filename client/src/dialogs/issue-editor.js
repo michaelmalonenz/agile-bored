@@ -5,6 +5,7 @@ import { Issue } from '../models/issue'
 import { IssueTypeService } from '../services/issue-types'
 import { IssueService } from '../services/issues'
 import { IssueTypeViewmodel } from '../widgets/issue-type'
+import { AutocompleteEpic } from '../issues/autocomplete-epic';
 
 @inject(DialogController, IssueTypeService, IssueService)
 export class IssueEditorDialog {
@@ -68,6 +69,11 @@ export class IssueEditorDialog {
   }
 
   async epicSearch (value, _event) {
-    return await this.issueService.searchEpics(value)
+    const epics = await this.issueService.searchEpics(value)
+    const result = []
+    for (let epic of epics) {
+      result.push(new AutocompleteEpic(epic))
+    }
+    return result
   }
 }

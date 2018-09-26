@@ -76,4 +76,11 @@ module.exports = function (router) {
   router.delete('/issue/:issueId', function (req, res) {
     return db.Issue.destroy({ where: { id: req.params.issueId } })
   })
+
+  router.get('/epics/search', function (req, res) {
+    if (req.settings && req.settings.useJira) {
+      return jiraIssues.searchEpics(req, res)
+    }
+    return localIssues.searchEpics(req, res)
+  })
 }

@@ -59,6 +59,22 @@ module.exports = {
       .then(issues => res.send(issues))
       .catch(err => res.status(502).send(err))
   },
+  searchEpics: function (req, res) {
+    const term = (req.query.search || '').toLowerCase()
+    return getEpics(req.settings.jiraRapidBoardId, req)
+      .then(epics => {
+        const results = []
+        for (let epic of epics) {
+          if ((epic.name && epic.name.toLowerCase().includes(term)) ||
+              (epic.summary && epic.summary.toLowerCase().includes(term)) ||
+              epic.key.toLowerCase().includes(term)) {
+            results.push(EpicViewModel.createFromJira(epic))
+          }
+        }
+        res.send(results)
+      })
+      .catch(err => res.status(502).send(err))
+  },
   updateStatus: function (req, res) {
     return statusApi.retrieveStatuses(req, req.settings.jiraProjectName)
       .then(statuses => statuses.find(s => s.id === req.params.statusId))
@@ -143,7 +159,7 @@ module.exports = {
 
 function getIssuesByJQL (req, jql) {
   const encodedJQL = encodeURIComponent(jql)
-  const options = jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=150`, req)
+  const options = jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
   return getIssues(options, req)
 }
 

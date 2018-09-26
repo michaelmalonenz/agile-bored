@@ -1,7 +1,5 @@
 import {bindable, bindingMode, inject} from 'aurelia-framework'
 
-const KEY_ENTER = 13
-
 @bindable({
   name: 'placeholder',
   defaultValue: '',
@@ -30,9 +28,7 @@ export class Autocomplete {
   }
 
   async keyUp (event) {
-    if (event.which === KEY_ENTER) {
-      await this._search (event)
-    }
+    await this._search (event)
   }
 
   toggleEdit () {
