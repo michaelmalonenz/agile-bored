@@ -1,4 +1,4 @@
-import { bindable, customElement, inject, bindingMode } from 'aurelia-framework'
+import { bindable, customElement, inject, bindingMode, TaskQueue } from 'aurelia-framework'
 
 @bindable({
   name: 'value',
@@ -9,11 +9,12 @@ import { bindable, customElement, inject, bindingMode } from 'aurelia-framework'
   name: 'startAsEdit',
   defaultValue: false
 })
-@inject(Element)
+@inject(Element, TaskQueue)
 @customElement('viewing-text-editor')
 export class ViewingTextEditor {
-  constructor (element) {
+  constructor (element, taskQueue) {
     this.element = element
+    this.taskQueue = taskQueue
     this.editMode = false
   }
 
@@ -31,7 +32,9 @@ export class ViewingTextEditor {
 
   startEditing () {
     this.editMode = true
-    this.element.querySelector('textarea').focus()
+    this.taskQueue.queueMicroTask(() => {
+      this.element.querySelector('textarea').focus()
+    })
   }
 
   stopEditing () {
