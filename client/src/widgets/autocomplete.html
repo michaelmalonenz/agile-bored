@@ -9,13 +9,16 @@
         </button>
       </span>
     </div>
-    <div class="autocomplete-suggestions">
+    <div show.bind="haveSuggestions" class="autocomplete-suggestions">
       <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.delegate="_select($event)">
         <compose view-model.bind="suggestion" view.bind="view"></compose>
       </div>
     </div>
   </div>
   <div class="autocomplete autocomplete-display" show.bind="!editing" click.trigger="toggleEdit()">
-    <compose view-model.bind="selected" view.bind="view" ></compose>
+    <compose if.bind="selected" view-model.bind="selected" view.bind="view" ></compose>
+    <div if.bind="!selected" class="autocomplete-placeholder form-control">
+      ${placeholder}
+    </div>
   </div>
 </template>

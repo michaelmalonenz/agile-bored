@@ -1,4 +1,4 @@
-import {bindable, bindingMode, inject} from 'aurelia-framework'
+import {bindable, bindingMode, inject, TaskQueue, computedFrom} from 'aurelia-framework'
 
 @bindable({
   name: 'placeholder',
@@ -23,15 +23,22 @@ import {bindable, bindingMode, inject} from 'aurelia-framework'
   defaultBindingMode: bindingMode.twoWay
 })
 @bindable('view')
-@inject(Element)
+@inject(Element, TaskQueue)
 export class Autocomplete {
-  constructor (element) {
+  constructor (element, taskQueue) {
+    this.element = element
+    this.taskQueue = taskQueue
     this.value = ''
     this.placeholder = ''
     this.compact = false
     this.selected = null
     this.editing = false
-    this.element = element
+    this.suggestions = []
+  }
+
+  @computedFrom('suggestions')
+  get haveSuggestions () {
+    return !!this.suggestions.length
   }
 
   async keyUp (event) {
@@ -41,9 +48,13 @@ export class Autocomplete {
   toggleEdit () {
     this.editing = !this.editing
     if (this.editing) {
-      setTimeout(() => {
-        this.element.querySelector('.autocomplete .search-box').select().focus()
-      }, 150)
+      this.taskQueue.queueMicroTask(() => {
+        const inputElement = this.element.querySelector('.autocomplete .search-box')
+        if (inputElement) {
+          inputElement.select()
+          inputElement.focus()
+        }
+      })
     }
   }
 
