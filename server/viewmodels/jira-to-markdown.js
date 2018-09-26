@@ -3,18 +3,18 @@ const TokenConverter = require('./token-converter')
 const MULTILINE_SYMBOLS = [
   {
     name: 'MULTILINE_CODE',
-    regex: /^\{code\}.*$/,
-    startMarkup: '```',
-    endMarkup: '```',
+    regex: /^\{code\}.*/,
+    startMarkup: '```\n',
+    endMarkup: '```\n',
     lineStartMarkup: '',
     lineEndMarkup: '',
     preFormatting: true
   },
   {
     name: 'MULTILINE_PREFORMATTED',
-    regex: /^\{noformat\}.*$/,
-    startMarkup: '```',
-    endMarkup: '```',
+    regex: /^\{noformat\}.*/,
+    startMarkup: '```\n',
+    endMarkup: '```\n',
     lineStartMarkup: '',
     lineEndMarkup: '',
     preFormatting: true
@@ -24,7 +24,7 @@ const MULTILINE_SYMBOLS = [
     regex: /^\s*(?:\*|-)\s+(.*)$/,
     startMarkup: '',
     endMarkup: '',
-    lineStartMarkup: ' - ',
+    lineStartMarkup: '- ',
     lineEndMarkup: '',
     preFormatting: false
   },
@@ -83,9 +83,9 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'IMAGE',
-    regex: /^!\[(.*?)]\((.*?)\)/,
-    replacer: function (_, altText, url) {
-      return `[!${url}|${altText}]`
+    regex: /^!(.*?)\|(.*?)!/,
+    replacer: function (_, imageName, altText) {
+      return `[!${imageName}|${altText}]`
     },
     additionalCharCount: 4,
     preFormatting: false
@@ -97,6 +97,15 @@ const INLINE_SYMBOLS = [
       return `[${display}|${href}]`
     },
     additionalCharCount: 3,
+    preFormatting: false
+  },
+  {
+    name: 'HEADING',
+    regex: /^[hH](\d)\.(.*)/,
+    replacer: function (_, hLevel, headingText) {
+      return `${'#'.repeat(Number(hLevel))}${headingText}`
+    },
+    additionalCharCount: 0,
     preFormatting: false
   }
 ]
