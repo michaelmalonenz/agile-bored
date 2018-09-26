@@ -10,7 +10,7 @@
       </span>
     </div>
     <div show.bind="haveSuggestions" class="autocomplete-suggestions">
-      <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.delegate="_select($event)">
+      <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.delegate="_select(suggestion, $event)">
         <compose view-model.bind="suggestion" view.bind="view"></compose>
       </div>
     </div>

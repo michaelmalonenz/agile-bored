@@ -8,7 +8,7 @@ import {bindable, bindingMode, inject, TaskQueue, computedFrom} from 'aurelia-fr
 @bindable({
   name: 'value',
   defaultValue: '',
-  defaultBindingMode: bindingMode.twoWay
+  defaultBindingMode: bindingMode.oneTime
 })
 @bindable('search')
 @bindable('select')
@@ -73,11 +73,11 @@ export class Autocomplete {
     return Promise.resolve()
   }
 
-  _select (event) {
+  _select (suggestion, event) {
     if (typeof this.select === 'function') {
-      this.select({value: this.value, event: event})
+      this.select({value: suggestion, event: event})
     } else {
-      this.selected = this.value
+      this.selected = suggestion
     }
     this.toggleEdit()
   }
