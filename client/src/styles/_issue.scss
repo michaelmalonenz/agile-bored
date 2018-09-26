@@ -81,3 +81,9 @@ epic .issue-title {
     font-size: 2.5vh;
   }
 }
+
+.autocomplete-epic-name {
+  color: $primary-text;
+  border-radius: 3px;
+  padding: 0.3em;
+}

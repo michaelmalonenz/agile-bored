@@ -21,12 +21,6 @@
     margin: 0.3em;
     border-bottom: solid 1px $background-grey;
 
-    .autocomplete-epic-name {
-      color: $primary-text;
-      border-radius: 3px;
-      padding: 0.3em;
-    }
-
     &:hover {
       cursor: pointer;
       background-color: $background-grey;
