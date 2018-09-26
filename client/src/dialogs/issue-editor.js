@@ -69,11 +69,7 @@ export class IssueEditorDialog {
   }
 
   async epicSearch (value, _event) {
-    const epics = await this.issueService.searchEpics(value)
-    const result = []
-    for (let epic of epics) {
-      result.push(new AutocompleteEpic(epic))
-    }
-    return result
+    return await this.issueService.searchEpics(value)
   }
+
 }

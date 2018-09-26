@@ -10,7 +10,7 @@
         </div>
         <div class="col-xs-2">
           <autocomplete value.bind="issue.epic.key" search.call="epicSearch(value)" placeholder="Epic"
-            select.call="epicSelect" compact="true"></autocomplete>
+            compact="true" selected.bind="issue.epic" view="/issues/autocomplete-epic.html"></autocomplete>
         </div>
         <div class="col-xs-2">
           <div class="edit-control pull-right">
