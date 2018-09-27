@@ -8,7 +8,7 @@ import {bindable, bindingMode, inject, TaskQueue, computedFrom} from 'aurelia-fr
 @bindable({
   name: 'value',
   defaultValue: '',
-  defaultBindingMode: bindingMode.oneTime
+  defaultBindingMode: bindingMode.twoWay
 })
 @bindable('search')
 @bindable('select')

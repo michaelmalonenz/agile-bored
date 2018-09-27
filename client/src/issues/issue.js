@@ -1,5 +1,6 @@
 import {ISSUE_DELETED} from '../events'
 import {IssueEditorDialog} from '../dialogs/issue-editor'
+import {computedFrom} from 'aurelia-framework'
 
 export class Issue {
   constructor (i, dialogService, issueService, eventAggregator) {
@@ -21,22 +22,6 @@ export class Issue {
     }
   }
 
-  get avatarUrl () {
-    if (this.issue && this.issue.assignee && this.issue.assignee.avatarUrls) {
-      return this.issue.assignee.avatarUrls['24x24']
-    } else {
-      return ''
-    }
-  }
-
-  get displayName () {
-    if (this.issue && this.issue.assignee && this.issue.assignee.displayName) {
-      return this.issue.assignee.displayName
-    } else {
-      return ''
-    }
-  }
-
   get hasChildren () {
     return this.issue.children && this.issue.children.length > 0
   }
@@ -48,9 +33,10 @@ export class Issue {
     return ''
   }
 
+  @computedFrom('issue.epic.colour')
   get epicStyle () {
     if (this.issue && this.issue.epic && this.issue.epic.colour) {
-      return `background-color: ${this.issue.epic.colour}; color: white;`
+      return `background-color: ${this.issue.epic.colour};`
     }
     return ''
   }

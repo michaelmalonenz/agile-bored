@@ -2,7 +2,6 @@ import {bindable,customElement,inject} from 'aurelia-framework'
 import { DialogService } from 'aurelia-dialog';
 import { IssueService } from '../services/issues';
 import {IssueEditorDialog} from '../dialogs/issue-editor'
-import {IssueViewModelFactory} from '../factories/issue-viewmodel-factory'
 
 @customElement('parent-issue')
 @bindable('parent')

@@ -34,12 +34,13 @@ export class IssueEditorDialog {
       .map(t => new IssueTypeViewmodel(t))
   }
 
-  @computedFrom('issue.title', 'issue.description', 'issue.issueType')
+  @computedFrom('issue.title', 'issue.description', 'issue.issueType', 'issue.epic')
   get isModified () {
     if (this.edit) {
       return (this.original.title !== this.issue.title ||
         this.original.description !== this.issue.description ||
-        !this.issueTypeMatcher(this.original.issueType, this.issue.issueType)
+        !this.issueTypeMatcher(this.original.issueType, this.issue.issueType) ||
+        (this.original.epic != null && this.original.epic.id !== this.issue.epic.id)
       )
     } else {
       return true
