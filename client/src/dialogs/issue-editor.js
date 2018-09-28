@@ -40,7 +40,8 @@ export class IssueEditorDialog {
       return (this.original.title !== this.issue.title ||
         this.original.description !== this.issue.description ||
         !this.issueTypeMatcher(this.original.issueType, this.issue.issueType) ||
-        (this.original.epic != null && this.original.epic.id !== this.issue.epic.id)
+        (this.original.epic != null && this.original.epic.id !== this.issue.epic.id) ||
+        (this.original.epic == null && this.issue.epic)
       )
     } else {
       return true

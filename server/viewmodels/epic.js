@@ -28,6 +28,19 @@ module.exports = class EpicViewModel {
     result.issues = children
     return result
   }
+
+  static createFromLocal (obj) {
+    let result
+    if (obj) {
+      result = new EpicViewModel()
+      result.id = obj.id
+      result.key = `AB-${obj.id}`
+      result.name = obj.title
+      result.summary = obj.summary
+      result.colour = 'rgba(0,102,255,0.6)'
+    }
+    return result
+  }
 }
 
 const colours = {

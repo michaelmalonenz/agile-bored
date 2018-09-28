@@ -1,6 +1,7 @@
 const db = require('../../../models')
 const op = db.Sequelize.Op
 const IssueViewModel = require('../../../viewmodels/issue')
+const EpicViewModel = require('../../../viewmodels/epic')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -50,7 +51,31 @@ module.exports = {
     return _sendList(props, res)
   },
   searchEpics: function (req, res) {
-    res.send([])
+    let props = _baseIssueQueryProps()
+    const terms = req.query.search.split(' ').map(t => `%${t}%`)
+    props.where = {
+      [op.or]: {
+        'title': { [op.iLike]: { [op.any]: terms } },
+        'description': { [op.iLike]: { [op.any]: terms } }
+      },
+      [op.or]: {
+        'statusId': { [op.eq]: null },
+        '$IssueStatus.name$': { [op.ne]: 'Done' }
+      },
+      '$IssueType.name$': { [op.eq]: 'Epic' }
+    }
+    return db.Issue.findAll(props)
+    .then(issues => {
+      const result = []
+      for (let issue of issues) {
+        result.push(EpicViewModel.createFromLocal(issue.dataValues))
+      }
+      res.send(result)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).send(err)
+    })
   },
   updateStatus: function (req, res) {
     return db.Issue.update(
