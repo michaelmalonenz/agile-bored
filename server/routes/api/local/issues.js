@@ -49,6 +49,9 @@ module.exports = {
     }
     return _sendList(props, res)
   },
+  searchEpics: function (req, res) {
+    res.send([])
+  },
   updateStatus: function (req, res) {
     return db.Issue.update(
       { statusId: req.params.statusId },

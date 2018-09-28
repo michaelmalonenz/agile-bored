@@ -2,7 +2,7 @@
   <div class="autocomplete" show.bind="editing">
     <div class="input-group">
       <input type="text" class="form-control search-box" placeholder.bind="placeholder"
-        value.two-way="value" keyup.delegate="keyUp($event) & debounce:300" blur.delegate="toggleEdit()"">
+        value.two-way="value" keyup.trigger="keyUp($event) & debounce:300">
       <span class="input-group-btn" if.bind="!compact">
         <button class="btn btn-default" type="button" click.delegate="_search($event)">
           <i class="fas fa-search"></i>
@@ -10,13 +10,13 @@
       </span>
     </div>
     <div show.bind="haveSuggestions" class="autocomplete-suggestions">
-      <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.delegate="_select(suggestion, $event)">
+      <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.trigger="_select(suggestion, $event)">
         <compose view-model.bind="suggestion" view.bind="view"></compose>
       </div>
     </div>
   </div>
   <div class="autocomplete autocomplete-display" show.bind="!editing" click.trigger="toggleEdit()">
-    <compose if.bind="selected" view-model.bind="selected" view.bind="view" ></compose>
+    <compose if.bind="!!selected" view-model.bind="selected" view.bind="view" ></compose>
     <div if.bind="!selected" class="autocomplete-placeholder form-control">
       ${placeholder}
     </div>

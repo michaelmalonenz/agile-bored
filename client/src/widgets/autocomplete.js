@@ -1,5 +1,7 @@
 import {bindable, bindingMode, inject, TaskQueue, computedFrom} from 'aurelia-framework'
 
+const KEY_ESCAPE = 27
+
 @bindable({
   name: 'placeholder',
   defaultValue: '',
@@ -34,6 +36,8 @@ export class Autocomplete {
     this.selected = null
     this.editing = false
     this.suggestions = []
+
+    this.boundToggleEdit = this.toggleEdit.bind(this)
   }
 
   @computedFrom('suggestions')
@@ -42,6 +46,11 @@ export class Autocomplete {
   }
 
   async keyUp (event) {
+    if (event.keyCode === KEY_ESCAPE) {
+      event.stopPropagation()
+      this.toggleEdit()
+      return true
+    }
     await this._search (event)
   }
 
@@ -55,6 +64,11 @@ export class Autocomplete {
           inputElement.focus()
         }
       })
+      this.taskQueue.queueTask(() => {
+        this._addDeactivateListeners()
+      })
+    } else {
+      this._removeDeactivateListeners()
     }
   }
 
@@ -80,5 +94,13 @@ export class Autocomplete {
       this.selected = suggestion
     }
     this.toggleEdit()
+  }
+
+  _addDeactivateListeners () {
+    document.addEventListener('click', this.boundToggleEdit)
+  }
+
+  _removeDeactivateListeners () {
+    document.removeEventListener('click', this.boundToggleEdit)
   }
 }
