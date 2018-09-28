@@ -5,6 +5,7 @@
       <div show.bind="!selected" class="select-dropdown-option">
         <slot>-- select --</slot>
       </div>
+      <span class="fas fa-caret-down select-dropdown-edit"></span>
     </div>
     <div class="options-list ${active ? '' : 'hidden'}">
       <compose class="select-dropdown-option"

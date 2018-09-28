@@ -1,10 +1,20 @@
 @import "../colours.scss";
 
 .autocomplete-display {
-  cursor: text;
+  cursor: pointer;
+  position: relative;
 
-  label {
-    cursor: text;
+  .autocomplete-edit {
+    position: absolute;
+    display: none;
+    bottom: 0.2em;
+    right: 0.2em;
+  }
+
+  &:hover {
+    .autocomplete-edit {
+      display: unset;
+    }
   }
 }
 

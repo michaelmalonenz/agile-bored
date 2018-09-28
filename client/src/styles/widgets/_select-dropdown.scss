@@ -31,8 +31,21 @@
   text-align: center;
   border: $highlight-grey 1px solid;
   border-radius: 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .select-dropdown-edit {
+    position: absolute;
+    right: 0.2em;
+    display: none;
+  }
 
   &:hover {
     border-color: $brand-primary;
+
+    .select-dropdown-edit {
+      display: unset;
+    }
   }
 }
