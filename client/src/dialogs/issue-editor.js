@@ -5,7 +5,6 @@ import { Issue } from '../models/issue'
 import { IssueTypeService } from '../services/issue-types'
 import { IssueService } from '../services/issues'
 import { IssueTypeViewmodel } from '../widgets/issue-type'
-import { AutocompleteEpic } from '../issues/autocomplete-epic';
 
 @inject(DialogController, IssueTypeService, IssueService)
 export class IssueEditorDialog {
@@ -16,21 +15,21 @@ export class IssueEditorDialog {
     this.issue = new Issue()
     this.edit = false
     this.issueTypes = []
+    this.subtask = false
   }
 
   async activate (model) {
-    let subtask = false
     if (model) {
       this.original = model.issue
       this.issue = Object.assign({}, model.issue)
       this.edit = model.edit
       if (this.original.issueType != null) {
-        subtask = this.original.issueType.subtask
+        this.subtask = this.original.issueType.subtask
       }
     }
     const rawTypes = await this.issueTypeService.getIssueTypes()
     this.issueTypes = rawTypes
-      .filter(t => t.subtask === subtask)
+      .filter(t => t.subtask === this.subtask)
       .map(t => new IssueTypeViewmodel(t))
   }
 

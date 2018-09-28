@@ -64,6 +64,7 @@ module.exports = {
       },
       '$IssueType.name$': { [op.eq]: 'Epic' }
     }
+    props.limit = 15
     return db.Issue.findAll(props)
     .then(issues => {
       const result = []
