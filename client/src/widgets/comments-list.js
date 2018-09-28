@@ -16,8 +16,8 @@ export class CommentsList {
   }
 
   async bind () {
-    if (this.issueId && !this.comments) {
-      this.loading = true
+    if (this.issueId) {
+      this.loading = !this.comments
       this.comments = await this.commentService.findAllForIssue(this.issueId)
       this.loading = false
     }

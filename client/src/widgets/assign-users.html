@@ -1,33 +1,35 @@
 <template>
-  <div class="pull-right assign-user avatar-container ${active ? 'assign-active' : ''} ${large ? 'assign-user-large' : ''}"
+  <div class="assign-user avatar-container ${active ? 'assign-active' : ''} ${large ? 'assign-user-large' : ''}"
      click.trigger="clickUser($event)">
     <div if.bind="!hasAssignee" class="far fa-user"></div>
     <img src.bind="avatarUrl" title.bind="displayName" style.bind="avatarStyle"/>
     <div if.bind="large" style="float: right;">${displayName}</div>
-    <div class="assign-user-list assign-placement-${placement} container-fluid" show.bind="active">
-      <div class="row assign-list-user" click.trigger="assignUser($event)" if.bind="hasAssignee">
-        <i class="far fa-user fa-2x"></i>
-        <span class="assign-name">
-          Unassign
-        </span>
-      </div>
-      <div class="row assign-list-user">
-        <div class="input-group">
-          <input type="text" class="form-control search-box" placeholder="Search..."
-            value.two-way="searchText" click.trigger="ignoreClick($event)" keyup.trigger="keyUp($event)">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button" click.trigger="searchUsers($event)">
-              <i class="fas fa-search"></i>
-            </button>
+    <div class="assign-user-list assign-placement-${placement}" show.bind="active">
+      <div class="container-fluid">
+        <div class="row assign-list-user" click.trigger="assignUser($event)" if.bind="hasAssignee">
+          <i class="far fa-user fa-2x"></i>
+          <span class="assign-name">
+            Unassign
           </span>
         </div>
-      </div>
-      <div class="row assign-list-user" repeat.for="user of users" click.trigger="assignUser($event, user)">
-        <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl"
-          style.bind="avatarStyle" alt="User Avatar">
-        <span class="assign-name">
-          ${user.displayName}
-        </span>
+        <div class="row assign-list-user">
+          <div class="input-group">
+            <input type="text" class="form-control search-box" placeholder="Search..."
+              value.two-way="searchText" click.trigger="ignoreClick($event)" keyup.trigger="keyUp($event)">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" click.trigger="searchUsers($event)">
+                <i class="fas fa-search"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="row assign-list-user" repeat.for="user of users" click.trigger="assignUser($event, user)">
+          <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl"
+            style.bind="avatarStyle" alt="User Avatar">
+          <span class="assign-name">
+            ${user.displayName}
+          </span>
+        </div>
       </div>
     </div>
   </div>

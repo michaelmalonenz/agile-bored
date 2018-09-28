@@ -6,19 +6,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: content-box;
 
   &:hover {
-    border-color: $brand-primary;
+    border-color: $primary;
   }
 
   &.assign-active {
-    border: 1px solid $brand-primary !important;
+    border: 1px solid $primary !important;
   }
 
   .assign-user-list {
     z-index: 1;
     position: absolute;
-    box-shadow: 2px 2px 5px $gray;
+    box-shadow: 2px 2px 5px $gray-600;
     max-height: 19em;
     background-color: white;
     overflow-y: auto;

@@ -40,7 +40,7 @@
       width: 100%;
 
       .stand-up-tab {
-        color: $brand-primary;
+        color: $primary;
         cursor: pointer;
         margin-left: 1em;
         margin-right: 1em;
@@ -50,7 +50,7 @@
 
         &:hover, &:active {
           text-decoration: underline;
-          border-color: $brand-primary;
+          border-color: $primary;
         }
       }
     }

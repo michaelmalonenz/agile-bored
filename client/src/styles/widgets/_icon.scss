@@ -1,5 +1,5 @@
 .icon {
-  background-color: $brand-primary;
+  background-color: $primary;
   color: $primary-text;
   border-radius: 3px;
   padding: 4px;
@@ -8,9 +8,9 @@
   cursor: pointer;
   display: inline-block;
 
-  box-shadow: 2px 2px 5px $gray;
+  box-shadow: 2px 2px 5px $gray-600;
   &:active, &:focus {
-    background: $brand-secondary;
+    background: $secondary;
   }
 
   &:hover {

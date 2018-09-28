@@ -4,7 +4,7 @@
   height: 30px;
   bottom: 30px;
   right: 30px;
-  background-color: $brand-primary;
+  background-color: $primary;
   border-radius: 50%;
   color: $primary-text;
   display: flex;
@@ -13,9 +13,9 @@
   cursor: pointer;
   z-index: 2;
 
-  box-shadow: 2px 2px 5px $gray;
+  box-shadow: 2px 2px 5px $gray-600;
   &:active, &:focus {
-    background: $brand-secondary;
+    background: $secondary;
   }
 
   &:hover {

@@ -5,17 +5,17 @@
     </ux-dialog-header>
     <ux-dialog-body>
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-8">
           <input type="text" class="edit-issue-title form-control" value.bind="issue.title" placeholder="title" attach-focus.bind="!edit" />
         </div>
-        <div class="col-xs-2">
+        <div class="col-2">
           <autocomplete show.bind="!subtask"
             value.bind="issue.epic.key"
             search.call="epicSearch(value)" placeholder="Epic"
             compact="true" selected.bind="issue.epic"
             view="/issues/autocomplete-epic.html"></autocomplete>
         </div>
-        <div class="col-xs-2">
+        <div class="col-2">
           <div class="edit-control pull-right">
             <select-dropdown value.bind="issue.issueType" options.bind="issueTypes"></select-dropdown>
           </div>

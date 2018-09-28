@@ -1,7 +1,7 @@
 <template>
   <div class="issue" dblclick.delegate="editIssue()" css.bind="typeStyle">
     <div class="row">
-      <div class="col-xs-12 issue-title-row">
+      <div class="col-12 issue-title-row">
         <div class="title">
           ${issue.title}
         </div>
@@ -11,27 +11,27 @@
       </div>
     </div>
     <div class="row search-issue-middle-row">
-      <div class="col-xs-6">
+      <div class="col-6">
         <div class="date-format" title="Updated At">
           ${issue.updatedAt | date}
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-6">
         <div class="epic-name" css.bind="epicStyle">
           ${epicName}
         </div>
       </div>
     </div>
     <div class="row vertically-center-row">
-      <div class="col-xs-2 issue-key">
+      <div class="col-2 issue-key">
         ${issue.key}
       </div>
-      <div class="col-xs-8">
+      <div class="col-8">
         <div class="search-description">
           ${issue.description}
         </div>
       </div>
-      <div class="col-xs-2 pull-right">
+      <div class="col-2 pull-right">
         <assign-users placement="left" assignee.bind="issue.assignee" issue-id.bind="issueId"></assign-users>
       </div>
     </div>

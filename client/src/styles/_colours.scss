@@ -1,5 +1,5 @@
-$brand-primary: #F37B20;
-$brand-secondary: #333;
+$primary: #F37B20;
+$secondary: #333;
 
 $primary-text: #f5f5f5;
 
@@ -7,4 +7,6 @@ $background-grey: rgba(#ededed, 0.5);
 
 $highlight-grey: #ebebeb;
 
-$hover-background: rgba($brand-primary, 0.4);
+$hover-background: rgba($primary, 0.4);
+
+$font-size-base: 0.875rem;

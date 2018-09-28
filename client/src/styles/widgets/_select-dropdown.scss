@@ -21,7 +21,7 @@
   width: 100%;
 
   &:hover {
-    background-color: $brand-primary;
+    background-color: $primary;
     color: $primary-text;
     cursor: pointer;
   }
@@ -42,7 +42,7 @@
   }
 
   &:hover {
-    border-color: $brand-primary;
+    border-color: $primary;
 
     .select-dropdown-edit {
       display: unset;

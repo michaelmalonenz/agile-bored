@@ -141,7 +141,21 @@
             "path": "../node_modules/babel-polyfill",
             "resources": []
           },
-          "bootstrap-sass"
+          {
+            "name": "popper.js",
+            "path": "../node_modules/popper.js/dist",
+            "main": "umd/popper.min.js"
+          },
+          {
+            "name": "bootstrap",
+            "path": "../node_modules/bootstrap/dist",
+            "main": "js/bootstrap.min.js",
+            "deps": [
+              "jquery",
+              "popper.js"
+            ],
+            "exports": "$"
+          }
         ]
       }
     ],
