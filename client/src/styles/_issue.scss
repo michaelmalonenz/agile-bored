@@ -38,7 +38,7 @@ epic .issue-title {
 }
 
 .epic-name {
-  border-radius: 2px;
+  border-radius: 3px;
   padding: 0.3em 0.5em;
   display: inline-block;
   color: $primary-text;
@@ -81,10 +81,4 @@ epic .issue-title {
     white-space: nowrap;
     font-size: 2.5vh;
   }
-}
-
-.autocomplete-epic-name {
-  color: $primary-text;
-  border-radius: 3px;
-  padding: 0.3em;
 }
