@@ -39,7 +39,6 @@
 }
 
 .status-headings {
-  margin-right: 16px;
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -79,5 +78,11 @@
 
   &:last-child {
     border-right: none;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .status-headings {
+    margin-right: 16px;
   }
 }
