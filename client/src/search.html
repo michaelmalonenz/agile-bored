@@ -14,7 +14,7 @@
     <div class="search-no-results" if.bind="noResults">
       Couldn't find any matching issues
     </div>
-    <div else class="container-fluid scrolling-search-results ${searching ? 'hidden' : ''}">
+    <div else class="container-fluid scrolling-search-results ${searching ? 'd-none' : ''}">
       <compose repeat.for="issue of results" view-model.bind="issue" view="issues/search-issue.html"></compose>
     </div>
   </div>

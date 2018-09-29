@@ -26,7 +26,7 @@
           <div class="${edit ? 'col-md-8' : 'col-md-12'} full-height">
             <viewing-text-editor start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
           </div>
-          <div class="${edit ? 'col-md-4' : 'hidden'} full-height">
+          <div class="${edit ? 'col-md-4' : 'd-none'} full-height">
             <comments-list issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
           </div>
         </div>
