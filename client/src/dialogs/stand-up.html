@@ -1,7 +1,7 @@
 <template>
   <ux-dialog class="stand-up-dialog">
     <ux-dialog-header>
-      <h2>Stand Up
+      <h2 class="d-flex justify-content-between">Stand Up
         <i if.bind="!inFullScreen" class="fa fa-expand pull-right fullscreen-action" click.delegate="fullScreen()" title="Fullscreen"></i>
         <i if.bind="inFullScreen" class="fa fa-compress pull-right fullscreen-action" click.delegate="exitFullScreen()" title="Fullscreen"></i>
       </h2>

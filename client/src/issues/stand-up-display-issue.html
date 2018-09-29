@@ -1,6 +1,6 @@
 <template>
   <div class="stand-up-issue" css.bind="typeStyle">
-    <div class="stand-up-row">
+    <div>
       <div class="issue-title-row">
         <div class="title">
           ${issue.title}
@@ -8,19 +8,19 @@
         <status-drop-down class="status" current-status.bind="issue.IssueStatus" issue-id.bind="issueId" update-fn.call="updateStatus(status)"></status-drop-down>
       </div>
     </div>
-    <div class="stand-up-row search-issue-middle-row">
+    <div class="search-issue-middle-row">
       <div class="epic-name" css.bind="epicStyle">
         ${epicName}
       </div>
     </div>
-    <div class="stand-up-row search-issue-middle-row">
+    <div class="search-issue-middle-row">
         <div class="date-format" title="Updated At">
           Updated: ${issue.updatedAt | date}
         </div>
     </div>
-    <div class="stand-up-row stand-up-description" innerhtml="${issue.description | newline}">
+    <div class="stand-up-description" innerhtml="${issue.description | markdown | newline}">
     </div>
-    <div class="stand-up-row stand-up-last-row">
+    <div class="stand-up-last-row">
       <div class="stand-up-misc-row vertically-center-row">
         <div class="issue-key">
           ${issue.key}

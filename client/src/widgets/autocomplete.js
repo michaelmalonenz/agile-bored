@@ -58,7 +58,7 @@ export class Autocomplete {
     this.editing = !this.editing
     if (this.editing) {
       this.taskQueue.queueMicroTask(() => {
-        const inputElement = this.element.querySelector('.autocomplete .search-box')
+        const inputElement = this.element.querySelector('.autocomplete input')
         if (inputElement) {
           inputElement.select()
           inputElement.focus()

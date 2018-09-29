@@ -14,13 +14,14 @@
         </div>
         <div class="row assign-list-user">
           <div class="input-group">
-            <input type="text" class="form-control search-box" placeholder="Search..."
-              value.two-way="searchText" click.trigger="ignoreClick($event)" keyup.trigger="keyUp($event)">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button" click.trigger="searchUsers($event)">
-                <i class="fas fa-search"></i>
-              </button>
-            </span>
+              <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
+                aria-describedby="search-button" value.two-way="searchText"
+                click.trigger="ignoreClick($event)" keyup.trigger="keyUp($event)">
+              <div class="input-group-append">
+                <button class="btn btn-default" type="button" click.trigger="searchUsers($event)">
+                  <i class="fas fa-search"></i>
+                </button>  
+            </div>
           </div>
         </div>
         <div class="row assign-list-user" repeat.for="user of users" click.trigger="assignUser($event, user)">

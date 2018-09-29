@@ -1,12 +1,14 @@
 <template>
   <div class="search-results">
     <form class="search-form" role="search">
-      <div class="input-group add-on search-box">
-      <input class="form-control" placeholder="Search" name="search-term" id="search-term"
-        type="text" value.bind="searchTerm" keypress.delegate="searchKeyPress($event)">
-      <div class="input-group-btn">
-        <button class="btn btn-default" type="button" click.delegate="searchButtonPress()">
-          <i class="glyphicon glyphicon-search"></i></button>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+          aria-describedby="search-button" value.bind="searchTerm" 
+          keypress.delegate="searchKeyPress($event)">
+        <div class="input-group-append">
+          <button class="btn btn-default" type="button" click.delegate="searchButtonPress()">
+            <i class="fas fa-search"></i>
+          </button>  
         </div>
       </div>
     </form>

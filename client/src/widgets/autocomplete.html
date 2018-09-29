@@ -1,13 +1,14 @@
 <template>
   <div class="autocomplete" show.bind="editing">
     <div class="input-group">
-      <input type="text" class="form-control search-box" placeholder.bind="placeholder"
-        value.two-way="value" keyup.trigger="keyUp($event) & debounce:300">
-      <span class="input-group-btn" if.bind="!compact">
-        <button class="btn btn-default" type="button" click.delegate="_search($event)">
-          <i class="fas fa-search"></i>
-        </button>
-      </span>
+        <input type="text" class="form-control" aria-label="Search"
+          aria-describedby="search-button" placeholder.bind="placeholder"
+          value.two-way="value" keyup.trigger="keyUp($event) & debounce:300">
+        <div class="input-group-append" if.bind="!compact">
+          <button class="btn btn-default" type="button" click.delegate="_search($event)">
+            <i class="fas fa-search"></i>
+          </button>
+      </div>
     </div>
     <div show.bind="haveSuggestions" class="autocomplete-suggestions">
       <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.trigger="_select(suggestion, $event)">
