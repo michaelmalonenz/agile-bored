@@ -20,10 +20,8 @@
       </div>
     </div>
     <div class="row vertically-center-row">
-      <div class="col-8 issue-key">
+      <div class="col-12 d-flex justify-content-between issue-key">
         ${issue.key}
-      </div>
-      <div class="col-4">
         <assign-users assignee.bind="issue.assignee" issue-id.bind="issueId"></assign-users>
       </div>
     </div>
