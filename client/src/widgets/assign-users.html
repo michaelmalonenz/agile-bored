@@ -2,7 +2,7 @@
   <div class="assign-user avatar-container ${active ? 'assign-active' : ''} ${large ? 'assign-user-large' : ''}"
      click.trigger="clickUser($event)">
     <div if.bind="!hasAssignee" class="far fa-user"></div>
-    <img src.bind="avatarUrl" title.bind="displayName" style.bind="avatarStyle"/>
+    <img src.bind="avatarUrl" title.bind="displayName" style.bind="avatarStyle" if.bind="hasAssignee"/>
     <div if.bind="large" style="float: right;">${displayName}</div>
     <div class="assign-user-list assign-placement-${placement}" show.bind="active">
       <div class="container-fluid">
