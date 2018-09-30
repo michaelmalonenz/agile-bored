@@ -51,20 +51,37 @@ module.exports = {
     return _sendList(props, res)
   },
   searchEpics: function (req, res) {
-    let props = _baseIssueQueryProps()
     const terms = req.query.search.split(' ').map(t => `%${t}%`)
-    props.where = {
-      [op.or]: {
-        'title': { [op.iLike]: { [op.any]: terms } },
-        'description': { [op.iLike]: { [op.any]: terms } }
+    let props = {
+      order: [['createdAt', 'ASC']],
+      include: [{
+        model: db.IssueStatus,
+        required: false,
+        where: { 'name': { [op.ne]: 'Done' } }
+      }, {
+        model: db.IssueType,
+        where: { 'name': { [op.eq]: 'Epic' } }
+      }, {
+        model: db.Comment,
+        as: 'comments',
+        required: false
+      }, {
+        model: db.User,
+        as: 'assignee',
+        required: false
+      }, {
+        model: db.User,
+        as: 'reporter',
+        required: false
+      }],
+      where: {
+        [op.or]: {
+          'title': { [op.iLike]: { [op.any]: terms } },
+          'description': { [op.iLike]: { [op.any]: terms } }
+        }
       },
-      [op.or]: {
-        'statusId': { [op.eq]: null },
-        '$IssueStatus.name$': { [op.ne]: 'Done' }
-      },
-      '$IssueType.name$': { [op.eq]: 'Epic' }
+      limit: 15
     }
-    props.limit = 15
     return db.Issue.findAll(props)
     .then(issues => {
       const result = []

@@ -8,7 +8,7 @@ const cardColours = require('./card-colours')
 module.exports = {
   findAllIssues: function (req, res) {
     const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") order by Rank ASC')
-    const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=150&jql=${jql}`
+    const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
       .then(issues => {
@@ -22,7 +22,7 @@ module.exports = {
   issuesByEpic: function (req, res) {
     const jiraRapidBoardId = req.settings.jiraRapidBoardId
     const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") and type != Epic order by Rank ASC')
-    const url = `/board/${jiraRapidBoardId}/issue?maxResults=150&jql=${jql}`
+    const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
       .then(issues => groupIssuesByEpic(issues, jiraRapidBoardId, req))
@@ -144,7 +144,8 @@ module.exports = {
         summary: issueObj.title,
         description: issueObj.description,
         project: { key: req.settings.jiraProjectName },
-        issuetype: { id: issueObj.issueType.id }
+        issuetype: { id: issueObj.issueType.id },
+        [req.settings.jiraEpicField]: issueObj.epic ? issueObj.epic.key : null
       }
     }
     return request(options)
