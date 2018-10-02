@@ -21,12 +21,12 @@ module.exports = {
   },
   issuesByEpic: function (req, res) {
     const jiraRapidBoardId = req.settings.jiraRapidBoardId
-    const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") and type != Epic order by Rank ASC')
+    const jql = encodeURIComponent('status not in (Cancelled,Done,"To Do") and type != Epic')
     const url = `/board/${jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
-      .then(issues => groupIssuesByEpic(issues, jiraRapidBoardId, req))
-      .then(sortedIssues => {
+      .then(issues => {
+        sortedIssues = groupIssuesByEpic(issues)
         res.send(sortedIssues)
       })
       .catch(err => {
@@ -43,7 +43,7 @@ module.exports = {
   },
   get: function (req, res) {
     return cardColours.getCardColours(req).then(colours => {
-      const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}`, req)
+      const options = jiraRequestBuilder.agile(`/issue/${req.params.issueId}`, req)
       return request(options)
         .then(issue => {
           let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
@@ -125,7 +125,7 @@ module.exports = {
     // If today is Monday, then include the last 3 days, otherwise include the last day
     let dayCount = (date.getDay() === 1 ? 3 : 1)
     const jql = encodeURIComponent(`type != Epic AND (status not in (Cancelled,Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
-    const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=100&jql=${jql}`
+    const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=150&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
       .then(issues => sortStandUpIssues(issues, req.settings, req))
@@ -194,24 +194,29 @@ function getEpics (jiraRapidBoardId, req) {
     .then(response => response.values)
 }
 
-function groupIssuesByEpic (issues, jiraRapidBoardId, req) {
+function groupIssuesByEpic (issues) {
   const epics = []
-  return getEpics(jiraRapidBoardId, req)
-    .then(boardEpics => {
-      for (let epic of boardEpics) {
-        let epicIssues = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
-        if (epicIssues && epicIssues.length > 0) {
-          let e = EpicViewModel.createFromJira(epic)
-          e.issues = epicIssues
-          epics.push(e)
-        }
+  for (let issue of issues) {
+    if (issue.epic && epics.find(e => e.id === issue.epic.id) == null) {
+      epics.push(issue.epic)
+    }
+  }
+  const result = []
+  const issuesWithNoEpic = issues.filter(issue => issue.epic == null)
+  for (let epic of epics) {
+    let epicIssues = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
+    if (epicIssues && epicIssues.length > 0) {
+      for (let issue of epicIssues) {
+        delete issue.epic
       }
-      const issuesWithNoEpic = issues.filter(issue => issue.epic == null)
-      if (issuesWithNoEpic) {
-        epics.push(EpicViewModel.createNullEpic(issuesWithNoEpic))
-      }
-      return epics.filter(e => e.issues && e.issues.length > 0)
-    })
+      epic.issues = epicIssues
+      result.push(epic)
+    }
+  }
+  if (issuesWithNoEpic) {
+    result.push(EpicViewModel.createNullEpic(issuesWithNoEpic))
+  }
+  return result.filter(e => e.issues && e.issues.length > 0)
 }
 
 function sortStandUpIssues (issues, dbSettings, req) {

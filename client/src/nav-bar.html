@@ -20,7 +20,7 @@
     </div>
 
     <div class="navbar-nav">
-      <div class="loader" if.bind="isLoading">
+      <div class="loader ${isLoading ? 'visible' : 'invisible'}" >
         <i class="fa fa-circle-notch fa-spin fa-2x"></i>
       </div>
       <user-panel></user-panel>
