@@ -198,21 +198,19 @@ function groupIssuesByEpic (issues) {
   const epics = []
   for (let issue of issues) {
     if (issue.epic && epics.find(e => e.id === issue.epic.id) == null) {
-      epics.push(issue.epic)
+      const copy = Object.assign({}, issue.epic)
+      epics.push(copy)
     }
   }
   const result = []
-  const issuesWithNoEpic = issues.filter(issue => issue.epic == null)
   for (let epic of epics) {
     let epicIssues = issues.filter(issue => issue.epic ? issue.epic.id === epic.id : false)
     if (epicIssues && epicIssues.length > 0) {
-      for (let issue of epicIssues) {
-        delete issue.epic
-      }
       epic.issues = epicIssues
       result.push(epic)
     }
   }
+  const issuesWithNoEpic = issues.filter(issue => issue.epic == null)
   if (issuesWithNoEpic) {
     result.push(EpicViewModel.createNullEpic(issuesWithNoEpic))
   }
