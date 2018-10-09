@@ -187,11 +187,20 @@ function getIssues (options, req) {
   })
 }
 
-function getEpics (jiraRapidBoardId, req) {
-  const url = `/board/${jiraRapidBoardId}/epic?done=false`
+function getEpics (jiraRapidBoardId, req, startAt=0) {
+  const url = `/board/${jiraRapidBoardId}/epic?done=false&startAt=${startAt}`
   const options = jiraRequestBuilder.agile(url, req)
   return request(options)
-    .then(response => response.values)
+    .then(response => {
+      if (!response.isLast) {
+        return getEpics(jiraRapidBoardId, req, startAt+response.maxResults)
+        .then(values => {
+            return values.concat(response.values)
+          })
+      } else {
+        return response.values
+      }
+    })
 }
 
 function groupIssuesByEpic (issues) {
