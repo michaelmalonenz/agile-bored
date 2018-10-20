@@ -4,7 +4,8 @@
   "description": "The server component for agile-bored",
   "main": "server.js",
   "scripts": {
-    "test": "gulp test",
+    "test": "jasmine-node spec",
+    "test-watch": "jasmine-node spec --autotest --watch .",
     "start": "nodemon server.js",
     "migrate": "sequelize db:migrate"
   },
@@ -31,6 +32,7 @@
     "url-join": "^2.0.5"
   },
   "devDependencies": {
+    "jasmine-node": "^1.16.2",
     "nodemon": "^1.18.3"
   }
 }
