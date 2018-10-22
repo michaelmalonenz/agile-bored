@@ -5,7 +5,7 @@
           aria-describedby="search-button" placeholder.bind="placeholder"
           value.two-way="value" keyup.trigger="keyUp($event) & debounce:300">
         <div class="input-group-append" if.bind="!compact">
-          <button class="btn btn-default" type="button" click.delegate="_search($event)">
+          <button class="btn btn-outline-secondary" type="button" click.delegate="_search($event)">
             <i class="fas fa-search"></i>
           </button>
       </div>

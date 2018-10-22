@@ -16,6 +16,8 @@ export class IssueEditorDialog {
     this.edit = false
     this.issueTypes = []
     this.subtask = false
+
+    this._currentTab = 'description'
   }
 
   async activate (model) {
@@ -53,6 +55,14 @@ export class IssueEditorDialog {
     } else {
       return 'Create Issue'
     }
+  }
+
+  get currentTab () {
+    return this._currentTab
+  }
+
+  setTab (value) {
+    this._currentTab = value
   }
 
   issueTypeMatcher (a, b) {

@@ -22,24 +22,30 @@
         </div>
       </div>
       <div class="edit-issue-content">
-        <div class="row full-height">
-          <div class="${edit ? 'col-md-8' : 'col-md-12'} full-height">
-            <viewing-text-editor start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
-          </div>
-          <div class="${edit ? 'col-md-4' : 'd-none'} full-height">
-            <comments-list issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
+        <div class="row h-100">
+          <div class="col-md-12 h-100">
+            <viewing-text-editor if.bind="currentTab == 'description'" start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
+            <comments-list if.bind="currentTab == 'comments'" issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
+            <sub-task-list if.bind="currentTab == 'sub-tasks'" issues.bind="issue.children"></sub-task-list>
           </div>
         </div>
       </div>
     </ux-dialog-body>
 
     <ux-dialog-footer>
-      <div if.bind="isModified">
-        <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Cancel</button>
-        <button type="button" class="btn btn-primary" click.trigger="save()">Save</button>
-      </div>
-      <div if.bind="!isModified">
-        <button type="button" class="btn btn-default" click.trigger="controller.cancel()">Close</button>
+      <div class="row">
+        <div class="col-8" show.bind="edit">
+            <button type="button" class="btn btn-primary" click.trigger="setTab('description')">Description</button>
+            <button type="button" class="btn btn-primary" click.trigger="setTab('comments')">Comments</button>
+            <button type="button" class="btn btn-primary" click.trigger="setTab('sub-tasks')">Sub Tasks</button>
+        </div>
+        <div class="col-4" if.bind="isModified">
+          <button type="button" class="btn btn-outline-secondary" click.trigger="controller.cancel()">Cancel</button>
+          <button type="button" class="btn btn-primary" click.trigger="save()">Save</button>
+        </div>
+        <div class="col-2 offset-2" if.bind="!isModified">
+          <button type="button" class="btn btn-outline-secondary" click.trigger="controller.cancel()">Close</button>
+        </div>
       </div>
     </ux-dialog-footer>
   </ux-dialog>

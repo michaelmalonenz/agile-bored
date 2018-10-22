@@ -1,6 +1,6 @@
 <template>
-  <div class="full-height" mouseenter.trigger="showIcons()" mouseleave.trigger="hideIcons()">
-    <div show.bind="editMode" class="full-height editor-container">
+  <div class="h-100" mouseenter.trigger="showIcons()" mouseleave.trigger="hideIcons()">
+    <div show.bind="editMode" class="h-100 editor-container">
       <textarea class="markdown-editor" value.bind="value" placeholder.bind="placeholder"></textarea>
       <icon icon='fa-eye' class="editor-icon ${showingIcons && editMode ? '' : 'd-none'}" click.delegate="stopEditing()"></icon>
     </div>

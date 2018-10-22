@@ -11,7 +11,7 @@
         <i class="fa fa-circle-notch fa-spin"></i> Loading&hellip;
       </div>
       <div if.bind="!loading" class="stand-up-display">
-        <div class="stand-up-display-area">
+        <div class="stand-up-display-area clearfix">
           <div class="stand-up-active-panel">
             <compose if.bind="displayingIssue" view="issues/stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
             <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId" comments.bind="displayedIssueComments"></comments-list>

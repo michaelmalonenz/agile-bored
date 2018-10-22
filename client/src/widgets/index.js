@@ -10,6 +10,7 @@ export function configure (config) {
     './status-drop-down',
     './select-dropdown',
     './issue-type',
-    './autocomplete'
+    './autocomplete',
+    './sub-task-list'
   ])
 }
