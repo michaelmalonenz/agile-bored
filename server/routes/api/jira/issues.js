@@ -26,7 +26,7 @@ module.exports = {
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
       .then(issues => {
-        sortedIssues = groupIssuesByEpic(issues)
+        const sortedIssues = groupIssuesByEpic(issues)
         res.send(sortedIssues)
       })
       .catch(err => {
@@ -187,16 +187,16 @@ function getIssues (options, req) {
   })
 }
 
-function getEpics (jiraRapidBoardId, req, startAt=0) {
+function getEpics (jiraRapidBoardId, req, startAt = 0) {
   const url = `/board/${jiraRapidBoardId}/epic?done=false&startAt=${startAt}`
   const options = jiraRequestBuilder.agile(url, req)
   return request(options)
     .then(response => {
       if (!response.isLast) {
-        return getEpics(jiraRapidBoardId, req, startAt+response.maxResults)
+        return getEpics(jiraRapidBoardId, req, startAt + response.maxResults)
         .then(values => {
-            return values.concat(response.values)
-          })
+          return values.concat(response.values)
+        })
       } else {
         return response.values
       }

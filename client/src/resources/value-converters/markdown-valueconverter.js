@@ -3,7 +3,7 @@ import {TokenConverter} from '../common/token-converter'
 const MULTILINE_SYMBOLS = [
   {
     name: 'MULTILINE_CODE',
-    regex: /^```.*$/,
+    regex: /^```.*/,
     startMarkup: '<div class="md-multiline-code">',
     endMarkup: '</div>',
     lineStartMarkup: '',
@@ -12,7 +12,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'UNORDERED_LIST',
-    regex: /^\s*(?:\*|-)\s+(.*)$/,
+    regex: /^\s*(?:\*|-)\s+(.*)/,
     startMarkup: '<ul>',
     endMarkup: '</ul>',
     lineStartMarkup: '<li>',
@@ -21,7 +21,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'ORDERED_LIST',
-    regex: /^\s*\d+\.\s*(.*)$/,
+    regex: /^\s*\d+\.\s*(.*)/,
     startMarkup: '<ol>',
     endMarkup: '</ol>',
     lineStartMarkup: '<li>',
@@ -30,7 +30,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'BLOCKQUOTE',
-    regex: /^>\s*(.*)$/,
+    regex: /^>\s*(.*)/,
     startMarkup: '<blockquote>',
     endMarkup: '</blockquote>',
     lineStartMarkup: '',
