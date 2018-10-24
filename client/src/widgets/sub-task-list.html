@@ -3,10 +3,12 @@
     <h1>Hi, I'm a subtask list</h1>
     <div class="row">
       <div class="col-6">
-        <div repeat.for="issue of issues">${issue.issue.title}</div>
+        <div class="sub-task-issue" click.delegate="displayTask(issue.issue)"
+          repeat.for="issue of issues">${issue.issue.title}</div>
       </div>
       <div class="col-6">
-        Sub-task Display area
+        <div>${display.title}</div>
+        <div>${display.description}</div>
       </div>
     </div>
   </div>
