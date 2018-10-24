@@ -12,7 +12,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'UNORDERED_LIST',
-    regex: /^\s*(?:\*|-)\s+(.*)$/,
+    regex: /^\s*(?:\*|-)\s+(.*)/,
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: '- ',
@@ -21,7 +21,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'ORDERED_LIST',
-    regex: /^\s*\d+\.\s*(.*)$/,
+    regex: /^\s*\d+\.\s*(.*)/,
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: ' # ',
@@ -30,7 +30,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'BLOCKQUOTE',
-    regex: /^>\s*(.*)$/,
+    regex: /^>\s*(.*)/,
     startMarkup: '<blockquote>',
     endMarkup: '</blockquote>',
     lineStartMarkup: '',
