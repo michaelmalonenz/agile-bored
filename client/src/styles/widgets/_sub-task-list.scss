@@ -1,8 +1,15 @@
-.sub-task-list {
+@import "../colours";
+
+.sub-task-section {
   overflow-y: auto;
 }
 
 .sub-task-issue {
   cursor: pointer;
   padding: 0.2em;
+  border-color: transparent !important;
+
+  &:hover {
+    border-color: $primary !important;
+  }
 }
