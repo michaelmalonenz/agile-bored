@@ -34,7 +34,7 @@
 
     <ux-dialog-footer>
       <div class="row">
-        <div class="col-8" show.bind="edit">
+        <div class="col-8 ${edit ? 'visible' : 'invisible'}">
             <button type="button" class="btn btn-primary" click.trigger="setTab('description')">Description</button>
             <button type="button" class="btn btn-primary" click.trigger="setTab('comments')">Comments</button>
             <button type="button" class="btn btn-primary" click.trigger="setTab('sub-tasks')">Sub Tasks</button>

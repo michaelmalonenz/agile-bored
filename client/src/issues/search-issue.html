@@ -5,9 +5,7 @@
         <div class="title">
           ${issue.title}
         </div>
-        <div class="status">
-          ${statusName}
-        </div>
+        <status-drop-down class="status" current-status.bind="issue.IssueStatus" issue-id.bind="issueId" update-fn.call="updateStatus(status)"></status-drop-down>
       </div>
     </div>
     <div class="row search-issue-middle-row">
