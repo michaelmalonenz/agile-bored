@@ -13,6 +13,9 @@ body {
 .page-host {
     overflow-x: hidden;
     overflow-y: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
   }
 
 .date-format {
