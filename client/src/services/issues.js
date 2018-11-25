@@ -120,6 +120,16 @@ export class IssueService {
     return res.content
   }
 
+  async getUnseenSubtasks (issueId) {
+    const res = await this._http
+      .createRequest(`/api/issue/${issueId}/subtasks`)
+      .asGet()
+      .withParams({ 'unseen': true })
+      .withReviver(this._issueReviver)
+      .send()
+    return res.content
+  }
+
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object' && isNaN(key)) {
       if (key === 'IssueStatus') {

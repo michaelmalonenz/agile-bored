@@ -26,7 +26,7 @@
           <div class="col-md-12 h-100">
             <viewing-text-editor if.bind="currentTab == 'description'" start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
             <comments-list if.bind="currentTab == 'comments'" issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
-            <sub-task-list if.bind="currentTab == 'sub-tasks'" issues.bind="issue.children"></sub-task-list>
+            <sub-task-list if.bind="currentTab == 'sub-tasks'" issues.bind="issue.children" issue-id.bind="issue.id"></sub-task-list>
           </div>
         </div>
       </div>
