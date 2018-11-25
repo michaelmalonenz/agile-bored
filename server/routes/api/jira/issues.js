@@ -155,6 +155,9 @@ module.exports = {
         res.send(issueObj)
       })
       .catch(err => res.status(502).send(err))
+  },
+  getSubtasks: function (req, res) {
+    res.send([])
   }
 }
 

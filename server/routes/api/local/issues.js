@@ -146,6 +146,9 @@ module.exports = {
         return IssueViewModel.createFromLocal(dbIssue.dataValues)
       })
       .then(issue => res.send(issue))
+  },
+  getSubtasks: function (req, res) {
+    res.send([])
   }
 }
 

@@ -83,4 +83,11 @@ module.exports = function (router) {
     }
     return localIssues.searchEpics(req, res)
   })
+
+  router.get('/issue/:issueId/subtasks', function (req, res) {
+    if (req.settings && req.settings.useJira) {
+      return jiraIssues.getSubtasks(req, res)
+    }
+    return localIssues.getSubtasks(req, res)
+  })
 }
