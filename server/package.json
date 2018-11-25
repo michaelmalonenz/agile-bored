@@ -4,7 +4,7 @@
   "description": "The server component for agile-bored",
   "main": "server.js",
   "scripts": {
-    "test": "jasmine-node spec",
+    "test": "mocha tests/**/*test.js",
     "test-watch": "jasmine-node spec --autotest --watch .",
     "start": "nodemon server.js",
     "migrate": "sequelize db:migrate"
@@ -19,7 +19,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-auth0": "^0.6.1",
     "pg": "^6.4.2",
@@ -32,7 +32,7 @@
     "url-join": "^2.0.5"
   },
   "devDependencies": {
-    "jasmine-node": "^1.16.2",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.3"
   }
 }
