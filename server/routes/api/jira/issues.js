@@ -54,7 +54,7 @@ module.exports = {
     })
   },
   search: function (req, res) {
-    const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}") order by priority ASC`
+    const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}" OR comment ~ "${req.query.search}") order by priority ASC`
     return getIssuesByJQL(req, jql)
       .then(issues => res.send(issues))
       .catch(err => res.status(502).send(err))
@@ -157,7 +157,10 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   getSubtasks: function (req, res) {
-    res.send([])
+    const jql = `project = ${req.settings.jiraProjectName} AND parent = ${req.params.issueId} order by priority ASC`
+    return getIssuesByJQL(req, jql)
+      .then(issues => res.send(issues))
+      .catch(err => res.status(502).send(err))
   }
 }
 

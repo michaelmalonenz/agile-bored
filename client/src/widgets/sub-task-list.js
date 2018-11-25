@@ -1,5 +1,6 @@
 import {bindable,customElement,inject} from 'aurelia-framework'
 import {IssueService} from '../services/issues'
+import {IssueViewModelFactory} from '../factories/issue-viewmodel-factory'
 
 @bindable('issues')
 @bindable('issueId')
@@ -12,7 +13,11 @@ export class SubTaskList {
     }
 
     async activate () {
-        const unseen = await this.issueService.getUnseenSubtasks(this.issueId)
+        const tasks = await this.issueService.getSubtasks(this.issueId)
+        this.issues = []
+        for (let issue of tasks) {
+            this.issues.push(IssueViewModelFactory.create(issue))
+        }
     }
 
     displayTask (issue) {

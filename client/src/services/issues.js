@@ -120,11 +120,10 @@ export class IssueService {
     return res.content
   }
 
-  async getUnseenSubtasks (issueId) {
+  async getSubtasks (issueId) {
     const res = await this._http
       .createRequest(`/api/issue/${issueId}/subtasks`)
       .asGet()
-      .withParams({ 'unseen': true })
       .withReviver(this._issueReviver)
       .send()
     return res.content
