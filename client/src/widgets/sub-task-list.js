@@ -8,20 +8,21 @@ import {IssueViewModelFactory} from '../factories/issue-viewmodel-factory'
 @inject(IssueService)
 export class SubTaskList {
     constructor (issueService) {
-        this.issueService = issueService
-        this.diplay = null
+      this.issueService = issueService
+      this.diplay = null
     }
 
-    async activate () {
+    async bind () {
+      if (this.issueId) {
         const tasks = await this.issueService.getSubtasks(this.issueId)
         this.issues = []
         for (let issue of tasks) {
-            this.issues.push(IssueViewModelFactory.create(issue))
+          this.issues.push(IssueViewModelFactory.create(issue))
         }
+      }
     }
 
     displayTask (issue) {
-        this.display = issue
+      this.display = issue
     }
-
 }
