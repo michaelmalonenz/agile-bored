@@ -125,9 +125,10 @@ export class Board {
         }).catch(err => console.error(err))
       }
 
-      const statusesPromise = this.statusService.findAllForProject().then(statuses => {
-        this.statuses = statuses
-      }).catch(err => console.error(err))
+      const statusesPromise = this.statusService.findAllForProject(true)
+        .then(statuses => {
+          this.statuses = statuses
+        }).catch(err => console.error(err))
 
       return Promise.all([ issuesPromise, statusesPromise ]).then(() => {
         this.eventAggregator.publish(REFRESH_BOARD_COMPLETE)

@@ -11,13 +11,17 @@ export class StatusService {
     this.statuses = null
   }
 
-  async findAllForProject () {
-    if (this.statuses == null) {
+  async findAllForProject (forBoard) {
+    if (this.statuses == null || forBoard) {
       const res = await this._http
         .createRequest('/api/statuses')
+        .withParams({board: forBoard})
         .asGet()
         .withReviver(this._statusReviver)
         .send()
+      if (forBoard) {
+        return res.content
+      }
       this.statuses = res.content
     }
 

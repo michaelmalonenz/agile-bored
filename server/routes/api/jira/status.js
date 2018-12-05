@@ -39,13 +39,15 @@ function orderStatuses (statusViewModels, req) {
                columns.findIndex(column => column.statuses.findIndex(status => status.id === b.id) !== -1)
       })
 
-      const backlogCol = columns.find(col => col.name === 'Backlog')
-      if (backlogCol) {
-        const backlogIndex = statusViewModels.findIndex(status => {
-          return backlogCol.statuses.find(s => s.id === status.id)
-        })
-        if (backlogIndex >= 0) {
-          statusViewModels.splice(backlogIndex, 1)
+      if (req.query.board === 'true') {
+        const backlogCol = columns.find(col => col.name === 'Backlog')
+        if (backlogCol) {
+          const backlogIndex = statusViewModels.findIndex(status => {
+            return backlogCol.statuses.find(s => s.id === status.id)
+          })
+          if (backlogIndex >= 0) {
+            statusViewModels.splice(backlogIndex, 1)
+          }
         }
       }
 
