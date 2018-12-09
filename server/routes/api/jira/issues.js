@@ -159,7 +159,7 @@ module.exports = {
   getSubtasks: function (req, res) {
     const jql = `project = ${req.settings.jiraProjectName} AND parent = ${req.params.issueId} order by priority ASC`
     return getIssuesByJQL(req, jql)
-      .then(issues => res.send(issues))
+      .then(issues => res.send(issues[0].children))
       .catch(err => res.status(502).send(err))
   }
 }
@@ -200,9 +200,9 @@ function getEpics (jiraRapidBoardId, req, startAt = 0) {
     .then(response => {
       if (!response.isLast) {
         return getEpics(jiraRapidBoardId, req, startAt + response.maxResults)
-        .then(values => {
-          return values.concat(response.values)
-        })
+          .then(values => {
+            return values.concat(response.values)
+          })
       } else {
         return response.values
       }

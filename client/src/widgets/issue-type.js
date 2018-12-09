@@ -1,5 +1,6 @@
-import {customElement} from 'aurelia-framework'
+import {customElement,bindable} from 'aurelia-framework'
 
+@bindable('issueType')
 @customElement('issue-type')
 export class IssueTypeViewmodel {
   constructor (issueType) {
