@@ -12,10 +12,13 @@ module.exports = class IssueViewModel {
     this.title = ''
     this.description = ''
     this.assignee = null
+    this.reporter = null
     this.IssueStatus = null
     this.IssueType = null
     this.createdAt = Date.now()
     this.updatedAt = Date.now()
+    this.children = []
+    this.comments = []
   }
 
   static createFromJira (obj, colorObj) {
@@ -31,8 +34,6 @@ module.exports = class IssueViewModel {
     result.IssueStatus = StatusViewModel.createFromJira(obj.fields.status)
     result.issueType = IssueTypeViewModel.createFromJira(obj.fields.issuetype, colorObj)
     result.epic = EpicViewModel.createFromJira(obj.fields.epic)
-    result.children = []
-    result.comments = []
     const comments = obj.fields.comment ? obj.fields.comment.comments : []
     for (let comment of comments) {
       result.comments.push(CommentViewModel.createFromJira(comment))
@@ -52,11 +53,9 @@ module.exports = class IssueViewModel {
     result.reporter = UserViewModel.createFromLocal(obj.reporter)
     result.IssueStatus = StatusViewModel.createFromLocal(obj.IssueStatus)
     result.issueType = IssueTypeViewModel.createFromLocal(obj.IssueType)
-    result.comments = []
     for (let comment of obj.comments) {
       result.comments.push(CommentViewModel.createFromLocal(comment))
     }
     return result
   }
 }
-
