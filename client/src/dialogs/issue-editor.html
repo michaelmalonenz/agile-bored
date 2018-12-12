@@ -23,10 +23,28 @@
       </div>
       <div class="edit-issue-content">
         <div class="row h-100">
-          <div class="col-md-12 h-100">
+          <div class="${edit ? 'col-md-9' : 'col-md-12'} h-100">
             <viewing-text-editor if.bind="currentTab == 'description'" start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
             <comments-list if.bind="currentTab == 'comments'" issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
             <sub-task-list if.bind="currentTab == 'sub-tasks'" issues.bind="issue.children" issue-id.bind="issue.id"></sub-task-list>
+          </div>
+          <div class="col-md-3 h-100" if.bind="edit">
+            <div class="row vertically-center-row">
+              <div class="col-4 text-right">Reporter: </div>
+              <div class="col-8">${issue.reporter.displayName & oneTime}</div>
+            </div>
+            <div class="row vertically-center-row">
+              <div class="col-4 text-right">Assignee: </div>
+              <div class="col-8">${issue.assignee.displayName & oneTime}</div>
+            </div>
+            <div class="row vertically-center-row">
+                <div class="col-4 text-right">Created: </div>
+                <div class="col-8 date-format">${issue.createdAt | date & oneTime}</div>
+              </div>
+            <div class="row vertically-center-row">
+              <div class="col-4 text-right">Updated: </div>
+              <div class="col-8 date-format">${issue.updatedAt | date & oneTime}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -37,7 +55,8 @@
         <div class="col-8 ${edit ? 'visible' : 'invisible'}">
             <button type="button" class="btn btn-primary" click.trigger="setTab('description')">Description</button>
             <button type="button" class="btn btn-primary" click.trigger="setTab('comments')">Comments</button>
-            <button type="button" class="btn btn-primary" click.trigger="setTab('sub-tasks')">Sub Tasks</button>
+            <button if.bind="!subtask" type="button" class="btn btn-primary" click.trigger="setTab('sub-tasks')">Sub Tasks</button>
+            <button type="button" class="btn btn-primary" click.trigger="setTab('history')">History</button>
         </div>
         <div class="col-4" if.bind="isModified">
           <button type="button" class="btn btn-outline-secondary" click.trigger="controller.cancel()">Cancel</button>
