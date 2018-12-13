@@ -34,5 +34,4 @@ export class User {
   set largeAvatarUrl (value) {
     this._largeAvatarUrl = value
   }
-
 }

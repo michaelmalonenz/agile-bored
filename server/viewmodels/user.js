@@ -14,7 +14,7 @@ module.exports = class UserViewModel {
     if (obj) {
       result = new UserViewModel()
       result.id = obj.accountId
-      result.username = obj.username
+      result.username = obj.name
       result.displayName = obj.displayName
       result.createdAt = obj.created
       result.updatedAt = obj.updated

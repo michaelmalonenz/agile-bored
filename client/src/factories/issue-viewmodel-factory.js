@@ -1,15 +1,14 @@
-import {DialogService} from 'aurelia-dialog'
-import {Container} from 'aurelia-framework'
-import {EventAggregator} from 'aurelia-event-aggregator'
+import { DialogService } from 'aurelia-dialog'
+import { Container } from 'aurelia-framework'
+import { EventAggregator } from 'aurelia-event-aggregator'
 
-import {Issue} from '../issues/issue'
-import {IssueService} from '../services/issues'
+import { Issue } from '../issues/issue'
+import { IssueService } from '../services/issues'
 
-import {AssigneeCache} from '../utils/assignees-cache'
-import {User} from '../models/user'
+import { AssigneeCache } from '../utils/assignees-cache'
+import { User } from '../models/user'
 
 export class IssueViewModelFactory {
-
   static create (issueDTO) {
     const children = []
     if (issueDTO.assignee) {

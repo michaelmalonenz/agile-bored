@@ -72,7 +72,7 @@ export class AssignUsers {
   get users () {
     const filteredUsers = this._users.filter(u => {
       if (this.assignee) {
-        return u.accountId !== this.assignee.accountId
+        return u.id !== this.assignee.id
       }
       return true
     })

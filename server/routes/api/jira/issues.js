@@ -113,7 +113,7 @@ module.exports = {
   assign: function (req, res) {
     const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/assignee`, req, 'PUT')
     options.body = {
-      name: req.body.name
+      name: req.body.username
     }
     return request(options)
       .then(() => res.sendStatus(200))
