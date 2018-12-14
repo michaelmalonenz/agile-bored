@@ -1,0 +1,11 @@
+.user-display {
+  min-width: 12em;
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+
+  img {
+    border-radius: 50%;
+    margin-right: 0.5em;
+  }
+}

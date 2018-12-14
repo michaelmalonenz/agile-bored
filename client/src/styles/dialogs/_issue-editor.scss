@@ -7,6 +7,9 @@
 .edit-issue-content {
   margin-top: 1%;
   height: 50vh;
+  overflow-y: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .edit-control {

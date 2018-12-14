@@ -11,6 +11,7 @@ export function configure (config) {
     './select-dropdown',
     './issue-type',
     './autocomplete',
-    './sub-task-list'
+    './sub-task-list',
+    './user-display'
   ])
 }

@@ -1,0 +1,9 @@
+<template>
+  <div class="user-display" show.bind="!!user">
+    <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl"
+      style.bind="avatarStyle" alt="User Avatar">
+    <span class="user-name">
+      ${user.displayName}
+    </span>
+  </div>
+</template>
