@@ -27,7 +27,7 @@ export class User {
     } else if (this.avatar) {
       return this.avatar
     } else {
-      return ''
+      return this.avatarUrl
     }
   }
 

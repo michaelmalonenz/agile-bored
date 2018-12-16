@@ -6,13 +6,13 @@
     <div if.bind="large" style="float: right;">${displayName}</div>
     <div class="assign-user-list assign-placement-${placement}" show.bind="active">
       <div class="container-fluid">
-        <div class="row assign-list-user" click.trigger="assignUser($event)" if.bind="hasAssignee">
+        <div class="row assign-list-user unassign" click.trigger="assignUser($event)" if.bind="hasAssignee">
           <i class="far fa-user fa-2x"></i>
           <span class="assign-name">
             Unassign
           </span>
         </div>
-        <div class="row assign-list-user">
+        <div class="row">
           <div class="input-group">
               <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
                 aria-describedby="search-button" value.two-way="searchText"
@@ -24,12 +24,8 @@
             </div>
           </div>
         </div>
-        <div class="row assign-list-user" repeat.for="user of users" click.trigger="assignUser($event, user)">
-          <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl"
-            style.bind="avatarStyle" alt="User Avatar">
-          <span class="assign-name">
-            ${user.displayName}
-          </span>
+        <div class="row assign-list-user" repeat.for="user of users">
+          <user-display user.bind="user" large.bind="large" click.trigger="assignUser($event, user)"></user-display>
         </div>
       </div>
     </div>
