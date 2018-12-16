@@ -1,3 +1,5 @@
+@import "../_colours";
+
 .edit-issue-title {
   width: 100%;
   padding: 0 1rem;
@@ -21,4 +23,26 @@
   width: 100%;
   height: 100%;
   padding: 1rem;
+}
+
+.tab-controls {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+
+  .tab-control {
+    padding: 0.5em;
+    color: $primary;
+    cursor: pointer;
+    float: left;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+    user-select: none;
+    border-radius: 3px;
+
+    &.active {
+      border-color: $primary;
+    }
+  }
 }

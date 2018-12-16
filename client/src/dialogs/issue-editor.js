@@ -65,6 +65,14 @@ export class IssueEditorDialog {
     this._currentTab = value
   }
 
+  activeClass (tab) {
+    if (tab === this.currentTab) {
+      return 'active'
+    } else {
+      return ''
+    }
+  }
+
   issueTypeMatcher (a, b) {
     if (a == null && b == null) {
       return true
