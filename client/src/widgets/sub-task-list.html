@@ -1,18 +1,21 @@
 <template>
   <div class="d-flex flex-column h-100 container-fluid">
-    <div class="row h-100">
+    <div class="row">
       <div class="col-6 h-100 sub-task-section">
-        <div class="border sub-task-issue" click.delegate="displayTask(issue.issue)"
-          repeat.for="issue of issues">${issue.issue.key} - ${issue.issue.title}</div>
+        <div class="border sub-task-issue" click.delegate="displayTask(issue.issue)" repeat.for="issue of issues">
+          <sub-task-display issue.bind="issue"></sub-task-display>
+        </div>
       </div>
       <div class="col-6 h-100 sub-task-section">
         <h4>${display.title}</h4>
-        <div class="row">
-          <div class="col-6">${display.IssueStatus.name}</div>
-          <div class="col-6"><issue-type issue-type.bind="display.issueType"></issue-type></div>
-        </div>
         <div innerhtml="${display.description | markdown | newline | sanitizeHTML}"></div>
       </div>
+    </div>
+    <div class="row create-sub-task">
+      <input type="text" value.bind="newSubTitle">
+      <button type="button" class="btn btn-primary" click.delegate="createSubTask()">
+        <i class="fa fa-plus"></i> Create
+      </button>
     </div>
   </div>
 </template>

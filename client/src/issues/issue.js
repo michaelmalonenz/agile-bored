@@ -14,6 +14,7 @@ export class Issue {
     return this.issue.id
   }
 
+  @computedFrom('issue.issueType.colour')
   get typeStyle () {
     if (this.issue && this.issue.issueType) {
       return `border-color: ${this.issue.issueType.colour};`
@@ -26,6 +27,7 @@ export class Issue {
     return this.issue.children && this.issue.children.length > 0
   }
 
+  @computedFrom('issue.epic.name')
   get epicName () {
     if (this.issue && this.issue.epic && this.issue.epic.name) {
       return this.issue.epic.name
@@ -41,6 +43,7 @@ export class Issue {
     return ''
   }
 
+  @computedFrom('issue.IssueStatus.name')
   get statusName () {
     if (this.issue && this.issue.IssueStatus && this.issue.IssueStatus.name) {
       return this.issue.IssueStatus.name

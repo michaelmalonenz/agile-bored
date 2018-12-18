@@ -10,6 +10,7 @@ export class SubTaskList {
     constructor (issueService) {
       this.issueService = issueService
       this.diplay = null
+      this.newSubTitle = ''
     }
 
     async bind () {
@@ -24,5 +25,10 @@ export class SubTaskList {
 
     displayTask (issue) {
       this.display = issue
+    }
+
+    createSubTask () {
+      console.log('Creating sub task for... ', this.issueId, this.newSubTitle)
+      this.newSubTitle = ''
     }
 }

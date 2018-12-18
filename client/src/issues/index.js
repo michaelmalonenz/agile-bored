@@ -2,6 +2,7 @@ export function configure (config) {
   config.globalResources([
     './issue',
     './parent-issue',
-    './epic'
+    './epic',
+    './sub-task-display'
   ])
 }

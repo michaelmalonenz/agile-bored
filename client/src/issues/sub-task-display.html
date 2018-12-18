@@ -1,0 +1,11 @@
+<template>
+  <div class="row">
+    <div class="col-12">
+      ${issue.issue.key} - ${issue.issue.title}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">${issue.statusName}</div>
+    <div class="col-6"><issue-type issue-type.bind="issueType"></issue-type></div>
+  </div>
+</template>
