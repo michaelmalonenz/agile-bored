@@ -1,11 +1,11 @@
 <template>
-  <div class="row">
-    <div class="col-12">
-      ${issue.issue.key} - ${issue.issue.title}
-    </div>
+  <div>
+    ${issue.issue.key} - ${issue.issue.title}
   </div>
-  <div class="row">
-    <div class="col-6">${issue.statusName}</div>
-    <div class="col-6"><issue-type issue-type.bind="issueType"></issue-type></div>
+  <div>
+    <div class="w-50 d-inline-block">${issue.statusName}</div>
+    <div class="w-50 d-inline-block sub-task-issue-type">
+      <issue-type issue-type.bind="issueType"></issue-type>
+    </div>
   </div>
 </template>

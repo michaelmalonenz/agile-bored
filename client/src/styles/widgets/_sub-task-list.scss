@@ -1,15 +1,26 @@
 @import "../colours";
 
 .sub-task-section {
-  overflow-y: auto;
   padding-bottom: 2px;
+}
+
+.sub-task-scrolling-section {
+  padding-bottom: 36px;
+  position: relative;
+}
+
+.sub-task-display-section {
+  overflow-y: auto;
 }
 
 .sub-task-issue {
   cursor: pointer;
   padding: 0.2em;
   border-color: transparent !important;
+  border-radius: 3px;
+  margin-bottom: 1px;
 
+  &.active,
   &:hover {
     border-color: $primary !important;
   }
@@ -18,4 +29,22 @@
 .create-sub-task {
   position: absolute;
   bottom: 0;
+  display: flex;
+
+  .sub-task-title {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 0.5em;
+    width: unset;
+  }
+}
+
+.sub-task-wrapper {
+  overflow-y: auto;
+  align-content: start;
+}
+
+
+.sub-task-issue-type {
+  padding-left: 0.5em;
 }

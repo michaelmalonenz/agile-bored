@@ -1,21 +1,25 @@
 <template>
   <div class="d-flex flex-column h-100 container-fluid">
-    <div class="row">
-      <div class="col-6 h-100 sub-task-section">
-        <div class="border sub-task-issue" click.delegate="displayTask(issue.issue)" repeat.for="issue of issues">
-          <sub-task-display issue.bind="issue"></sub-task-display>
+    <div class="row h-100">
+      <div class="col-6 h-100 sub-task-section sub-task-scrolling-section">
+        <div class="row sub-task-wrapper h-100">
+          <div class="border sub-task-issue w-100 ${display.id === issue.issueId ? 'active' : ''}"
+            click.delegate="displayTask(issue.issue)"
+            repeat.for="issue of issues">
+            <sub-task-display issue.bind="issue"></sub-task-display>
+          </div>
+        </div>
+        <div class="row create-sub-task w-100">
+          <input type="text" class="sub-task-title form-control" value.bind="newSubTitle" placeholder="new subtask title">
+          <button type="button" title="Create new sub-task" class="btn btn-primary" click.delegate="createSubTask()">
+            <i class="fa fa-plus"></i>
+          </button>
         </div>
       </div>
-      <div class="col-6 h-100 sub-task-section">
+      <div class="col-6 h-100 sub-task-section sub-task-display-section">
         <h4>${display.title}</h4>
         <div innerhtml="${display.description | markdown | newline | sanitizeHTML}"></div>
       </div>
-    </div>
-    <div class="row create-sub-task">
-      <input type="text" value.bind="newSubTitle">
-      <button type="button" class="btn btn-primary" click.delegate="createSubTask()">
-        <i class="fa fa-plus"></i> Create
-      </button>
     </div>
   </div>
 </template>

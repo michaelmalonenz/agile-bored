@@ -5,10 +5,11 @@ import {IssueViewModelFactory} from '../factories/issue-viewmodel-factory'
 @bindable('issues')
 @bindable('issueId')
 @customElement('sub-task-list')
-@inject(IssueService)
+@inject(IssueService, Element)
 export class SubTaskList {
-    constructor (issueService) {
+    constructor (issueService, element) {
       this.issueService = issueService
+      this.element = element
       this.diplay = null
       this.newSubTitle = ''
     }
@@ -25,6 +26,7 @@ export class SubTaskList {
 
     displayTask (issue) {
       this.display = issue
+      this.element.querySelector('.sub-task-display-section').scrollTop = 0
     }
 
     createSubTask () {
