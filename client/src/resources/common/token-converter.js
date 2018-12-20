@@ -34,6 +34,12 @@ export class TokenConverter {
                 tempResult += lines[k].replace(sym.regex, (_, innerString) => {
                   return `${sym.lineStartMarkup}${this.convertInline(innerString)}${sym.lineEndMarkup}`
                 })
+                if (k === (lines.length - 1)) {
+                  tempResult += sym.endMarkup
+                  multilineFound = true
+                  i = k
+                  resultLines.push(tempResult)
+                }
               } else {
                 tempResult += sym.endMarkup
                 multilineFound = true
@@ -64,9 +70,9 @@ export class TokenConverter {
         if (sym.regex) {
           const val = value.substring(i)
           if (sym.regex.test(val)) {
-            const res = val.replace(sym.regex, sym.replacer)
-            i += (res.length - sym.additionalCharCount)
-            result += res
+            const res = sym.replacer(val, sym.regex)
+            i += res.matchLength
+            result += res.markup
             s = 0
           }
         } else {

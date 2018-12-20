@@ -21,7 +21,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'UNORDERED_LIST',
-    regex: /^\s*(?:\*|-)\s+(.*)/,
+    regex: /^\s*(?:\*|-)\s+(.*)$/,
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: '- ',
@@ -30,7 +30,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'ORDERED_LIST',
-    regex: /^\s*#\s*(.*)/,
+    regex: /^\s*#\s*(.*)$/,
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: ' 1. ',
@@ -84,34 +84,58 @@ const INLINE_SYMBOLS = [
   {
     name: 'IMAGE',
     regex: /^!(.*?)\|(.*?)!/,
-    replacer: function (_, imageName, altText) {
-      return `[!${imageName}|${altText}]`
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, imageName, altText) => {
+        matchLength = match.length
+        return `[!${imageName}|${altText}]`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 4,
     preFormatting: false
   },
   {
     name: 'LINK',
     regex: /^\[(.*?)]\((.*?)\)/,
-    replacer: function (_, display, href) {
-      return `[${display}|${href}]`
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, display, href) => {
+        matchLength = match.length
+        return `[${display}|${href}]`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 0,
     preFormatting: false
   },
   {
     name: 'HEADING',
     regex: /^[hH](\d)\.(.*)/,
-    replacer: function (_, hLevel, headingText) {
-      return `${'#'.repeat(Number(hLevel))}${headingText}`
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, hLevel, headingText) => {
+        matchLength = match.length
+        return `${'#'.repeat(Number(hLevel))}${headingText}`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 0,
     preFormatting: false
   }
 ]
 
 module.exports = class JiraToMarkdown {
   static convert (value) {
-    return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
+    if (value) {
+      const str = value.replace(/(?:\r\n|\r|\n)/g, '\n')
+      return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(str)
+    }
   }
 }

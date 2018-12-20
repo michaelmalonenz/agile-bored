@@ -12,7 +12,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'UNORDERED_LIST',
-    regex: /^\s*(?:\*|-)\s+(.*)/,
+    regex: /^\s*(?:\*|-)\s+(.*)$/,
     startMarkup: '<ul>',
     endMarkup: '</ul>',
     lineStartMarkup: '<li>',
@@ -21,7 +21,7 @@ const MULTILINE_SYMBOLS = [
   },
   {
     name: 'ORDERED_LIST',
-    regex: /^\s*\d+\.\s*(.*)/,
+    regex: /^\s*\d+\.\s*(.*)$/,
     startMarkup: '<ol>',
     endMarkup: '</ol>',
     lineStartMarkup: '<li>',
@@ -74,28 +74,61 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'IMAGE',
-    regex: /^!\[(.*?)]\((.*?)\)/,
-    replacer: function (_, altText, url) {
-      return `<img src="${url}" alt="${altText}">`
+    regex: /^(?:!\[(.*?)\]\((.*?)\))/,
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, altText, url) => {
+        matchLength = match.length
+        return `<img src="${url}" alt="${altText}">`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 14,
     preFormatting: false
   },
   {
     name: 'LINK',
-    regex: /^\[(.*?)]\((.*?)\)/,
-    replacer: function (_, display, href) {
-      return `<a href="${href}" target="_blank">${display}</a>`
+    regex: /^(?:\[(.*?)\]\((.*?)\))/,
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, display, href) => {
+        matchLength = match.length
+        return `<a href="${href}" target="_blank">${display}</a>`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 27,
+    preFormatting: false
+  },
+  {
+    name: 'HEADING',
+    regex: /^(#+)\s+(.*)/,
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, headerLevel, heading) => {
+        matchLength = match.length
+        return `<h${headerLevel.length}>${heading}</h${headerLevel.length}>`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
+    },
     preFormatting: false
   }
 ]
 
 export class MarkdownValueConverter {
-
   toView (value) {
-    return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
+    if (value) {
+      const str = value.replace(/(?:\r\n|\r|\n)/g, '\n')
+      return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(str)
+    }
+    return value
   }
 
   fromView (value) {
