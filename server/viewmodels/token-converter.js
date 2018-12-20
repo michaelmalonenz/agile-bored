@@ -32,7 +32,7 @@ module.exports = class TokenConverter {
             for (let k = i; k < lines.length && !multilineFound; k++) {
               if (sym.regex.test(lines[k])) {
                 tempResult += lines[k].replace(sym.regex, (_, innerString) => {
-                  return `${sym.lineStartMarkup}${this.convertInline(innerString)}${sym.lineEndMarkup}\n`
+                  return `${sym.lineStartMarkup}${this.convertInline(innerString)}${sym.lineEndMarkup}`
                 })
                 if (k === (lines.length - 1)) {
                   tempResult += sym.endMarkup

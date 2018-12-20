@@ -25,7 +25,7 @@ const MULTILINE_SYMBOLS = [
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: '- ',
-    lineEndMarkup: '',
+    lineEndMarkup: '\n',
     preFormatting: false
   },
   {
@@ -34,7 +34,7 @@ const MULTILINE_SYMBOLS = [
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: ' 1. ',
-    lineEndMarkup: '',
+    lineEndMarkup: '\n',
     preFormatting: false
   },
   {
@@ -115,7 +115,7 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'HEADING',
-    regex: /^[hH](\d)\.(.*)/,
+    regex: /^[hH](\d)\.(.*)$/,
     replacer: function (str, regex) {
       let matchLength = 0
       const markup = str.replace(regex, (match, hLevel, headingText) => {
