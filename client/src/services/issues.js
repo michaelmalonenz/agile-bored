@@ -129,11 +129,22 @@ export class IssueService {
     return res.content
   }
 
+  async getChangeLog (issueId) {
+    const res = await this._http
+      .createRequest(`/api/issue/${issueId}/changelog`)
+      .asGet()
+      .withReviver(this._changeLogReviver)
+      .send()
+    return res.content
+  }
+
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object' && isNaN(key)) {
       if (key === 'IssueStatus') {
         return new Status(value)
       } else if (key === 'assignee') {
+        return new User(value)
+      } else if (key === 'reporter') {
         return new User(value)
       } else if (key === 'epic') {
         return new Epic(value)
@@ -168,11 +179,20 @@ export class IssueService {
       } else if (key === 'comments') {
         return value
       } else if (key === 'author') {
-        return value
+        return new User(value)
       } else if (key === 'comment') {
         return value
       } else if (key === 'issues') {
         return value
+      }
+    }
+    return value
+  }
+
+  _changeLogReviver (key, value) {
+    if (key !== '' && value != null && typeof value === 'object' && isNaN(key)) {
+      if (key === 'author') {
+        return new User(value)
       }
     }
     return value

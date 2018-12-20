@@ -90,4 +90,11 @@ module.exports = function (router) {
     }
     return localIssues.getSubtasks(req, res)
   })
+
+  router.get('/issue/:issueId/changelog', function (req, res) {
+    if (req.settings && req.settings.useJira) {
+      return jiraIssues.getChangeLog(req, res)
+    }
+    return localIssues.getChangeLog(req, res)
+  })
 }

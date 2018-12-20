@@ -26,6 +26,7 @@
           <viewing-text-editor if.bind="currentTab === 'description'" start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
           <comments-list if.bind="currentTab === 'comments'" issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
           <sub-task-list if.bind="currentTab === 'sub-tasks'" issues.bind="issue.children" issue-id.bind="issue.id"></sub-task-list>
+          <changelog-display if.bind="currentTab === 'history'" issue-id.bind="issue.id"></changelog-display>
         </div>
         <div class="col-md-4 h-100" if.bind="edit">
           <div class="row vertically-center-row">
@@ -51,10 +52,18 @@
     <ux-dialog-footer>
       <div class="row">
         <div class="col-8 ${edit ? 'visible' : 'invisible'} tab-controls">
-            <div class="tab-control ${currentTab === 'description' ? 'active' : ''}" click.trigger="setTab('description')">Description</div>
-            <div class="tab-control ${currentTab === 'comments' ? 'active' : ''}" click.trigger="setTab('comments')">Comments</div>
-            <div if.bind="!subtask" class="tab-control ${currentTab === 'sub-tasks' ? 'active' : ''}" click.trigger="setTab('sub-tasks')">Sub Tasks</div>
-            <div class="tab-control ${currentTab === 'history' ? 'active' : ''}" click.trigger="setTab('history')">History</div>
+            <div class="tab-control ${currentTab === 'description' ? 'active' : ''}" click.trigger="setTab('description')">
+              <i class="fa fa-book"></i>&nbsp; Description
+            </div>
+            <div class="tab-control ${currentTab === 'comments' ? 'active' : ''}" click.trigger="setTab('comments')">
+              <i class="fa fa-comments"></i>&nbsp; Comments
+            </div>
+            <div if.bind="!subtask" class="tab-control ${currentTab === 'sub-tasks' ? 'active' : ''}" click.trigger="setTab('sub-tasks')">
+              <i class="fa fa-sitemap"></i>&nbsp; Sub Tasks
+            </div>
+            <div class="tab-control ${currentTab === 'history' ? 'active' : ''}" click.trigger="setTab('history')">
+              <i class="fa fa-clock"></i>&nbsp; History
+            </div>
         </div>
         <div class="col-4" if.bind="isModified">
           <button type="button" class="btn btn-outline-secondary" click.trigger="controller.cancel()">Cancel</button>

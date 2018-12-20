@@ -2,6 +2,7 @@ const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const IssueViewModel = require('../../../viewmodels/issue')
 const EpicViewModel = require('../../../viewmodels/epic')
+const ChangeLogViewModel = require('../../../viewmodels/changelog')
 const statusApi = require('./status')
 const cardColours = require('./card-colours')
 
@@ -161,6 +162,18 @@ module.exports = {
     return getIssuesByJQL(req, jql)
       .then(issues => res.send(issues[0].children))
       .catch(err => res.status(502).send(err))
+  },
+  getChangeLog: function (req, res) {
+    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/changelog`, req)
+    return request(options)
+      .then(changelog => {
+        const result = []
+        for (let log of changelog.values) {
+          result.push(...(ChangeLogViewModel.createFromJira(log)))
+        }
+        res.send(result)
+      })
+      .catch(err => res.status(502).send(err.message))
   }
 }
 

@@ -149,6 +149,9 @@ module.exports = {
   },
   getSubtasks: function (req, res) {
     res.send([])
+  },
+  getChangeLog: function (req, res) {
+    res.send([])
   }
 }
 
