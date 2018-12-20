@@ -1,8 +1,8 @@
 <template>
   <div class="user-display" show.bind="!!user">
     <img src.bind="large ? user.largeAvatarUrl : user.avatarUrl"
-      style.bind="avatarStyle" alt="User Avatar">
-    <span class="user-name">
+      style.bind="avatarStyle" alt="User Avatar" title.bind="user.displayName">
+    <span class="user-name" if.bind="!avatarOnly">
       ${user.displayName}
     </span>
   </div>

@@ -155,13 +155,19 @@ module.exports = {
         issueObj.id = issue.id
         res.send(issueObj)
       })
-      .catch(err => res.status(502).send(err))
+      .catch(err => res.status(502).send(err.message))
   },
   getSubtasks: function (req, res) {
     const jql = `project = ${req.settings.jiraProjectName} AND parent = ${req.params.issueId} order by priority ASC`
     return getIssuesByJQL(req, jql)
-      .then(issues => res.send(issues[0].children))
-      .catch(err => res.status(502).send(err))
+      .then(issues => {
+        if (issues && issues.length) {
+          res.send(issues[0].children)
+        } else {
+          res.send([])
+        }
+      })
+      .catch(err => res.status(502).send(err.message))
   },
   getChangeLog: function (req, res) {
     const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/changelog`, req)

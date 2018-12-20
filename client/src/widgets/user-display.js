@@ -5,6 +5,11 @@ import { bindable, computedFrom } from 'aurelia-framework'
   name: 'large',
   defaultValue: false
 })
+@bindable({
+  name: 'avatarOnly',
+  attribute: 'avatar-only',
+  defaultValue: false
+})
 export class UserDisplay {
   @computedFrom('large')
   get avatarStyle () {

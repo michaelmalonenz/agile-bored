@@ -1,4 +1,17 @@
 <template>
-  <h3>Changelog</h3>
-  <div><i if.bind="loading" class="fa fa-circle-notch fa-spin"></i></div>
+  <h3>Changelog <i if.bind="loading" class="fa fa-circle-notch fa-spin"></i></h3>
+  <div class="row">
+    <div class="col-3">When</div>
+    <div class="col-1">Who</div>
+    <div class="col-2">What</div>
+    <div class="col-3">From</div>
+    <div class="col-3">To</div>
+  </div>
+  <div class="row" repeat.for="log of changelogs">
+    <div class="col-3 date-format">${log.timestamp | date & oneTime}</div>
+    <div class="col-1"><user-display user.bind="log.author" avatar-only="true"></user-display></div>
+    <div class="col-2">${log.field & oneTime}</div>
+    <div class="col-3" innerhtml="${log.fromValue | markdown | newline | sanitizeHTML & oneTime}"></div>
+    <div class="col-3" innerhtml="${log.toValue | markdown | newline | sanitizeHTML & oneTime}"></div>
+  </div>
 </template>

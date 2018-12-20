@@ -11,7 +11,7 @@ export class ChangeLogDisplay {
   }
 
   async bind () {
-    if (this.issueId) {
+    if (this.issueId && !this.changeLogs.length) {
       this.loading = true
       this.changelogs = await this.issueService.getChangeLog(this.issueId)
       this.loading = false
