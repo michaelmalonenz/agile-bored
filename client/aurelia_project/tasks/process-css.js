@@ -3,7 +3,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import autoprefixer from 'gulp-autoprefixer'
 import sass from 'gulp-sass'
 import project from '../aurelia.json'
-import {build} from 'aurelia-cli'
+import { build } from 'aurelia-cli'
 
 export default function processCSS () {
   return gulp.src(project.cssProcessor.source)

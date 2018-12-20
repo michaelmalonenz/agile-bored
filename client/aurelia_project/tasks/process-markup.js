@@ -4,12 +4,12 @@ import plumber from 'gulp-plumber'
 import notify from 'gulp-notify'
 import changedInPlace from 'gulp-changed-in-place'
 import project from '../aurelia.json'
-import {build} from 'aurelia-cli'
+import { build } from 'aurelia-cli'
 
 export default function processMarkup () {
   return gulp.src(project.markupProcessor.source)
-    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
-    .pipe(changedInPlace({firstPass: true}))
+    .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
+    .pipe(changedInPlace({ firstPass: true }))
     .pipe(htmlmin({
       removeComments: true,
       collapseWhitespace: true,
