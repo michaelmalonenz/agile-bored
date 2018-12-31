@@ -1,6 +1,14 @@
 <template>
   <div class="row epic-title sticky-top">
-    <div class="col-12"><h3>${epic.name}</h3></div>
+    <div class="col-10"><h3>${epic.name}</h3></div>
+    <div class="col-2 d-flex align-items-center justify-content-end">
+      <div if.bind="epic.name !== 'No Epic'">
+        <div if.bind="!!estimate">${estimate}</div>
+        <button else type="button" class="btn btn-primary" click.delegate="getEstimate()">
+          <i class="fa fa-chart-line"></i>&nbsp; Estimate
+        </button>
+      </div>
+    </div>
   </div>
   <div repeat.for="issue of epic.issuesWithChildren">
     <parent-issue parent.bind="issue" statuses.bind="statuses"></parent-issue>
