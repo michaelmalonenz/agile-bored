@@ -15,9 +15,14 @@ module.exports = {
           for (let history of issue.changelog.histories) {
             events.push(...ChangeLogViewModel.createFromJira(history))
           }
-          times.push(calculateTimeInProgress(events))
+          times.push({
+            duration: calculateTimeInProgress(events),
+            done: issue.fields.status.name === 'Done'
+          })
         }
-        const days = Math.ceil(getEstimatedIssueDuration(times) / ticksInADay)
+        const averageDaysPerIssue = Math.ceil(getEstimatedIssueDuration(times) / ticksInADay)
+        const incomplete = times.filter(t => !t.done)
+        const days = averageDaysPerIssue * incomplete.length
         res.send({ estimate: `${days} day${days === 1 ? '' : 's'}` })
       })
   }
@@ -44,22 +49,41 @@ function calculateTimeInProgress (changelogEvents) {
 }
 
 function getEstimatedIssueDuration (times) {
-  const inProgressTimes = times.filter(t => t !== 0)
+  const inProgressTimes = times.filter(t => t.duration !== 0)
   if (inProgressTimes.length === 0) {
     return Infinity
   }
-  inProgressTimes.sort((a, b) => a - b)
-  const min = inProgressTimes[0]
-  const max = inProgressTimes[inProgressTimes.length - 1]
-  const total = inProgressTimes.reduce((prev, current) => prev + current, 0)
+  inProgressTimes.sort((a, b) => a.duration - b.duration)
+  const min = getMinimumDuration(inProgressTimes)
+  const max = getMaximumDuration(inProgressTimes)
+  const total = inProgressTimes.reduce((prev, current) => prev + current.duration, 0)
   const average = total / inProgressTimes.length
   return (min + (4 * average) + max) / 6
 }
 
+function getMinimumDuration (times) {
+  const completedIssues = times.filter(t => t.done)
+  if (completedIssues.length) {
+    return Math.min(...(completedIssues.map(t => t.duration)))
+  }
+  if (times.length) {
+    return Math.min(...(times.map(t => t.duration)))
+  }
+  return 0
+}
+
+function getMaximumDuration (times) {
+  const completedIssues = times.filter(t => t.done)
+  if (completedIssues.length) {
+    return Math.max(...(completedIssues.map(t => t.duration)))
+  }
+  if (times.length) {
+    return Math.max(...(times.map(t => t.duration)))
+  }
+  Infinity
+}
+
 /**
  * TODO:
- * - Figure out if the issue is resolved (Can use issue's current status)
- * - Calculate max and min based on 'resolved', 'in progress', 'not started' time ordering
- * - Multiply the EstimatedIssueDuration by the count of unresolved issues
  * - Add settings for which statuses should be considered 'In Progress'
  **/
