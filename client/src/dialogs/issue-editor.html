@@ -22,29 +22,11 @@
         </div>
       </div>
       <div class="edit-issue-content row">
-        <div class="${edit ? 'col-md-8' : 'col-md-12'} h-100">
-          <viewing-text-editor if.bind="currentTab === 'description'" start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description"></viewing-text-editor>
+        <div class="col-md-12 h-100">
+          <issue-description if.bind="currentTab === 'description'" edit.bind="edit" issue.bind="issue"></issue-description>
           <comments-list if.bind="currentTab === 'comments'" issue-id.bind="issue.id" comments.bind="issue.comments"></comments-list>
           <sub-task-list if.bind="currentTab === 'sub-tasks'" issues.bind="issue.children" issue-id.bind="issue.id"></sub-task-list>
           <changelog-display if.bind="currentTab === 'history'" issue-id.bind="issue.id"></changelog-display>
-        </div>
-        <div class="col-md-4 h-100" if.bind="edit">
-          <div class="row vertically-center-row">
-            <div class="col-3 text-right">Reporter: </div>
-            <div class="col-9"><user-display user.bind="issue.reporter"></user-display></div>
-          </div>
-          <div class="row vertically-center-row">
-            <div class="col-3 text-right">Assignee: </div>
-            <div class="col-9"><user-display user.bind="issue.assignee"></user-display></div>
-          </div>
-          <div class="row vertically-center-row">
-              <div class="col-3 text-right">Created: </div>
-              <div class="col-9 date-format">${issue.createdAt | date & oneTime}</div>
-            </div>
-          <div class="row vertically-center-row">
-            <div class="col-3 text-right">Updated: </div>
-            <div class="col-9 date-format">${issue.updatedAt | date & oneTime}</div>
-          </div>
         </div>
       </div>
     </ux-dialog-body>

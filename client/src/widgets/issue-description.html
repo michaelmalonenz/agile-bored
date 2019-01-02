@@ -1,0 +1,26 @@
+<template>
+  <div class="row h-100">
+    <div class="${edit ? 'col-md-8' : 'col-md-12'}">
+      <viewing-text-editor start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description">
+      </viewing-text-editor>
+    </div>
+    <div class="col-md-4 h-100" if.bind="edit">
+      <div class="row vertically-center-row">
+        <div class="col-3 text-right">Reporter: </div>
+        <div class="col-9"><user-display user.bind="issue.reporter"></user-display></div>
+      </div>
+      <div class="row vertically-center-row">
+        <div class="col-3 text-right">Assignee: </div>
+        <div class="col-9"><user-display user.bind="issue.assignee"></user-display></div>
+      </div>
+      <div class="row vertically-center-row">
+          <div class="col-3 text-right">Created: </div>
+          <div class="col-9 date-format">${issue.createdAt | date & oneTime}</div>
+        </div>
+      <div class="row vertically-center-row">
+        <div class="col-3 text-right">Updated: </div>
+        <div class="col-9 date-format">${issue.updatedAt | date & oneTime}</div>
+      </div>
+    </div>
+  </div>
+</template>

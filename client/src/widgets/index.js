@@ -13,6 +13,7 @@ export function configure (config) {
     './autocomplete',
     './sub-task-list',
     './user-display',
-    './changelog-display'
+    './changelog-display',
+    './issue-description'
   ])
 }
