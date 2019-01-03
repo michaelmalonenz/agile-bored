@@ -74,8 +74,8 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'IMAGE',
-    regex: /^\[!(.*?)\|(.*?)!\]/,
-    replacer: function (_, imageName, altText) {
+    regex: /^!\[(.*?)\]\((.*?)!\)/,
+    replacer: function (_, altText, imageName) {
       return `!${imageName}|${altText}!`
     },
     additionalCharCount: 4,

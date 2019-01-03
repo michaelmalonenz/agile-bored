@@ -88,7 +88,7 @@ const INLINE_SYMBOLS = [
       let matchLength = 0
       const markup = str.replace(regex, (match, imageName, altText) => {
         matchLength = match.length
-        return `[!${imageName}|${altText}]`
+        return `![${altText}](${imageName})`
       })
       return {
         markup: markup,
