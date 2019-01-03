@@ -11,6 +11,11 @@
         </div>
         <div class="row create-sub-task w-100">
           <input type="text" class="sub-task-title form-control" value.bind="newSubTitle" placeholder="new subtask title">
+          <div class="sub-task-container">
+            <select-dropdown value.bind="newIssueType" options.bind="issueTypes">
+              <i class="fas fa-tag sub-issue-type" title="Issue Type"></i>
+            </select-dropdown>
+          </div>
           <button type="button" title="Create new sub-task" class="btn btn-primary" click.delegate="createSubTask()">
             <i class="fa fa-plus"></i>
           </button>

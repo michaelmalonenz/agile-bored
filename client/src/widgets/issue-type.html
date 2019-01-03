@@ -1,6 +1,6 @@
 <template>
   <div class="issue-type">
-    <div class="issue-type-marker" css="background: ${issueType.colour};" ></div>
-      ${issueType.name}
+    <div class="issue-type-marker" css="background: ${issueType.colour};"></div>
+    <div class="issue-type-name" if.bind="!small" title.bind="issueType.name"> ${issueType.name}</div>
   </div>
 </template>
