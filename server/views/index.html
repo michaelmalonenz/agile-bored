@@ -14,15 +14,18 @@
         font-size: 10vh;
         justify-content: center;
         font-family: Arial, Helvetica, sans-serif;
+        flex-direction: column;
       }
     </style>
   </head>
 
   <body aurelia-app="main">
     <div class="loading-icon-container">
-      <p><i class="fa fa-circle-notch fa-spin"></i> Loading...</p>
+      <div>
+        <img src="/images/logo_transparent_rectangle.png" alt="logo">
+      </div>
     </div>
-    <script src="scripts/vendor-bundle.js"></script>
+    <script src="scripts/vendor-bundle.js"></script> -->
     <script>SystemJS.import("aurelia-bootstrapper").catch(function(err) { console.log(err); })</script>
   </body>
 </html>
