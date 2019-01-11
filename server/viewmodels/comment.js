@@ -1,4 +1,5 @@
 const UserViewModel = require('./user')
+const JiraToMarkdown = require('./jira-to-markdown')
 
 module.exports = class CommentViewModel {
   constructor () {
@@ -15,7 +16,7 @@ module.exports = class CommentViewModel {
     if (obj) {
       result = new CommentViewModel()
       result.id = obj.id
-      result.body = obj.body
+      result.body = JiraToMarkdown.convert(obj.body)
       result.author = UserViewModel.createFromJira(obj.author)
       result.createdAt = obj.created
       result.updatedAt = obj.updated
