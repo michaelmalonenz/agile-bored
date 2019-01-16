@@ -16,7 +16,7 @@ const MULTILINE_SYMBOLS = [
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: '- ',
-    lineEndMarkup: '',
+    lineEndMarkup: '\n',
     preFormatting: false
   },
   {
@@ -25,7 +25,7 @@ const MULTILINE_SYMBOLS = [
     startMarkup: '',
     endMarkup: '',
     lineStartMarkup: ' # ',
-    lineEndMarkup: '',
+    lineEndMarkup: '\n',
     preFormatting: false
   },
   {
