@@ -122,7 +122,7 @@ const INLINE_SYMBOLS = [
   }
 ]
 
-module.exports = class JiraToMarkdown {
+module.exports = class MarkdownToJira {
   static convert (value) {
     return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
   }

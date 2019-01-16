@@ -5,6 +5,7 @@ const EpicViewModel = require('../../../viewmodels/epic')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
 const statusApi = require('./status')
 const cardColours = require('./card-colours')
+const MarkdownToJira = require('../../../viewmodels/markdown-to-jira')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -102,7 +103,7 @@ module.exports = {
     options.body = {
       fields: {
         summary: updater.title,
-        description: updater.description,
+        description: MarkdownToJira.convert(updater.description),
         issuetype: { id: updater.issueType.id },
         [req.settings.jiraEpicField]: updater.epic ? updater.epic.key : null
       }
@@ -143,7 +144,7 @@ module.exports = {
       fields: {
         reporter: { name: req.user.username },
         summary: issueObj.title,
-        description: issueObj.description,
+        description: MarkdownToJira.convert(issueObj.description),
         project: { key: req.settings.jiraProjectName },
         issuetype: { id: issueObj.issueType.id },
         [req.settings.jiraEpicField]: issueObj.epic ? issueObj.epic.key : null

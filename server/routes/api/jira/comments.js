@@ -1,6 +1,7 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const CommentViewModel = require('../../../viewmodels/comment')
+const MarkdownToJira = require('../../../viewmodels/markdown-to-jira')
 
 module.exports = {
   getCommentsForIssue: function (req, res) {
@@ -17,7 +18,7 @@ module.exports = {
   },
   addComment: function (req, res) {
     const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/comment`, req, 'POST')
-    options.body = req.body
+    options.body = MarkdownToJira.convert(req.body)
     return request(options)
       .then(result => res.send(CommentViewModel.createFromJira(result)))
       .catch(err => res.status(502).send(err))
