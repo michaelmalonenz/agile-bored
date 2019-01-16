@@ -66,37 +66,58 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'STRIKETHROUGH',
-    startToken: '-',
-    endToken: '-',
-    startHtml: '~~',
-    endHtml: '~~',
+    startToken: '~~',
+    endToken: '~~',
+    startHtml: '-',
+    endHtml: '-',
     preFormatting: false
   },
   {
     name: 'IMAGE',
     regex: /^!\[(.*?)\]\((.*?)!\)/,
-    replacer: function (_, altText, imageName) {
-      return `!${imageName}|${altText}!`
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, altText, imageName) => {
+        matchLength = match.length
+        return `!${imageName}|${altText}!`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 4,
     preFormatting: false
   },
   {
     name: 'LINK',
-    regex: /^\[(.*?)\|(.*?)\]/,
-    replacer: function (_, display, href) {
-      return `[${display}](${href})`
+    regex: /^\[(.*?)\]\((.*?)\)/,
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, display, href) => {
+        matchLength = match.length
+        return `[${display}|${href}]`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 3,
     preFormatting: false
   },
   {
     name: 'HEADING',
     regex: /^(#+)\s(.*)/,
-    replacer: function (_, hLevel, headingText) {
-      return `'h'${hLevel.length}. ${headingText}`
+    replacer: function (str, regex) {
+      let matchLength = 0
+      const markup = str.replace(regex, (match, hLevel, headingText) => {
+        matchLength = match.length
+        return `h${hLevel.length}. ${headingText}`
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
     },
-    additionalCharCount: 0,
     preFormatting: false
   }
 ]

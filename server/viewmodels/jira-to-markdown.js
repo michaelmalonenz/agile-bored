@@ -99,12 +99,12 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'LINK',
-    regex: /^\[(.*?)]\((.*?)\)/,
+    regex: /^\[(.*?)\|(.*?)\]/,
     replacer: function (str, regex) {
       let matchLength = 0
       const markup = str.replace(regex, (match, display, href) => {
         matchLength = match.length
-        return `[${display}|${href}]`
+        return `[${display}](${href})`
       })
       return {
         markup: markup,
