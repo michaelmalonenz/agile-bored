@@ -9,4 +9,12 @@
     width: 1em;
     align-self: center;
   }
+
+  &.issue-type-small {
+    min-width: unset;
+
+    .issue-type-marker {
+      margin-right: 0;
+    }
+  }
 }

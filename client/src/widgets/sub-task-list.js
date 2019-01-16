@@ -23,7 +23,7 @@ export class SubTaskList {
       const rawTypes = await this.issueTypeService.getIssueTypes()
       this.issueTypes = rawTypes
         .filter(t => t.subtask)
-        .map(t => new IssueTypeViewmodel(t, false))
+        .map(t => new IssueTypeViewmodel(t, true))
       if (this.issueId) {
         const tasks = await this.issueService.getSubtasks(this.issueId)
         this.issues = []
