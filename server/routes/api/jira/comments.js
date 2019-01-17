@@ -18,7 +18,7 @@ module.exports = {
   },
   addComment: function (req, res) {
     const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/comment`, req, 'POST')
-    options.body = MarkdownToJira.convert(req.body)
+    options.body = { body: MarkdownToJira.convert(req.body.body) }
     return request(options)
       .then(result => res.send(CommentViewModel.createFromJira(result)))
       .catch(err => res.status(502).send(err))
