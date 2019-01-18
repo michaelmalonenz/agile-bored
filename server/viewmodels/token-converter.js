@@ -2,6 +2,8 @@ module.exports = class TokenConverter {
   constructor (multiLineSymbols, inlineSymbols) {
     this.multiLineSymbols = multiLineSymbols
     this.inlineSymbols = inlineSymbols
+
+    this.indentLevel = 0
   }
 
   convert (value) {
@@ -81,14 +83,14 @@ module.exports = class TokenConverter {
             for (let j = i + sym.startToken.length; (j < value.length && !foundClosingTag);) {
               if (value.substring(j, j + sym.endToken.length) === sym.endToken) {
                 foundClosingTag = true
-                result += sym.startHtml
+                result += sym.startMarkup
                 const innerValue = value.substring(i + sym.startToken.length, j)
                 if (sym.preFormatting) {
                   result += innerValue.trim()
                 } else {
                   result += this.convertInline(innerValue)
                 }
-                result += sym.endHtml
+                result += sym.endMarkup
                 i = j + sym.endToken.length
                 s = 0
               } else {

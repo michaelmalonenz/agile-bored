@@ -17,10 +17,10 @@ function loadSettings (req, res, next) {
       where: { userId: req.user.id },
       defaults: { userId: req.user.id }
     })
-    .spread((settings, created) => {
-      req.settings = settings
-      next()
-    })
+      .spread((settings, created) => {
+        req.settings = settings
+        next()
+      })
   } else {
     next()
   }

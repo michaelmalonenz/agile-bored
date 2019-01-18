@@ -44,32 +44,32 @@ const INLINE_SYMBOLS = [
     name: 'INLINE_CODE',
     startToken: '`',
     endToken: '`',
-    startHtml: '{{',
-    endHtml: '}}',
+    startMarkup: '{{',
+    endMarkup: '}}',
     preFormatting: true
   },
   {
     name: 'BOLD',
     startToken: '*',
     endToken: '*',
-    startHtml: '*',
-    endHtml: '*',
+    startMarkup: '*',
+    endMarkup: '*',
     preFormatting: false
   },
   {
     name: 'ITALIC',
     startToken: '_',
     endToken: '_',
-    startHtml: '_',
-    endHtml: '_',
+    startMarkup: '_',
+    endMarkup: '_',
     preFormatting: false
   },
   {
     name: 'STRIKETHROUGH',
     startToken: '~~',
     endToken: '~~',
-    startHtml: '-',
-    endHtml: '-',
+    startMarkup: '-',
+    endMarkup: '-',
     preFormatting: false
   },
   {
