@@ -3,7 +3,6 @@ import { IssueService } from '../services/issues'
 import { IssueTypeService } from '../services/issue-types'
 import { IssueViewModelFactory } from '../factories/issue-viewmodel-factory'
 import { IssueTypeViewmodel } from '../widgets/issue-type'
-import { ISSUE_CREATED } from '../events'
 import { isEmpty } from '../utils/functions'
 
 @bindable('issues')
@@ -55,7 +54,7 @@ export class SubTaskList {
       return this.issueService.create(subTask).then(issue => {
         this.newSubTitle = ''
         this.newIssueType = {}
-        this.eventAggregator.publish(ISSUE_CREATED, issue)
+        this.issues.push(issue)
       })
     }
 }
