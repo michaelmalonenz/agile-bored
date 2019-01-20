@@ -86,9 +86,11 @@ const INLINE_SYMBOLS = [
     regex: /^!(.*?)\|(.*?)!/,
     replacer: function (str, regex) {
       let matchLength = 0
-      const markup = str.replace(regex, (match, imageName, altText) => {
+      let markup = str
+      str.replace(regex, (match, imageName, altText) => {
         matchLength = match.length
-        return `![${altText}](${imageName})`
+        markup = `![${altText}](${imageName})`
+        return markup
       })
       return {
         markup: markup,
@@ -102,9 +104,11 @@ const INLINE_SYMBOLS = [
     regex: /^\[(.*?)\|(.*?)\]/,
     replacer: function (str, regex) {
       let matchLength = 0
-      const markup = str.replace(regex, (match, display, href) => {
+      let markup = str
+      str.replace(regex, (match, display, href) => {
         matchLength = match.length
-        return `[${display}](${href})`
+        markup = `[${display}](${href})`
+        return markup
       })
       return {
         markup: markup,
@@ -118,9 +122,11 @@ const INLINE_SYMBOLS = [
     regex: /^[hH](\d)\.(.*)$/,
     replacer: function (str, regex) {
       let matchLength = 0
-      const markup = str.replace(regex, (match, hLevel, headingText) => {
+      let markup = str
+      str.replace(regex, (match, hLevel, headingText) => {
         matchLength = match.length
-        return `${'#'.repeat(Number(hLevel))}${headingText}`
+        markup = `${'#'.repeat(Number(hLevel))}${headingText}`
+        return markup
       })
       return {
         markup: markup,

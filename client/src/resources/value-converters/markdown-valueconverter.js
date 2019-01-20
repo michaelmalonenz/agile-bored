@@ -77,9 +77,11 @@ const INLINE_SYMBOLS = [
     regex: /^(?:!\[(.*?)\]\((.*?)\))/,
     replacer: function (str, regex) {
       let matchLength = 0
-      const markup = str.replace(regex, (match, altText, url) => {
+      let markup = str
+      str.replace(regex, (match, altText, url) => {
         matchLength = match.length
-        return `<img src="${url}" alt="${altText}">`
+        markup = `<img src="${url}" alt="${altText}">`
+        return markup
       })
       return {
         markup: markup,
@@ -93,9 +95,11 @@ const INLINE_SYMBOLS = [
     regex: /^(?:\[(.*?)\]\((.*?)\))/,
     replacer: function (str, regex) {
       let matchLength = 0
-      const markup = str.replace(regex, (match, display, href) => {
+      let markup = str
+      str.replace(regex, (match, display, href) => {
         matchLength = match.length
-        return `<a href="${href}" target="_blank">${display}</a>`
+        markup = `<a href="${href}" target="_blank">${display}</a>`
+        return markup
       })
       return {
         markup: markup,
@@ -109,9 +113,11 @@ const INLINE_SYMBOLS = [
     regex: /^(#+)\s+(.*)/,
     replacer: function (str, regex) {
       let matchLength = 0
-      const markup = str.replace(regex, (match, headerLevel, heading) => {
+      let markup = str
+      str.replace(regex, (match, headerLevel, heading) => {
         matchLength = match.length
-        return `<h${headerLevel.length}>${heading}</h${headerLevel.length}>`
+        markup = `<h${headerLevel.length}>${heading}</h${headerLevel.length}>`
+        return markup
       })
       return {
         markup: markup,
