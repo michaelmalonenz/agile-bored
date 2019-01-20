@@ -16,7 +16,8 @@
               <i class="fas fa-tag sub-issue-type" title="Issue Type"></i>
             </select-dropdown>
           </div>
-          <button type="button" title="Create new sub-task" class="btn btn-primary" click.delegate="createSubTask()">
+          <button type="button" title="Create new sub-task" class="btn btn-primary"
+            click.delegate="createSubTask()" disabled.bind="disableCreate">
             <i class="fa fa-plus"></i>
           </button>
         </div>
