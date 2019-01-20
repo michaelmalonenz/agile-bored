@@ -147,7 +147,8 @@ module.exports = {
         description: MarkdownToJira.convert(issueObj.description),
         project: { key: req.settings.jiraProjectName },
         issuetype: { id: issueObj.issueType.id },
-        [req.settings.jiraEpicField]: issueObj.epic ? issueObj.epic.key : null
+        [req.settings.jiraEpicField]: issueObj.epic ? issueObj.epic.key : null,
+        parent: issueObj.parentId ? { id: issueObj.parentId } : null
       }
     }
     return request(options)
