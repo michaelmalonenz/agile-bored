@@ -54,7 +54,7 @@ export class SubTaskList {
       return this.issueService.create(subTask).then(issue => {
         this.newSubTitle = ''
         this.newIssueType = {}
-        this.issues.push(issue)
+        this.issues.push(IssueViewModelFactory.create(issue))
       })
     }
 }
