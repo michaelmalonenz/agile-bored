@@ -48,7 +48,7 @@ export class SubTaskList {
       const subTask = {
         title: this.newSubTitle,
         description: '',
-        issuetype: this.newIssueType,
+        issueType: this.newIssueType,
         parentId: this.issueId
       }
       return this.issueService.create(subTask).then(issue => {
