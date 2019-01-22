@@ -30,9 +30,10 @@
 }
 
 .scrolling-search-results {
-  height: 100%;
+  height: calc(100% - 65px);
   overflow-y: auto;
   padding-top: 5px;
+  padding-bottom: 15px;
 }
 
 .search-no-results {
