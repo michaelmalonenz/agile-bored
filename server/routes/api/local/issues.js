@@ -83,17 +83,17 @@ module.exports = {
       limit: 15
     }
     return db.Issue.findAll(props)
-    .then(issues => {
-      const result = []
-      for (let issue of issues) {
-        result.push(EpicViewModel.createFromLocal(issue.dataValues))
-      }
-      res.send(result)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).send(err)
-    })
+      .then(issues => {
+        const result = []
+        for (let issue of issues) {
+          result.push(EpicViewModel.createFromLocal(issue.dataValues))
+        }
+        res.send(result)
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).send(err)
+      })
   },
   updateStatus: function (req, res) {
     return db.Issue.update(
@@ -101,20 +101,30 @@ module.exports = {
       { where: { id: req.params.issueId } })
       .then(issue => {
         res.sendStatus(200)
+      }).catch(err => {
+        console.log(err)
+        res.status(500).send(err)
       })
   },
   update: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)
     return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
       res.send(req.body)
+    }).catch(err => {
+      console.log(err)
+      res.status(500).send(err)
     })
   },
   assign: function (req, res) {
+    const assigneeId = req.body && req.body.id ? req.body.id : null
     return db.Issue.update(
-      { assigneeId: req.body.id },
+      { assigneeId: assigneeId },
       { where: { id: req.params.issueId } })
       .then((issue) => {
         res.send(issue)
+      }).catch(err => {
+        console.log(err)
+        res.status(500).send(err)
       })
   },
   standup: function (req, res) {
