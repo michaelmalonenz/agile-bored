@@ -14,6 +14,7 @@ export function configure (config) {
     './sub-task-list',
     './user-display',
     './changelog-display',
-    './issue-description'
+    './issue-description',
+    './notification-host'
   ])
 }

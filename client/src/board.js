@@ -23,8 +23,9 @@ export class Board {
     this.issues = []
   }
 
-  async activate () {
+  async activate (params) {
     await this._refreshBoard()
+    console.log(params)
   }
 
   bind () {
