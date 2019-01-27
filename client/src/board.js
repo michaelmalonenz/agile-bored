@@ -1,5 +1,6 @@
 import { inject, computedFrom } from 'aurelia-framework'
 import { EventAggregator } from 'aurelia-event-aggregator'
+import { TaskQueue } from 'aurelia-task-queue'
 
 import { IssueService } from './services/issues'
 import { StatusService } from './services/statuses'
@@ -9,14 +10,15 @@ import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD, REFRESH_BOARD_COMPLETE } from './events'
 import { AssigneeCache } from './utils/assignees-cache';
 
-@inject(StatusService, IssueService, SettingsService, EventAggregator)
+@inject(StatusService, IssueService, SettingsService, EventAggregator, TaskQueue)
 export class Board {
 
-  constructor(statusService, issueService, settingsService, eventAggregator) {
+  constructor(statusService, issueService, settingsService, eventAggregator, queue) {
     this.statusService = statusService
     this.issueService = issueService
     this.settingsService = settingsService
     this.eventAggregator = eventAggregator
+    this.queue = queue
 
     this.settings = {}
     this.epics = []
@@ -25,7 +27,14 @@ export class Board {
 
   async activate (params) {
     await this._refreshBoard()
-    console.log(params)
+    if (params.issue) {
+      const issueToEdit = this.issues.find(issue => issue.issue.key === params.issue)
+      if (issueToEdit) {
+        this.queue.queueTask(() => {
+          issueToEdit.editIssue()
+        })
+      }
+    }
   }
 
   bind () {
