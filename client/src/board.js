@@ -96,8 +96,7 @@ export class Board {
     return null;
   }
 
-  _issueCreated (issue) {
-    const createdVm = IssueViewModelFactory.create(issue)
+  _issueCreated (createdVm) {
     // This works around the observer, forcing a re-render
     this.issues = this.issues.concat([createdVm])
   }

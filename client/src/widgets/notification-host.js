@@ -1,24 +1,49 @@
-import { inject, customElement } from 'aurelia-framework'
+import { inject, customElement, computedFrom } from 'aurelia-framework'
+import { CssAnimator } from 'aurelia-animator-css'
 import { EventAggregator } from 'aurelia-event-aggregator'
-import { NOTIFICATION } from '../events'
+import { ISSUE_CREATED } from '../events'
 
 
-@inject(EventAggregator)
+@inject(EventAggregator, CssAnimator, Element)
 @customElement('notification-host')
 export class NotificationHost {
-  constructor (eventAggregator) {
+  constructor (eventAggregator, animator, element) {
     this.eventAggregator = eventAggregator
+    this.animator = animator
+    this.element = element
+    this.issue = null
   }
-
+  
   bind () {
-    this.notificationSub = this.eventAggregator.subscribe(NOTIFICATION, this.handleNotification.bind(this))
+    this.issueCreatedSub =
+    this.eventAggregator.subscribe(ISSUE_CREATED, this.handleIssueCreated.bind(this))
   }
 
   unbind () {
-    this.notificationSub.dispose()
+    this.issueCreatedSub.dispose()
   }
 
-  handleNotification (notification) {
-    
+  @computedFrom('issue')
+  get issueKey () {
+    if (this.issue) {
+      return this.issue.issue.key
+    }
+    return ''
+  }
+
+  handleIssueCreated (issue) {
+    this.issue = issue
+    const container = this.element.querySelector('.issue-create-notification-container')
+    this.animator.animate(container, 'background-animation')
+  }
+
+  async viewClick () {
+    await this.issue.editIssue()
+    this.issue = null
+  }
+
+  close (event) {
+    event.stopPropagation()
+    this.issue = null
   }
 }

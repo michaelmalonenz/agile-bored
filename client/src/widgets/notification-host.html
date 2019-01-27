@@ -1,3 +1,6 @@
 <template>
-  <div class="notification-container"></div>
+  <div class="issue-create-notification-container" show.bind="issueKey" click.delegate="viewClick()">
+    ${issueKey} was created - click to open
+    <i class="close-button fa fa-times" click.delegate="close($event)"></i>
+  </div>
 </template>
