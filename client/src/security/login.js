@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import {parseQueryString} from 'aurelia-path'
 
 import {SecuritySettings} from './security-settings'
 import {UserService} from '../services/users'
@@ -16,12 +17,17 @@ export class Login {
     this.settings = SecuritySettings.instance()
     this.loggingIn = false
     this.loginFailed = false
+    this.redirectModuleId = ''
+    this.redirectParams = null
 
     this.boundKeyHandler = this._keypressHandler.bind(this)
   }
 
   activate (params) {
     this.redirectModuleId = params.return || ''
+    if (params.query) {
+      this.redirectParams = parseQueryString(params.query)
+    }
   }
 
   bind () {
@@ -44,7 +50,7 @@ export class Login {
     this.userService.me().then((user) => {
       this.settings.user = user
       if (this.redirectModuleId) {
-        this.router.navigateToRoute(this.redirectModuleId)
+        this.router.navigateToRoute(this.redirectModuleId, this.redirectParams)
       }
     }).catch(err => {
       this.loggingIn = false

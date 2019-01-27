@@ -28,7 +28,13 @@ export class Board {
   async activate (params) {
     await this._refreshBoard()
     if (params.issue) {
-      const issueToEdit = this.issues.find(issue => issue.issue.key === params.issue)
+      let collection
+      if (this.settings.groupByEpic) {
+        collection = this.epics
+      } else {
+        collection = this.issues
+      }
+      const issueToEdit = collection.find(issue => issue.issue.key === params.issue)
       if (issueToEdit) {
         this.queue.queueTask(() => {
           issueToEdit.editIssue()
