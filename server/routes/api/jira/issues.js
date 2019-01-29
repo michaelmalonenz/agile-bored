@@ -44,16 +44,9 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   get: function (req, res) {
-    return cardColours.getCardColours(req).then(colours => {
-      const options = jiraRequestBuilder.agile(`/issue/${req.params.issueId}`, req)
-      return request(options)
-        .then(issue => {
-          let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
-          return IssueViewModel.createFromJira(issue, colour)
-        })
-        .then(result => res.send(result))
-        .catch(err => res.status(502).send(err))
-    })
+    return getSingleIssue(req, req.params.issueId)
+      .then(result => res.send(result))
+      .catch(err => res.status(502).send(err))
   },
   search: function (req, res) {
     const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}" OR comment ~ "${req.query.search}") order by priority ASC`
@@ -109,7 +102,8 @@ module.exports = {
       }
     }
     return request(options)
-      .then(() => res.send(req.body))
+      .then(() => getSingleIssue(req, req.params.issueId))
+      .then(issue => res.send(issue))
       .catch(err => res.status(502).send(err))
   },
   assign: function (req, res) {
@@ -301,4 +295,15 @@ function sortChildren (issues, settings, statuses) {
       })
     }
   }
+}
+
+function getSingleIssue (req, issueId) {
+  return cardColours.getCardColours(req).then(colours => {
+    const options = jiraRequestBuilder.agile(`/issue/${issueId}`, req)
+    return request(options)
+      .then(issue => {
+        let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
+        return IssueViewModel.createFromJira(issue, colour)
+      })
+  })
 }
