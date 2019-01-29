@@ -17,13 +17,14 @@ module.exports = {
           }
           times.push({
             duration: calculateTimeInProgress(events),
-            done: issue.fields.status.name === 'Done'
+            done: issue.fields.status.name === 'Done',
+            resolved: issue.fields.status.name === 'Done' || issue.fields.status.name === 'Cancelled'
           })
         }
         const averageDaysPerIssue = Math.ceil(getEstimatedIssueDuration(times) / ticksInADay)
-        const incomplete = times.filter(t => !t.done)
+        const incomplete = times.filter(t => !t.resolved)
         const days = averageDaysPerIssue * incomplete.length
-        res.send({ estimate: `${days} day${days === 1 ? '' : 's'}` })
+        res.send({ estimate: getTimeString(days) })
       })
   }
 }
@@ -53,7 +54,6 @@ function getEstimatedIssueDuration (times) {
   if (inProgressTimes.length === 0) {
     return Infinity
   }
-  inProgressTimes.sort((a, b) => a.duration - b.duration)
   const min = getMinimumDuration(inProgressTimes)
   const max = getMaximumDuration(inProgressTimes)
   const total = inProgressTimes.reduce((prev, current) => prev + current.duration, 0)
@@ -80,7 +80,31 @@ function getMaximumDuration (times) {
   if (times.length) {
     return Math.max(...(times.map(t => t.duration)))
   }
-  Infinity
+  return Infinity
+}
+
+function getTimeString (days) {
+  let result = ''
+  let weeks = 0
+  let years = 0
+  if (days > 7) {
+    weeks = Math.floor(days / 7)
+    days = days % 7
+  }
+  if (weeks > 52) {
+    years = Math.floor(weeks / 52)
+    weeks = weeks % 52
+  }
+  if (years > 0) {
+    result += `${years} year${years === 1 ? '' : 's'} `
+  }
+  if (weeks > 0) {
+    result += `${weeks} week${weeks === 1 ? '' : 's'} `
+  }
+  if (days > 0) {
+    result += `${days} day${days === 1 ? '' : 's'}`
+  }
+  return result
 }
 
 /**
