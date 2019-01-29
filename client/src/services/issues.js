@@ -40,7 +40,13 @@ export class IssueService {
   }
 
   async update (issue) {
-    const res = await this._http.put(`/api/issue/${issue.id}`, issue)
+    const toUpdate = {
+      title: issue.title,
+      description: issue.description,
+      issueType: issue.issueType,
+      epic: issue.epic ? { key: issue.epic.key } : null
+    }
+    const res = await this._http.put(`/api/issue/${issue.id}`, toUpdate)
     return res.content
   }
 
