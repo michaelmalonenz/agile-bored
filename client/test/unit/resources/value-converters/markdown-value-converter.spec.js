@@ -1,5 +1,5 @@
 /* global describe, it, expect, beforeEach */
-import {MarkdownValueConverter} from '../../../../src/resources/value-converters/markdown-valueconverter'
+import { MarkdownValueConverter } from '../../../../src/resources/value-converters/markdown-valueconverter'
 
 describe('the markdown value converter', function () {
   beforeEach(function () {
@@ -49,7 +49,7 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toEqual('this is a string\n<div class="md-multiline-code">That has a\nmultiline thingy\nin it\n</div>')
+    expect(output).toEqual('this is a string\n<div><span class="md-multiline-code">That has a\nmultiline thingy\nin it\n</span></div>')
   })
 
   it('can handle markdown finishing on the last character', function () {
@@ -65,7 +65,7 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toBe('This is a\n<ul><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
+    expect(output).toBe('This is a\n<ul class="md-unordered-list"><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
   })
 
   it('can handle an unordered list with asterisks', function () {
@@ -73,7 +73,7 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toBe('This is a\n<ul><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
+    expect(output).toBe('This is a\n<ul class="md-unordered-list"><li>list</li><li>that</li><li>has</li><li>no order</li></ul>\nand stuff')
   })
 
   it('can handle an unordered list of just one line', function () {
@@ -81,7 +81,7 @@ describe('the markdown value converter', function () {
 
     const output = this.converter.toView(input)
 
-    expect(output).toBe('This is a\n<ul><li>list</li></ul>\n')
+    expect(output).toBe('This is a\n<ul class="md-unordered-list"><li>list</li></ul>\n')
   })
 
   it('can handle a link', function () {

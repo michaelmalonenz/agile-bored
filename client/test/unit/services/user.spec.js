@@ -1,12 +1,12 @@
 /* global describe, it, expect, beforeEach */
-import {UserService} from '../../../../src/services/users'
+import { UserService } from '../../../src/services/users'
 
 describe('The User Service', function () {
-    beforeEach(function () {
-        this.subject = UserService()
-    })
+  beforeEach(function () {
+    this.subject = new UserService()
+  })
 
-    it('should revive an array of users', function () {
+  it('should revive an array of users', function () {
 
-    })
+  })
 })

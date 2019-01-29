@@ -20,7 +20,7 @@ transpilerOptions.sourceMap = 'inline';
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: [project.testFramework.id],
+    frameworks: [project.testFramework.id, 'sinon'],
     files: files,
     exclude: [],
     preprocessors: {
