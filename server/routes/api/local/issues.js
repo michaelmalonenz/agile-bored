@@ -109,7 +109,11 @@ module.exports = {
   update: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)
     return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
-      res.send(req.body)
+      return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
+        .then(dbIssue => {
+          return IssueViewModel.createFromLocal(dbIssue.dataValues)
+        })
+        .then(result => res.send(result))
     }).catch(err => {
       console.log(err)
       res.status(500).send(err)

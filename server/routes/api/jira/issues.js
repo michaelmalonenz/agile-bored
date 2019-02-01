@@ -17,7 +17,7 @@ module.exports = {
         res.send(issues)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         res.status(502).send(err)
       })
   },
@@ -32,7 +32,7 @@ module.exports = {
         res.send(sortedIssues)
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         res.status(502).send(err)
       })
   },
@@ -104,7 +104,10 @@ module.exports = {
     return request(options)
       .then(() => getSingleIssue(req, req.params.issueId))
       .then(issue => res.send(issue))
-      .catch(err => res.status(502).send(err))
+      .catch(err => {
+        console.error(err)
+        res.status(502).send(err)
+      })
   },
   assign: function (req, res) {
     const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/assignee`, req, 'PUT')
@@ -298,12 +301,21 @@ function sortChildren (issues, settings, statuses) {
 }
 
 function getSingleIssue (req, issueId) {
-  return cardColours.getCardColours(req).then(colours => {
-    const options = jiraRequestBuilder.agile(`/issue/${issueId}`, req)
-    return request(options)
-      .then(issue => {
-        let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
-        return IssueViewModel.createFromJira(issue, colour)
-      })
+  const jiraRapidBoardId = req.settings.jiraRapidBoardId
+  const jql = encodeURIComponent(`id=${issueId}`)
+  const url = `/board/${jiraRapidBoardId}/issue?jql=${jql}`
+  const options = jiraRequestBuilder.agile(url, req)
+  return request(options).then(result => {
+    return cardColours.getCardColours(req).then(colours => {
+      let issue = result.issues[0]
+      let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
+      const parent = IssueViewModel.createFromJira(issue, colour)
+      if (issue.fields.subTasks) {
+        for (let child of parent.subTasks) {
+          parent.children.push(IssueViewModel.createFromJira(child, colour))
+        }
+      }
+      return parent
+    })
   })
 }
