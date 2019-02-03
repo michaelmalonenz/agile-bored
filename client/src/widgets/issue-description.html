@@ -1,6 +1,6 @@
 <template>
   <div class="row h-100">
-    <div class="${edit ? 'col-md-8' : 'col-md-12'}">
+    <div class="${edit ? 'col-md-8' : 'col-md-12'} h-100 issue-description-content">
       <viewing-text-editor start-as-edit.bind="!edit" value.bind="issue.description" placeholder="description">
       </viewing-text-editor>
     </div>
