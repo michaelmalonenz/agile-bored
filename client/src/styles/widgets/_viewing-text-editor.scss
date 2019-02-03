@@ -5,13 +5,13 @@
   border-radius: 3px;
   width: 100%;
   height: calc(100% - 3px);
-  padding: 1rem;
   position: relative;
 }
 
 .editor-view-content {
   overflow-y: auto;
   height: 100%;
+  padding: 1rem;
 }
 
 .editor-icon {
