@@ -5,6 +5,12 @@
       </viewing-text-editor>
     </div>
     <div class="col-md-4 h-100" if.bind="edit">
+      <div class="row vertically-center-row justify-content-end">
+        <status-drop-down class="issue-description-status" 
+          current-status.bind="issue.IssueStatus"
+          issue-id.bind="issue.issueId" update-fn.call="updateStatus(status)">
+        </status-drop-down>
+      </div>
       <div class="row vertically-center-row">
         <div class="col-3 text-right">Reporter: </div>
         <div class="col-9"><user-display user.bind="issue.reporter"></user-display></div>
