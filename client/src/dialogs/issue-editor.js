@@ -91,4 +91,7 @@ export class IssueEditorDialog {
     return await this.issueService.searchEpics(value)
   }
 
+  close () {
+    this.controller.cancel(this.issue)
+  }
 }

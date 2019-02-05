@@ -3,10 +3,7 @@ import { customElement, bindable, bindingMode, inject } from 'aurelia-framework'
 import { IssueService } from '../services/issues'
 
 @inject(IssueService)
-@bindable({
-  name: 'issue',
-  defaultBindingMode: bindingMode.twoWay
-})
+@bindable('issue')
 @bindable({
   name: 'edit',
   defaultBindingMode: bindingMode.twoWay
@@ -19,6 +16,6 @@ export class IssueDescription {
 
   async updateStatus (status) {
     await this.issueService.updateStatus(this.issue.id, status.id)
-    this.issue = await this.issueService.get(this.issue.id)
+    this.issue.IssueStatus = status
   }
 }

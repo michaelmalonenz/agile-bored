@@ -1,10 +1,11 @@
-import { customElement, bindable } from 'aurelia-framework'
+import { customElement, bindable, computedFrom } from 'aurelia-framework'
 
 @customElement('status-col')
 @bindable('issues')
 @bindable('status')
 export class StatusColumn {
 
+  @computedFrom('issues')
   get statusIssues () {
     if (this.issues) {
       return this.issues.filter(x => {
@@ -17,7 +18,7 @@ export class StatusColumn {
     }
   }
 
-  dropInto (issue, siblingIssue) {
+  dropInto (issue, _siblingIssue) {
     issue.updateStatus(this.status)
   }
 }

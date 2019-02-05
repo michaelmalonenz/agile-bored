@@ -1,6 +1,6 @@
-import {ISSUE_DELETED} from '../events'
-import {IssueEditorDialog} from '../dialogs/issue-editor'
-import {computedFrom} from 'aurelia-framework'
+import { ISSUE_DELETED, REFRESH_BOARD } from '../events'
+import { IssueEditorDialog } from '../dialogs/issue-editor'
+import { computedFrom } from 'aurelia-framework'
 
 export class Issue {
   constructor (i, dialogService, issueService, eventAggregator) {
@@ -69,6 +69,10 @@ export class Issue {
     }).whenClosed(async response => {
       if (!response.wasCancelled) {
         this.issue = await this.issueService.update(response.output)
+      }
+      const updatedStatus = response.output.IssueStatus || {}
+      if (this.issue.IssueStatus.id !== updatedStatus.id) {
+        this.eventAggregator.publish(REFRESH_BOARD)
       }
     })
   }
