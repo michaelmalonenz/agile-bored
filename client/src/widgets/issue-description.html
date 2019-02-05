@@ -5,11 +5,13 @@
       </viewing-text-editor>
     </div>
     <div class="col-md-4 h-100" if.bind="edit">
-      <div class="row vertically-center-row justify-content-end">
-        <status-drop-down class="issue-description-status" 
-          current-status.bind="issue.IssueStatus"
-          update-fn.call="updateStatus(status)">
-        </status-drop-down>
+      <div class="row vertically-center-row">
+        <div class="col-lg-9 offset-lg-3">
+          <status-drop-down class="issue-description-status"
+            current-status.bind="issue.IssueStatus"
+            update-fn.call="updateStatus(status)">
+          </status-drop-down>
+        </div>
       </div>
       <div class="row vertically-center-row">
         <div class="col-3 text-right">Reporter: </div>

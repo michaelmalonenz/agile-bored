@@ -24,6 +24,10 @@
       </div>
       <div class="col-6 h-100 sub-task-section sub-task-display-section">
         <h4>${display.title}</h4>
+        <status-drop-down if.bind="display"
+          current-status.bind="display.IssueStatus"
+          update-fn.call="updateDisplayStatus(status)">
+        </status-drop-down>
         <div innerhtml="${display.description | markdown | newline | sanitizeHTML}"></div>
       </div>
     </div>
