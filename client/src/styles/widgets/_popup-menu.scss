@@ -1,0 +1,64 @@
+$baseHeight: 50px;
+$extendedHeight: 180px;
+
+.popup-menu-container {
+  position: fixed;
+  height: $baseHeight;
+  width: 50px;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 1022;
+  overflow: hidden;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.popup-menu-container-shown {
+  height: $extendedHeight;
+}
+
+.popup-menu-widget {
+  width: 30px;
+  height: 30px;
+  background-color: $primary;
+  border-radius: 50%;
+  color: $primary-text;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  box-shadow: 2px 2px 5px $gray-600;
+  &:active, &:focus {
+    background: $secondary;
+  }
+
+  &:hover {
+    transform: scale(1.25);
+  }
+}
+
+.popup-menu-add {
+  animation: slideUp 0.2s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes slideUp {
+  0%   { height: $baseHeight; }
+  100% { height: $extendedHeight; }
+}
+
+.popdown-menu-add {
+  animation: slideDown 0.2s;
+  animation-timing-function: ease-in;
+}
+
+@keyframes slideDown {
+  0%   { height: $extendedHeight; }
+  100% { height: $baseHeight; }
+}

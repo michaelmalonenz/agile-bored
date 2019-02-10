@@ -15,6 +15,7 @@ export function configure (config) {
     './user-display',
     './changelog-display',
     './issue-description',
-    './notification-host'
+    './notification-host',
+    './popup-menu'
   ])
 }

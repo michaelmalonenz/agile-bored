@@ -1,7 +1,7 @@
 <template>
   <dragula-and-drop drop-fn.call="dropIssue(item, target, source, sibling, itemVM, siblingVM)">
   </dragula-and-drop>
-  <create-issue-button></create-issue-button>
+  <popup-menu></popup-menu>
   <div class="main-content">
     <div class="status-headings" css="display: grid; grid-template-columns: repeat(${statuses.length}, 1fr);">
       <div class="status-name" repeat.for="status of statuses">${status.name}</div>

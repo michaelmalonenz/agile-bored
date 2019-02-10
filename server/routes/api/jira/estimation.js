@@ -29,7 +29,7 @@ module.exports = {
   }
 }
 
-const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test', 'To Deploy']
+const inProgressStatuses = ['In Progress', 'Review', 'Test']
 
 function calculateTimeInProgress (changelogEvents) {
   const statusEvents = changelogEvents.filter(e => e.field === 'status')

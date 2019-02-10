@@ -1,0 +1,11 @@
+<template>
+  <div class="popup-menu-container ${menuVisible ? 'popup-menu-container-shown' : ''}">
+    <div class="popup-menu-widget" click.delegate="toggleMenu()">
+      <i class="fas fa-ellipsis-h"></i>
+    </div>
+    <icon show.bind="itemsVisible" icon="fa-cog" click.delegate="showSettings()"></icon>
+    <icon show.bind="itemsVisible" icon="fa-sync" click.delegate="refreshBoard()"></icon>
+    <icon show.bind="itemsVisible" icon="fa-users" click.delegate="standUp()"></icon>
+    <create-issue-button show.bind="itemsVisible"></create-issue-button>
+  </div>
+</template>

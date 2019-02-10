@@ -1,12 +1,14 @@
 .icon {
   background-color: $primary;
   color: $primary-text;
-  border-radius: 3px;
-  padding: 4px;
-  margin: 4px;
-  text-align: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  display: inline-block;
+  transition: all 0.2s ease-in-out;
 
   box-shadow: 2px 2px 5px $gray-600;
   &:active, &:focus {

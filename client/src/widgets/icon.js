@@ -1,4 +1,4 @@
-import {bindable, inject, customElement, bindingMode} from 'aurelia-framework';
+import {bindable, customElement, bindingMode} from 'aurelia-framework';
 
 @bindable({
   name: 'icon',
