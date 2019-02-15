@@ -7,7 +7,7 @@
     "url": "???"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.7.1",
+    "@fortawesome/fontawesome-free": "^5.7.2",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-binding": "^2.2.0",
     "aurelia-bootstrapper": "^2.3.2",
@@ -17,8 +17,8 @@
     "aurelia-http-client": "^1.2.1",
     "aurelia-templating": "^1.10.1",
     "bluebird": "^3.5.3",
-    "bootstrap": "^4.2.1",
-    "core-js": "^2.6.3",
+    "bootstrap": "^4.3.1",
+    "core-js": "^2.6.5",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.7",
     "systemjs": "^0.20.19",
@@ -26,7 +26,7 @@
   },
   "peerDependencies": {},
   "devDependencies": {
-    "aurelia-cli": "^1.0.0-beta.12",
+    "aurelia-cli": "^1.0.0-beta.13",
     "aurelia-testing": "^1.0.0",
     "aurelia-tools": "^1.0.0",
     "babel-eslint": "^6.0.4",
