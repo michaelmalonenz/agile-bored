@@ -4,8 +4,8 @@ const MULTILINE_SYMBOLS = [
   {
     name: 'MULTILINE_CODE',
     regex: /^```.*/,
-    startMarkup: '<div><span class="md-multiline-code">',
-    endMarkup: '</span></div>',
+    startMarkup: '<div class="md-multiline-code">',
+    endMarkup: '</div>',
     lineStartMarkup: '',
     lineEndMarkup: '',
     preFormatting: true
