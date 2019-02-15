@@ -1,5 +1,6 @@
 code:
+	npm run start &
+	google-chrome http://localhost:5000 &
 	code .
-	npm run start
 
 all: code
