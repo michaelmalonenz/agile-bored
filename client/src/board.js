@@ -23,8 +23,6 @@ export class Board {
     this.settings = {}
     this.epics = []
     this.issues = []
-
-    this.boundVisibiltyChangeListener = this._visibilityChangeListener.bind(this)
   }
 
   async activate (params) {
@@ -54,12 +52,9 @@ export class Board {
 
     this.refreshBoardSubscription =
       this.eventAggregator.subscribe(REFRESH_BOARD, this._refreshBoard.bind(this))
-
-    window.addEventListener('visibilitychange', this.boundVisibiltyChangeListener)
   }
 
   unbind () {
-    window.removeEventListener('visibilitychange', this.boundVisibiltyChangeListener)
     this.refreshBoardSubscription.dispose()
     this.issueDeletedSubscription.dispose()
     this.issueCreatedSubscription.dispose()
@@ -154,11 +149,5 @@ export class Board {
         this.eventAggregator.publish(REFRESH_BOARD_COMPLETE)
       })
     })
-  }
-
-  _visibilityChangeListener () {
-    if (document.visibilityState === 'visible') {
-      this.eventAggregator.publish(REFRESH_BOARD)
-    }
   }
 }
