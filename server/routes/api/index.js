@@ -8,5 +8,6 @@ require('./user')(router)
 require('./comments')(router)
 require('./issue-types')(router)
 require('./estimation')(router)
+require('./projects')(router)
 
 module.exports = router

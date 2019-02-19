@@ -1,3 +1,5 @@
 <template>
-  
+  <div if.bind="!!project">
+    <img src.bind="project.avatarUrl" alt="project avatar" title.bind="project.name">  
+  </div>
 </template>

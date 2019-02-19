@@ -75,10 +75,10 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'STRIKETHROUGH',
-    startToken: '~~',
-    endToken: '~~',
-    startMarkup: '-',
-    endMarkup: '-',
+    startToken: '-',
+    endToken: '-',
+    startMarkup: '~~',
+    endMarkup: '~~',
     preFormatting: false
   },
   {
