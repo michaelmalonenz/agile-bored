@@ -75,8 +75,20 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'STRIKETHROUGH',
-    startToken: '-',
-    endToken: '-',
+    regex: /^\s?-(\S.*?\S)-\s/,
+    replacer: function (str, regex) {
+      let matchLength = 0
+      let markup = str
+      str.replace(regex, (match, strikeThroughText) => {
+        matchLength = match.length
+        markup = ` ~~${strikeThroughText}~~ `
+        return markup
+      })
+      return {
+        markup: markup,
+        matchLength: matchLength
+      }
+    },
     startMarkup: '~~',
     endMarkup: '~~',
     preFormatting: false
@@ -101,7 +113,7 @@ const INLINE_SYMBOLS = [
   },
   {
     name: 'LINK',
-    regex: /^\[(.*?)\|(.*?)\]/,
+    regex: /^\[(.*?)\|(.*?)]/,
     replacer: function (str, regex) {
       let matchLength = 0
       let markup = str
