@@ -11,7 +11,9 @@ module.exports = {
       return queryInterface.bulkUpdate('issues', { typeId: 1 })
     })
   },
-
   down: function (queryInterface, Sequelize) {
+    return queryInterface.bulkDelete('issue_type', {
+      where: { name: { [Sequelize.Op.ne]: null } }
+    })
   }
 }

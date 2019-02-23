@@ -166,7 +166,11 @@ module.exports = {
       .then(issue => res.send(issue))
   },
   getSubtasks: function (req, res) {
-    res.send([])
+    let props = _baseIssueQueryProps()
+    props.where = {
+      parentId: req.params.issueId
+    }
+    return _sendList(props, res)
   },
   getChangeLog: function (req, res) {
     res.send([])
@@ -212,7 +216,26 @@ function _baseIssueQueryProps () {
     }, {
       model: db.Issue,
       as: 'children',
-      required: false
+      required: false,
+      include: [{
+        model: db.IssueStatus,
+        required: false
+      }, {
+        model: db.IssueType,
+        required: false
+      }, {
+        model: db.Comment,
+        as: 'comments',
+        required: false
+      }, {
+        model: db.User,
+        as: 'assignee',
+        required: false
+      }, {
+        model: db.User,
+        as: 'reporter',
+        required: false
+      }]
     }]
   }
 }

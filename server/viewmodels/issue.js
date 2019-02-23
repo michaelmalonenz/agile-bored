@@ -56,6 +56,11 @@ module.exports = class IssueViewModel {
     for (let comment of obj.comments) {
       result.comments.push(CommentViewModel.createFromLocal(comment))
     }
+    if (obj.children) {
+      for (let child of obj.children) {
+        result.children.push(IssueViewModel.createFromLocal(child))
+      }
+    }
     return result
   }
 }
