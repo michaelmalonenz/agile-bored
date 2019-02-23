@@ -73,6 +73,10 @@ module.exports = {
         model: db.User,
         as: 'reporter',
         required: false
+      }, {
+        model: db.Issue,
+        as: 'children',
+        required: false
       }],
       where: {
         [op.or]: {
@@ -205,6 +209,10 @@ function _baseIssueQueryProps () {
       model: db.User,
       as: 'reporter',
       required: false
+    }, {
+      model: db.Issue,
+      as: 'children',
+      required: false
     }]
   }
 }
@@ -214,6 +222,7 @@ function _dbIssueFromRequest (body) {
   return {
     title: body.title,
     description: body.description,
-    typeId: newIssueType.id
+    typeId: newIssueType.id,
+    parentId: body.parentId
   }
 }

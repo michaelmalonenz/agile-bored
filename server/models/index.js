@@ -35,6 +35,7 @@ db.Issue.belongsTo(db.IssueType, { foreignKey: 'typeId' })
 db.Issue.belongsTo(db.User, { as: 'reporter', foreignKey: 'reporterId' })
 db.Issue.belongsTo(db.User, { as: 'assignee', foreignKey: 'assigneeId' })
 db.Issue.hasMany(db.Comment, { as: 'comments', foreignKey: 'issueId' })
+db.Issue.hasMany(db.Issue, { as: 'children', foreignKey: 'parentId' })
 
 db.Comment.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' })
 

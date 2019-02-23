@@ -32,6 +32,13 @@ module.exports = function (sequelize, DataTypes) {
           model: 'user',
           key: 'id'
         }
+      },
+      parentId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'issue',
+          key: 'id'
+        }
       }
     }, {
       tableName: 'issues'
