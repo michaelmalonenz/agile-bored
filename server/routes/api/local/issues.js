@@ -125,17 +125,16 @@ module.exports = {
       })
   },
   update: function (req, res) {
-    return _dbIssueFromRequest(req.body).then(dbIssue => {
-      return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
-        return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
-          .then(dbIssue => {
-            return IssueViewModel.createFromLocal(dbIssue.dataValues)
-          })
-          .then(result => res.send(result))
-      }).catch(err => {
-        console.log(err)
-        res.status(500).send(err)
-      })
+    const dbIssue = _dbIssueFromRequest(req.body)
+    return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
+      return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
+        .then(dbIssue => {
+          return IssueViewModel.createFromLocal(dbIssue.dataValues)
+        })
+        .then(result => res.send(result))
+    }).catch(err => {
+      console.log(err)
+      res.status(500).send(err)
     })
   },
   assign: function (req, res) {
@@ -171,15 +170,21 @@ module.exports = {
     return _sendList(props, res)
   },
   create: function (req, res) {
-    return _dbIssueFromRequest(req.body)
-      .then(dbIssue => {
-        dbIssue.reporterId = req.user.id
+    const dbIssue = _dbIssueFromRequest(req.body)
+    dbIssue.reporterId = req.user.id
+    return db.IssueStatus.findOne({ name: 'ToDo' })
+      .then(toDoStatus => {
+        dbIssue.statusId = toDoStatus.id
         return db.Issue.create(dbIssue)
           .then(issue => db.Issue.findById(issue.id, _baseIssueQueryProps()))
           .then(dbIssue => {
             return IssueViewModel.createFromLocal(dbIssue.dataValues)
           })
           .then(issue => res.send(issue))
+      })
+      .catch(err => {
+        console.error(err)
+        res.status(500).send(err)
       })
   },
   getSubtasks: function (req, res) {
@@ -258,16 +263,11 @@ function _baseIssueQueryProps () {
 }
 
 function _dbIssueFromRequest (body) {
-  return db.IssueStatus.findOne({ name: 'ToDo' })
-    .then(toDoStatus => {
-      const newIssueType = body.issueType || {}
-      const newStatus = body.IssueStatus || toDoStatus
-      return {
-        title: body.title,
-        description: body.description,
-        typeId: newIssueType.id,
-        parentId: body.parentId,
-        statusId: newStatus.id
-      }
-    })
+  const newIssueType = body.issueType || {}
+  return {
+    title: body.title,
+    description: body.description,
+    typeId: newIssueType.id,
+    parentId: body.parentId
+  }
 }
