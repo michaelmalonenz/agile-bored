@@ -17,12 +17,26 @@ module.exports = {
   issuesByEpic: function (req, res) {
     let props = _baseIssueQueryProps()
     props.where = {
-      [op.or]: {
-        'statusId': { [op.eq]: null },
-        '$IssueStatus.name$': { [op.ne]: 'Done' }
+      [op.and]: {
+        '$IssueType.name$': { [op.eq]: 'Epic' },
+        [op.or]: {
+          'statusId': { [op.eq]: null },
+          '$IssueStatus.name$': { [op.ne]: 'Done' }
+        }
       }
     }
-    return _sendList(props, res)
+    return db.Issue.findAll(props)
+      .then(issues => {
+        const result = []
+        for (let issue of issues) {
+          result.push(EpicViewModel.createFromLocal(issue.dataValues))
+        }
+        res.send(result)
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).send(err)
+      })
   },
   backlog: function (req, res) {
     let props = _baseIssueQueryProps()
@@ -111,16 +125,17 @@ module.exports = {
       })
   },
   update: function (req, res) {
-    const dbIssue = _dbIssueFromRequest(req.body)
-    return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
-      return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
-        .then(dbIssue => {
-          return IssueViewModel.createFromLocal(dbIssue.dataValues)
-        })
-        .then(result => res.send(result))
-    }).catch(err => {
-      console.log(err)
-      res.status(500).send(err)
+    return _dbIssueFromRequest(req.body).then(dbIssue => {
+      return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
+        return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
+          .then(dbIssue => {
+            return IssueViewModel.createFromLocal(dbIssue.dataValues)
+          })
+          .then(result => res.send(result))
+      }).catch(err => {
+        console.log(err)
+        res.status(500).send(err)
+      })
     })
   },
   assign: function (req, res) {
@@ -156,14 +171,16 @@ module.exports = {
     return _sendList(props, res)
   },
   create: function (req, res) {
-    const dbIssue = _dbIssueFromRequest(req.body)
-    dbIssue.reporterId = req.user.id
-    return db.Issue.create(dbIssue)
-      .then(issue => db.Issue.findById(issue.id, _baseIssueQueryProps()))
+    return _dbIssueFromRequest(req.body)
       .then(dbIssue => {
-        return IssueViewModel.createFromLocal(dbIssue.dataValues)
+        dbIssue.reporterId = req.user.id
+        return db.Issue.create(dbIssue)
+          .then(issue => db.Issue.findById(issue.id, _baseIssueQueryProps()))
+          .then(dbIssue => {
+            return IssueViewModel.createFromLocal(dbIssue.dataValues)
+          })
+          .then(issue => res.send(issue))
       })
-      .then(issue => res.send(issue))
   },
   getSubtasks: function (req, res) {
     let props = _baseIssueQueryProps()
@@ -241,11 +258,16 @@ function _baseIssueQueryProps () {
 }
 
 function _dbIssueFromRequest (body) {
-  const newIssueType = body.issueType || {}
-  return {
-    title: body.title,
-    description: body.description,
-    typeId: newIssueType.id,
-    parentId: body.parentId
-  }
+  return db.IssueStatus.findOne({ name: 'ToDo' })
+    .then(toDoStatus => {
+      const newIssueType = body.issueType || {}
+      const newStatus = body.IssueStatus || toDoStatus
+      return {
+        title: body.title,
+        description: body.description,
+        typeId: newIssueType.id,
+        parentId: body.parentId,
+        statusId: newStatus.id
+      }
+    })
 }
