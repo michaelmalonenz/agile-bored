@@ -23,8 +23,14 @@ module.exports = {
       body: req.body.body,
       authorId: req.user.id,
       issueId: req.params.issueId
-    })
-    .then(comment => res.send(comment))
-    .catch(err => res.status(502).send(err))
+    }).then(comment => {
+      return db.Comment.findOne({
+        where: { id: comment.id },
+        include: [{
+          model: db.User,
+          as: 'author'
+        }]
+      }).then(comment => res.send(comment))
+    }).catch(err => res.status(502).send(err))
   }
 }
