@@ -7,12 +7,12 @@ module.exports = {
     const id = req.params.projectId
     const options = jiraRequestBuilder.jira(`/project/${id}`, req)
     return request(options)
-    .then(project => {
-      res.send(ProjectViewModel.createFromJira(project))
-    })
-    .catch(err => {
-      console.error(err)
-      res.status(500).send(err)
-    })
+      .then(project => {
+        res.send(ProjectViewModel.createFromJira(project))
+      })
+      .catch(err => {
+        console.error(err)
+        res.status(500).send(err)
+      })
   }
 }
