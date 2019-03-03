@@ -309,8 +309,9 @@ function getSingleIssue (req, issueId) {
       let issue = result.issues[0]
       let colour = colours.find(c => c.displayValue === issue.fields.issuetype.name)
       const parent = IssueViewModel.createFromJira(issue, colour)
-      if (issue.fields.subTasks) {
-        for (let child of parent.subTasks) {
+      if (issue.fields.subtasks) {
+        for (let child of issue.fields.subtasks) {
+          colour = colours.find(c => c.displayValue === child.fields.issuetype.name)
           parent.children.push(IssueViewModel.createFromJira(child, colour))
         }
       }
