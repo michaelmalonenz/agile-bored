@@ -152,9 +152,8 @@ module.exports = {
     }
     return request(options)
       .then(issue => {
-        issueObj.key = issue.key
-        issueObj.id = issue.id
-        res.send(issueObj)
+        return getSingleIssue(req, issue.id)
+          .then(newIssue => res.send(newIssue))
       })
       .catch(err => res.status(502).send(err.message))
   },
