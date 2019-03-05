@@ -76,7 +76,7 @@ const INLINE_SYMBOLS = [
   {
     name: 'STRIKETHROUGH',
     regex: /^\s?-(\S.*?\S)-\s/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, _attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, strikeThroughText) => {
@@ -96,11 +96,17 @@ const INLINE_SYMBOLS = [
   {
     name: 'IMAGE',
     regex: /^!(.*?)\|(.*?)!/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, imageName, altText) => {
         matchLength = match.length
+        for (let attachment of attachments) {
+          if (attachment.filename === imageName) {
+            markup = `![${altText}](${attachment.thumbnailUrl})`
+            return markup
+          }
+        }
         markup = `![${altText}](${imageName})`
         return markup
       })
@@ -114,7 +120,7 @@ const INLINE_SYMBOLS = [
   {
     name: 'LINK',
     regex: /^\[(.*?)\|(.*?)]/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, _attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, display, href) => {
@@ -132,7 +138,7 @@ const INLINE_SYMBOLS = [
   {
     name: 'HEADING',
     regex: /^[hH](\d)\.(.*)$/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, _attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, hLevel, headingText) => {
@@ -150,10 +156,10 @@ const INLINE_SYMBOLS = [
 ]
 
 module.exports = class JiraToMarkdown {
-  static convert (value) {
+  static convert (value, attachments) {
     if (value) {
       const str = value.replace(/(?:\r\n|\r|\n)/g, '\n')
-      return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(str)
+      return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS, attachments).convert(str)
     }
   }
 }

@@ -4,6 +4,7 @@ const EpicViewModel = require('./epic')
 const CommentViewModel = require('./comment')
 const UserViewModel = require('./user')
 const JiraToMarkdown = require('./jira-to-markdown')
+const AttachmentViewModel = require('./attachment')
 
 module.exports = class IssueViewModel {
   constructor () {
@@ -19,14 +20,20 @@ module.exports = class IssueViewModel {
     this.updatedAt = Date.now()
     this.children = []
     this.comments = []
+    this.attachments = []
   }
 
   static createFromJira (obj, colorObj) {
     const result = new IssueViewModel()
+    if (obj.fields.attachment) {
+      for (let attachment of obj.fields.attachment) {
+        result.attachments.push(AttachmentViewModel.createFromJira(attachment))
+      }
+    }
     result.id = obj.id
     result.key = obj.key
     result.title = obj.fields.summary
-    result.description = JiraToMarkdown.convert(obj.fields.description)
+    result.description = JiraToMarkdown.convert(obj.fields.description, result.attachments)
     result.assignee = UserViewModel.createFromJira(obj.fields.assignee)
     result.reporter = UserViewModel.createFromJira(obj.fields.reporter)
     result.updatedAt = obj.fields.updated

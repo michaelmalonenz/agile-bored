@@ -75,12 +75,17 @@ const INLINE_SYMBOLS = [
   {
     name: 'IMAGE',
     regex: /^!\[(.*?)\]\((.*?)!\)/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, altText, imageName) => {
         matchLength = match.length
-        markup = `!${imageName}|${altText}!`
+        for (let attachment of attachments) {
+          if (attachment.thumbnailUrl === imageName) {
+            markup = `!${attachment.filename}|${altText}!`
+            return markup
+          }
+        }
         return markup
       })
       return {
@@ -93,7 +98,7 @@ const INLINE_SYMBOLS = [
   {
     name: 'LINK',
     regex: /^\[(.*?)\]\((.*?)\)/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, _attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, display, href) => {
@@ -111,7 +116,7 @@ const INLINE_SYMBOLS = [
   {
     name: 'HEADING',
     regex: /^(#+)\s(.*)/,
-    replacer: function (str, regex) {
+    replacer: function (str, regex, _attachments) {
       let matchLength = 0
       let markup = str
       str.replace(regex, (match, hLevel, headingText) => {
@@ -129,7 +134,7 @@ const INLINE_SYMBOLS = [
 ]
 
 module.exports = class MarkdownToJira {
-  static convert (value) {
-    return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS).convert(value)
+  static convert (value, attachments) {
+    return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS, attachments).convert(value)
   }
 }

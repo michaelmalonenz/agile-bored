@@ -1,7 +1,8 @@
 module.exports = class TokenConverter {
-  constructor (multiLineSymbols, inlineSymbols) {
+  constructor (multiLineSymbols, inlineSymbols, attachments) {
     this.multiLineSymbols = multiLineSymbols
     this.inlineSymbols = inlineSymbols
+    this.attachments = attachments
 
     this.indentLevel = 0
   }
@@ -72,7 +73,7 @@ module.exports = class TokenConverter {
         if (sym.regex) {
           const val = value.substring(i)
           if (sym.regex.test(val)) {
-            const res = sym.replacer(val, sym.regex)
+            const res = sym.replacer(val, sym.regex, this.attachments)
             i += res.matchLength
             result += res.markup
             s = 0

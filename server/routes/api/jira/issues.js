@@ -49,7 +49,7 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   search: function (req, res) {
-    const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (description ~ "${req.query.search}" OR summary ~ "${req.query.search}" OR comment ~ "${req.query.search}") order by priority ASC`
+    const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (text ~ "${req.query.search}" OR comment ~ "${req.query.search}" OR key = "${req.query.search}") order by priority ASC`
     return getIssuesByJQL(req, jql)
       .then(issues => res.send(issues))
       .catch(err => res.status(502).send(err))
@@ -185,7 +185,9 @@ module.exports = {
 
 function getIssuesByJQL (req, jql) {
   const encodedJQL = encodeURIComponent(jql)
-  const options = jiraRequestBuilder.jira(`search?jql=${encodedJQL}&maxResults=100`, req)
+  const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`
+  const options = jiraRequestBuilder.agile(`${urlFragment}?jql=${encodedJQL}&maxResults=100`, req)
+  console.log(options.uri)
   return getIssues(options, req)
 }
 
