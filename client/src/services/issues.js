@@ -162,6 +162,8 @@ export class IssueService {
         return value
       } else if (key === 'comments') {
         return value
+      } else if (key === 'attachments') {
+        return value
       }
       return new Issue(value)
     }

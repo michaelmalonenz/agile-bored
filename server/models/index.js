@@ -36,6 +36,7 @@ db.Issue.belongsTo(db.User, { as: 'reporter', foreignKey: 'reporterId' })
 db.Issue.belongsTo(db.User, { as: 'assignee', foreignKey: 'assigneeId' })
 db.Issue.hasMany(db.Comment, { as: 'comments', foreignKey: 'issueId' })
 db.Issue.hasMany(db.Issue, { as: 'children', foreignKey: 'parentId' })
+db.Issue.hasMany(db.ChangeLog, { as: 'changelog', foreignKey: 'issueId' })
 
 db.Comment.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' })
 
