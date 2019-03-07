@@ -29,6 +29,7 @@ export class App {
       { route: ['', 'board'], name: 'board', moduleId: 'board', nav: true, title: 'Board', auth: true, settings: { icon: 'fa-th' } },
       { route: 'backlog', name: 'backlog', moduleId: 'backlog', nav: true, title: 'Backlog', auth: true, settings: { icon: 'fa-th-list' } },
       { route: 'search', name: 'search', moduleId: 'search', nav: true, title: 'Search', auth: true, settings: { icon: 'fa-search' } },
+      { route: 'reports', name: 'reports', moduleId: 'reports', nav: true, title: 'Reports', auth: true, settings: { icon: 'fa-chart-bar' } },
       { route: 'login', name: 'login', moduleId: 'security/login', nav: false, title: 'Login' }
     ])
 
