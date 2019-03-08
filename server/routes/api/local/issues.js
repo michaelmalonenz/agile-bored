@@ -2,6 +2,7 @@ const db = require('../../../models')
 const op = db.Sequelize.Op
 const IssueViewModel = require('../../../viewmodels/issue')
 const EpicViewModel = require('../../../viewmodels/epic')
+const ChangeLogViewModel = require('../../../viewmodels/changelog')
 
 module.exports = {
   findAllIssues: function (req, res) {
@@ -197,7 +198,22 @@ module.exports = {
     return _sendList(props, res)
   },
   getChangeLog: function (req, res) {
-    res.send([])
+    return db.ChangeLog.findAll({
+      order: [['timestamp', 'ASC']],
+      include: [{
+        model: db.User,
+        as: 'author'
+      }],
+      where: {
+        issueId: req.params.issueId
+      }
+    }).then(changelog => {
+      const result = []
+      for (let log of changelog) {
+        result.push(ChangeLogViewModel.createFromLocal(log))
+      }
+      res.send(result)
+    })
   }
 }
 

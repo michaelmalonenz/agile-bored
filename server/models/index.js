@@ -40,6 +40,8 @@ db.Issue.hasMany(db.ChangeLog, { as: 'changelog', foreignKey: 'issueId' })
 
 db.Comment.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' })
 
+db.ChangeLog.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' })
+
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 

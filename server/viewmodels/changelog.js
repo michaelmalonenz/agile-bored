@@ -10,6 +10,19 @@ module.exports = class ChangeLogViewModel {
     this.timestamp = new Date()
   }
 
+  static createFromLocal (obj) {
+    const log = new ChangeLogViewModel()
+    if (obj) {
+      log.id = obj.id
+      log.author = UserViewModel.createFromLocal(obj.author)
+      log.timestamp = new Date(obj.timestamp)
+      log.field = obj.field
+      log.fromValue = obj.oldValue
+      log.toValue = obj.newValue
+    }
+    return log
+  }
+
   static createFromJira (obj) {
     let result = []
     if (obj) {
