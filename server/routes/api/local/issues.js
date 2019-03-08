@@ -115,7 +115,7 @@ module.exports = {
   },
   updateStatus: function (req, res) {
     return db.Issue.update(
-      { statusId: req.params.statusId },
+      { statusId: req.params.statusId, latestEditorId: req.user.id },
       { where: { id: req.params.issueId } })
       .then(issue => {
         res.sendStatus(200)
@@ -126,6 +126,7 @@ module.exports = {
   },
   update: function (req, res) {
     const dbIssue = _dbIssueFromRequest(req.body)
+    dbIssue.latestEditorId = req.user.id
     return db.Issue.update(dbIssue, { where: { id: req.params.issueId } }).then(() => {
       return db.Issue.findById(req.params.issueId, _baseIssueQueryProps())
         .then(dbIssue => {
@@ -140,7 +141,7 @@ module.exports = {
   assign: function (req, res) {
     const assigneeId = req.body && req.body.id ? req.body.id : null
     return db.Issue.update(
-      { assigneeId: assigneeId },
+      { assigneeId: assigneeId, latestEditorId: req.user.id },
       { where: { id: req.params.issueId } })
       .then((issue) => {
         res.send(issue)
@@ -175,6 +176,7 @@ module.exports = {
     return db.IssueStatus.findOne({ name: 'ToDo' })
       .then(toDoStatus => {
         dbIssue.statusId = toDoStatus.id
+        dbIssue.latestEditorId = req.user.id
         return db.Issue.create(dbIssue)
           .then(issue => db.Issue.findById(issue.id, _baseIssueQueryProps()))
           .then(dbIssue => {
