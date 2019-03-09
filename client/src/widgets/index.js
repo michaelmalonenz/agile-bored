@@ -17,6 +17,7 @@ export function configure (config) {
     './issue-description',
     './notification-host',
     './popup-menu',
-    './project-panel'
+    './project-panel',
+    './date-picker'
   ])
 }

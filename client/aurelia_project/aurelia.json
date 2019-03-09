@@ -40,12 +40,7 @@
           {
             "name": "core-js",
             "path": "../node_modules/core-js",
-            "main": "client/core",
-            "deps": [
-              "../node_modules/core-js/shim",
-              "../node_modules/core-js/library/**/*.js",
-              "../node_modules/core-js/modules/**/*.js"
-            ]
+            "main": "client/core"
           },
           {
             "name": "regenerator-runtime",
@@ -155,6 +150,22 @@
               "popper.js"
             ],
             "exports": "$"
+          },
+          {
+            "name": "moment",
+            "path": "../node_modules/moment",
+            "main": "moment.js"
+          },
+          {
+            "name": "pikaday",
+            "path": "../node_modules/pikaday",
+            "main": "pikaday.js",
+            "resources": [
+              "css/pikaday.css"
+            ],
+            "deps": [
+              "moment"
+            ]
           }
         ]
       }
