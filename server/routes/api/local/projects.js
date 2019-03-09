@@ -1,4 +1,3 @@
-const request = require('request-promise-native')
 const ProjectViewModel = require('../../../viewmodels/project')
 
 module.exports = {
