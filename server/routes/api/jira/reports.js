@@ -1,7 +1,7 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 
-const maxResults = 50
+const maxResults = 150
 
 module.exports = {
   async cumulativeFlow (req, res) {
