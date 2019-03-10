@@ -9,8 +9,8 @@ module.exports = {
     const end = req.query.end
     const proj = req.settings.jiraProjectName
     const jql = encodeURIComponent(`project = ${proj} AND \
-(created >= '${start}' AND created <= '${end}') OR \
-(updated >= '${start}' AND updated <= '${end}' AND status = 'Done')`)
+((created >= '${start}' AND created <= '${end}') OR \
+(updated >= '${start}' AND updated <= '${end}'))`)
     const url = `/search?jql=${jql}&maxResults=${maxResults}`
     const options = jiraRequestBuilder.jira(url, req)
     const first = await request(options)
@@ -21,6 +21,21 @@ module.exports = {
       const res = await request(options)
       results = results.concat(res.issues)
     }
-    res.send(results)
+    res.send(collateResults(results))
+  }
+}
+
+function collateResults (results) {
+  let closedCount = 0
+  for (let issue of results) {
+    if (issue.fields.status.name === 'Done' || issue.fields.status.name === 'Cancelled') {
+      closedCount++
+    }
+  }
+  return {
+    total: results.length,
+    closed: closedCount,
+    notDone: results.length - closedCount,
+    growth: +((results.length - closedCount) / closedCount).toFixed(2)
   }
 }
