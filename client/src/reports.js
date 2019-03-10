@@ -1,11 +1,17 @@
 import { inject } from 'aurelia-framework'
-
 import Chart from 'chart.js'
+import moment from 'moment'
 
-@inject(Element)
+import { ReportsService } from './services/reports'
+
+@inject(Element, ReportsService)
 export class Reports {
-  constructor (element) {
+  constructor (element, reportsService) {
     this.element = element
+    this.reportsService = reportsService
+
+    this.fromDate = new moment().subtract(1, 'month')
+    this.toDate = new moment()
 
     this.data = {
       labels: ['Zero', 'Ten', 'Twenty', 'Thirty', 'Fourty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety', 'One Hundred'],
@@ -40,5 +46,10 @@ export class Reports {
 
   detached () {
     this.chart.destroy()
+  }
+
+  async updateGraph () {
+    const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
+    console.log(data)
   }
 }
