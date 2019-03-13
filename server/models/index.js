@@ -11,7 +11,8 @@ let db = {}
 let sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
   dialect: config.dialect,
-  logging: env === 'development'
+  logging: env === 'development' ? console.log : false,
+  operatorsAliases: false
 })
 
 fs
