@@ -3,6 +3,7 @@ const jiraRequestBuilder = require('./jira-request')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
 
 const ticksInADay = 24 * 60 * 60 * 1000
+const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
   getEstimateForEpic: function (req, res) {
@@ -18,7 +19,9 @@ module.exports = {
           times.push({
             duration: calculateTimeInProgress(events),
             done: issue.fields.status.name === 'Done',
-            resolved: issue.fields.status.name === 'Done' || issue.fields.status.name === 'Cancelled'
+            resolved: resolvedStatuses.includes(issue.fields.status.name),
+            createdAt: issue.fields.created,
+            completedAt: calculateCompletedTime(events)
           })
         }
         const averageDaysPerIssue = Math.ceil(getEstimatedIssueDuration(times) / ticksInADay)
@@ -49,6 +52,18 @@ function calculateTimeInProgress (changelogEvents) {
   return duration
 }
 
+function calculateCompletedTime (changelogEvents) {
+  const statusEvents = changelogEvents.filter(e => e.field === 'status')
+  // reverse order
+  statusEvents.sort((a, b) => b.timestamp - a.timestamp)
+  for (let event of statusEvents) {
+    if (resolvedStatuses.includes(event.toValue)) {
+      return event.timestamp
+    }
+  }
+  return null
+}
+
 function getEstimatedIssueDuration (times) {
   const inProgressTimes = times.filter(t => t.duration !== 0)
   if (inProgressTimes.length === 0) {
@@ -58,7 +73,8 @@ function getEstimatedIssueDuration (times) {
   const max = getMaximumDuration(inProgressTimes)
   const total = inProgressTimes.reduce((prev, current) => prev + current.duration, 0)
   const average = total / inProgressTimes.length
-  return (min + (4 * average) + max) / 6
+  const growthRate = getGrowthRate(times)
+  return ((min + (4 * average) + max) / 6) * growthRate
 }
 
 function getMinimumDuration (times) {
@@ -81,6 +97,14 @@ function getMaximumDuration (times) {
     return Math.max(...(times.map(t => t.duration)))
   }
   return Infinity
+}
+
+function getGrowthRate (times) {
+  const growthEpoch = new Date().valueOf() - (28 * ticksInADay)
+  const growthTimes = times.filter(t => t.createdAt > growthEpoch || t.completedAt > growthEpoch)
+  const complete = growthTimes.filter(t => t.completedAt != null && t.resolved).length
+  const incomplete = growthTimes.length - complete
+  return (incomplete || 1.0) / (complete || 1.0)
 }
 
 function getTimeString (days) {
