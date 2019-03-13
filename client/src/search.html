@@ -1,16 +1,33 @@
 <template>
   <div class="search-results">
     <form class="search-form" role="search">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-          aria-describedby="search-button" value.bind="searchTerm" 
-          keypress.delegate="searchKeyPress($event)">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" click.delegate="searchButtonPress()">
-            <i class="fas fa-search"></i>
-          </button>  
+      <div class="row">
+        <div class="col-md-7">
+          <label for="search-text">Search Text: </label>
+          <div class="input-group mb-3">
+            <input type="text" id="search-text" class="form-control" placeholder="Search" aria-label="Search"
+              aria-describedby="search-button" value.bind="searchTerm" 
+              keypress.delegate="searchKeyPress($event)">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" click.delegate="searchButtonPress()">
+                <i class="fas fa-search"></i>
+              </button>  
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="col-md-2">
+          <date-picker label="Created After:" value.bind="fromDate"></date-picker>
+        </div>
+        <div class="col-md-2">
+          <date-picker label="Created Before:"  value.bind="toDate"></date-picker>
+        </div>
+        <div class="col-md-1">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" checked.bind="includeDone"> Include Done?
+            </label>
+          </div>
+        </div>
     </form>
     <div class="searching-icon-container" if.bind="searching"><i class="fa fa-circle-notch fa-spin"></i> Searching&hellip;</div>
     <div class="search-no-results" if.bind="noResults">

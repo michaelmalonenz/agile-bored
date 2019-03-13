@@ -2,6 +2,7 @@ import { inject } from 'aurelia-framework'
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator'
 import { PLATFORM } from 'aurelia-pal'
+import moment from 'moment'
 
 import { IssueService } from './services/issues'
 import { SEARCH } from './events'
@@ -19,6 +20,10 @@ export class Search {
     this.doSearch = this._doSearch.bind(this)
     this.searching = false
     this.noResults = false
+
+    this.fromDate = new moment().subtract(1, 'year')
+    this.toDate = new moment()
+    this.includeDone = false
   }
 
   bind () {
@@ -62,7 +67,11 @@ export class Search {
   async _doSearch() {
     if (this.searchTerm) {
       this.searching = true
-      const issues = await this.issueService.search(this.searchTerm)
+      const issues = await this.issueService.search(
+        this.searchTerm,
+        this.fromDate.format('YYYY-MM-DD'),
+        this.toDate.format('YYYY-MM-DD'),
+        this.includeDone)
       this.results = []
       if (issues) {
         for(let issue of issues) {

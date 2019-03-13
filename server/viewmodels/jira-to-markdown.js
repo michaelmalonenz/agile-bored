@@ -156,7 +156,7 @@ const INLINE_SYMBOLS = [
 ]
 
 module.exports = class JiraToMarkdown {
-  static convert (value, attachments) {
+  static convert (value, attachments = []) {
     if (value) {
       const str = value.replace(/(?:\r\n|\r|\n)/g, '\n')
       return new TokenConverter(MULTILINE_SYMBOLS, INLINE_SYMBOLS, attachments).convert(str)

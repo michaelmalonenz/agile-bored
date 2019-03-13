@@ -59,11 +59,16 @@ export class IssueService {
     await this._http.delete(`/api/issue/${issue.id}`)
   }
 
-  async search (searchTerm) {
+  async search (searchTerm, fromDate, toDate, includeDone) {
     const res = await this._http
       .createRequest('/api/issues/search')
       .asGet()
-      .withParams({ search: searchTerm })
+      .withParams({
+        search: searchTerm,
+        start: fromDate,
+        end: toDate,
+        done: includeDone
+      })
       .withReviver(this._issueReviver)
       .send()
 

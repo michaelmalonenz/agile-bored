@@ -49,10 +49,18 @@ module.exports = {
       .catch(err => res.status(502).send(err))
   },
   search: function (req, res) {
-    const jql = `project = ${req.settings.jiraProjectName} AND status != Done AND (text ~ "${req.query.search}" OR comment ~ "${req.query.search}" OR key = "${req.query.search}") order by priority ASC`
+    const excludeDoneTerm = 'status != Done AND'
+    const jql = `\
+project = ${req.settings.jiraProjectName} AND ${req.query.done === 'true' ? '' : excludeDoneTerm} \
+(text ~ "${req.query.search}" OR comment ~ "${req.query.search}") \
+AND created >= ${req.query.start} AND created <= ${req.query.end} \
+order by priority ASC`
     return getIssuesByJQL(req, jql)
       .then(issues => res.send(issues))
-      .catch(err => res.status(502).send(err))
+      .catch(err => {
+        console.error(err)
+        res.status(502).send(err)
+      })
   },
   searchEpics: function (req, res) {
     const term = (req.query.search || '').toLowerCase()
