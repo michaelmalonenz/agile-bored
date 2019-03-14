@@ -50,9 +50,12 @@ module.exports = {
   },
   search: function (req, res) {
     const excludeDoneTerm = 'status != Done AND'
+    const matchKeyTerm = `OR key = ${req.query.search}`
+    const includeKey = /^[A-Z]+-[0-9]+$/.test(req.query.search)
     const jql = `\
 project = ${req.settings.jiraProjectName} AND ${req.query.done === 'true' ? '' : excludeDoneTerm} \
-(text ~ "${req.query.search}" OR comment ~ "${req.query.search}") \
+(text ~ "${req.query.search}" OR comment ~ "${req.query.search}" \
+${includeKey ? matchKeyTerm : ''}) \
 AND created >= ${req.query.start} AND created <= ${req.query.end} \
 order by priority ASC`
     return getIssuesByJQL(req, jql)
