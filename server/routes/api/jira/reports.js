@@ -1,9 +1,14 @@
 const request = require('request-promise-native')
+const moment = require('moment')
 const jiraRequestBuilder = require('./jira-request')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
-const moment = require('moment')
+const IssueViewModel = require('../../../viewmodels/issue')
+const { getGrowthRate, createTimeViewModel } = require('./helpers')
 
 const maxResults = 150
+
+const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test']
+const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
   async cumulativeFlow (req, res) {
@@ -26,30 +31,51 @@ module.exports = {
     res.send(collateResults(results))
   },
   epicRemaining (req, res) {
-    const options = jiraRequestBuilder.agile(`/epic/${req.query.epicId}/issue?expand=changelog`, req)
+    const options = jiraRequestBuilder.jira(`/issue/${req.query.epicId}`, req)
     return request(options)
-      .then(result => {
-        for (let issue of result.issues) {
-          const events = []
-          for (let history of issue.changelog.histories) {
-            events.push(...ChangeLogViewModel.createFromJira(history))
-          }
-          const statusEvents = events.filter(e => e.field === 'status')
-          statusEvents.sort((a, b) => a.timestamp - b.timestamp)
-        }
-        // const start = moment(statusEvents[0].timestamp)
-        const start = result.fields.created
-        const now = moment()
-        const data = {}
-        for (let current = start; current.isBefore(now); current.add(1, 'day')) {
-          const currentDatum = {
-            resolved: 0,
-            inProgress: 0,
-            toDo: 0
-          }
-          data[current.format('YYYY-MM-DD')] = currentDatum
-        }
-        res.send(data)
+      .then(epic => {
+        const options = jiraRequestBuilder.agile(`/epic/${req.query.epicId}/issue?expand=changelog`, req)
+        return request(options)
+          .then(result => {
+            const issues = []
+            for (let issue of result.issues) {
+              const events = []
+              for (let history of issue.changelog.histories) {
+                events.push(...ChangeLogViewModel.createFromJira(history))
+              }
+              const statusEvents = events.filter(e => e.field === 'status')
+              statusEvents.sort((a, b) => a.timestamp - b.timestamp)
+              const current = IssueViewModel.createFromJira(issue)
+              current.changelog = statusEvents
+              issues.push(current)
+            }
+            const start = moment(epic.fields.created)
+            const now = moment()
+            const data = {}
+            for (let current = start; current.isBefore(now); current.add(1, 'day')) {
+              const currentDatum = {
+                resolved: 0,
+                inProgress: 0,
+                toDo: 0
+              }
+              for (let issue of issues) {
+                for (let statusEvent of issue.changelog) {
+                  if (moment(statusEvent.timestamp).isAfter(current)) {
+                    if (resolvedStatuses.includes(statusEvent.fromValue)) {
+                      currentDatum.resolved++
+                    } else if (inProgressStatuses.includes(statusEvent.fromValue)) {
+                      currentDatum.inProgress++
+                    } else if (statusEvent.fromValue) {
+                      currentDatum.toDo++
+                    }
+                    break
+                  }
+                }
+              }
+              data[current.format('YYYY-MM-DD')] = currentDatum
+            }
+            res.send(data)
+          })
       })
   }
 }

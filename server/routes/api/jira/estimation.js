@@ -1,9 +1,8 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
-
+const { getGrowthRate, createTimeViewModel } = require('./helpers')
 const ticksInADay = 24 * 60 * 60 * 1000
-const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
   getEstimateForEpic: function (req, res) {
@@ -16,13 +15,11 @@ module.exports = {
           for (let history of issue.changelog.histories) {
             events.push(...ChangeLogViewModel.createFromJira(history))
           }
-          times.push({
-            duration: calculateTimeInProgress(events),
-            done: issue.fields.status.name === 'Done',
-            resolved: resolvedStatuses.includes(issue.fields.status.name),
-            createdAt: issue.fields.created,
-            completedAt: calculateCompletedTime(events)
-          })
+          times.push(createTimeViewModel(
+            events,
+            issue.fields.status.name,
+            issue.fields.created)
+          )
         }
         const averageDaysPerIssue = Math.ceil(getEstimatedIssueDuration(times) / ticksInADay)
         const incomplete = times.filter(t => !t.resolved)
@@ -30,38 +27,6 @@ module.exports = {
         res.send({ estimate: getTimeString(days) })
       })
   }
-}
-
-const inProgressStatuses = ['In Progress', 'Review', 'Test']
-
-function calculateTimeInProgress (changelogEvents) {
-  const statusEvents = changelogEvents.filter(e => e.field === 'status')
-  statusEvents.sort((a, b) => a.timestamp - b.timestamp)
-  let duration = 0
-  let lastTimestamp = null
-  for (let event of statusEvents) {
-    if (lastTimestamp != null) {
-      duration += (event.timestamp - lastTimestamp)
-    }
-    if (inProgressStatuses.includes(event.toValue)) {
-      lastTimestamp = event.timestamp
-    } else {
-      lastTimestamp = null
-    }
-  }
-  return duration
-}
-
-function calculateCompletedTime (changelogEvents) {
-  const statusEvents = changelogEvents.filter(e => e.field === 'status')
-  // reverse order
-  statusEvents.sort((a, b) => b.timestamp - a.timestamp)
-  for (let event of statusEvents) {
-    if (resolvedStatuses.includes(event.toValue)) {
-      return event.timestamp
-    }
-  }
-  return null
 }
 
 function getEstimatedIssueDuration (times) {
@@ -97,14 +62,6 @@ function getMaximumDuration (times) {
     return Math.max(...(times.map(t => t.duration)))
   }
   return Infinity
-}
-
-function getGrowthRate (times) {
-  const growthEpoch = new Date().valueOf() - (28 * ticksInADay)
-  const growthTimes = times.filter(t => t.createdAt > growthEpoch || t.completedAt > growthEpoch)
-  const complete = growthTimes.filter(t => t.completedAt != null && t.resolved).length
-  const incomplete = growthTimes.length - complete
-  return (incomplete || 1.0) / (complete || 1.0)
 }
 
 function getTimeString (days) {

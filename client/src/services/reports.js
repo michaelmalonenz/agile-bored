@@ -17,4 +17,14 @@ export class ReportsService {
 
     return res.content
   }
+
+  async epicRemaining(epicId) {
+    const res = await this._http
+      .createRequest('/api/reports/epicremaining')
+      .asGet()
+      .withParams({ epicId })
+      .send()
+
+    return res.content
+  }
 }

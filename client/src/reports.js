@@ -3,15 +3,20 @@ import Chart from 'chart.js'
 import moment from 'moment'
 
 import { ReportsService } from './services/reports'
+import { IssueService } from './services/issues'
 
-@inject(Element, ReportsService)
+@inject(Element, ReportsService, IssueService)
 export class Reports {
-  constructor (element, reportsService) {
+  constructor (element, reportsService, issueService) {
     this.element = element
     this.reportsService = reportsService
+    this.issueService = issueService
 
     this.fromDate = new moment().subtract(1, 'month')
     this.toDate = new moment()
+
+    this.epicKey = ''
+    this.epic = {}
 
     this.data = {
       labels: ['Zero', 'Ten', 'Twenty', 'Thirty', 'Fourty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety', 'One Hundred'],
@@ -49,7 +54,12 @@ export class Reports {
   }
 
   async updateGraph () {
-    const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
+    // const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
+    const data = await this.reportsService.epicRemaining(this.epic.id)
     console.log(data)
+  }
+
+  async epicSearch (value) {
+    return await this.issueService.searchEpics(value)
   }
 }
