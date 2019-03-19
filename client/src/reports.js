@@ -17,28 +17,56 @@ export class Reports {
 
     this.epicKey = ''
     this.epic = {}
+  }
 
-    this.data = {
-      labels: ['Zero', 'Ten', 'Twenty', 'Thirty', 'Fourty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety', 'One Hundred'],
-      datasets: [{
-        label: 'ToDo',
-        backgroundColor: 'rgb(66, 33, 99, 0.5)',
-        data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-        fill: 'origin'
-      }, {
-        label: 'In Progress',
-        backgroundColor: 'rgb(0, 255, 0, 0.5)',
-        data: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-        fill: '-1'
-      }]
+  detached () {
+    if (this.chart) {
+      this.chart.destroy()
     }
   }
 
-  attached () {
+  async updateGraph () {
+    // const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
+    const data = await this.reportsService.epicRemaining(this.epic.id)
+    const toDo = {
+      label: 'To Do',
+      backgroundColor: 'rgb(66, 33, 99, 0.5)',
+      fill: 'origin',
+      data: []
+    }
+    const inProgress = {
+      label: 'In Progress',
+      backgroundColor: 'rgb(0, 255, 0, 0.5)',
+      fill: '-1',
+      data: []
+    }
+    const resolved = {
+      label: 'Resolved',
+      backgroundColor: 'rgb(255, 0, 0, 0.5)',
+      fill: '-1',
+      data: []
+    }
+    for (let day of Object.keys(data)) {
+      toDo.data.push(data[day].toDo)
+      inProgress.data.push(data[day].inProgress)
+      resolved.data.push(data[day].resolved)
+    }
+
+    if (this.chart) {
+      this.chart.destroy()
+    }
+
     const context = this.element.querySelector('#chart').getContext('2d')
     this.chart = new Chart(context, {
       type: 'line',
-      data: this.data,
+      data: {
+        labels: Object.keys(data),
+        datasets: [
+          toDo,
+          inProgress,
+          resolved
+        ]
+      },
       options: {
         scales: {
           yAxes: [{
@@ -47,16 +75,6 @@ export class Reports {
         }
       }
     })
-  }
-
-  detached () {
-    this.chart.destroy()
-  }
-
-  async updateGraph () {
-    // const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
-    const data = await this.reportsService.epicRemaining(this.epic.id)
-    console.log(data)
   }
 
   async epicSearch (value) {
