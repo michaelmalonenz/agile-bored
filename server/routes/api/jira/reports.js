@@ -59,17 +59,23 @@ module.exports = {
                 toDo: 0
               }
               for (let issue of issues) {
+                let status
+                if (moment(issue.createdAt).isAfter(current)) {
+                  continue
+                }
                 for (let statusEvent of issue.changelog) {
+                  status = statusEvent.toValue
                   if (moment(statusEvent.timestamp).isAfter(current)) {
-                    if (resolvedStatuses.includes(statusEvent.fromValue)) {
-                      currentDatum.resolved++
-                    } else if (inProgressStatuses.includes(statusEvent.fromValue)) {
-                      currentDatum.inProgress++
-                    } else if (statusEvent.fromValue) {
-                      currentDatum.toDo++
-                    }
+                    status = statusEvent.fromValue
                     break
                   }
+                }
+                if (resolvedStatuses.includes(status)) {
+                  currentDatum.resolved++
+                } else if (inProgressStatuses.includes(status)) {
+                  currentDatum.inProgress++
+                } else {
+                  currentDatum.toDo++
                 }
               }
               data[current.format('YYYY-MM-DD')] = currentDatum
