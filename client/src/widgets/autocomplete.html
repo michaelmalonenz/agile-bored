@@ -17,7 +17,9 @@
     </div>
   </div>
   <div class="autocomplete autocomplete-display" show.bind="!editing" click.trigger="toggleEdit()">
-    <compose if.bind="!!selected" view-model.bind="selected" view.bind="view" ></compose>
+    <div if.bind="selected">
+      <compose view-model.bind="selected" view.bind="view"></compose>
+    </div>
     <div if.bind="!selected" class="autocomplete-placeholder form-control">
       ${placeholder}
     </div>
