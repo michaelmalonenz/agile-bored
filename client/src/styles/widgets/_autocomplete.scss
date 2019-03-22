@@ -18,7 +18,7 @@
   }
 }
 
-.autocomplete-suggestions {
+.autocomplete-suggestions, .autocomplete-searching {
   position: absolute;
   z-index: 1;
   background-color: white;
@@ -28,6 +28,11 @@
   max-height: 19em;
   overflow-y: auto;
   font-size: 14px;
+
+  .autocomplete-search-display {
+    padding: 2em;
+    text-align: center;
+  }
 
   .autocomplete-suggestion {
     padding: 0.5em 1em;

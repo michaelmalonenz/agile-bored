@@ -10,6 +10,12 @@
           </button>
       </div>
     </div>
+    <div show.bind="searching" class="autocomplete-searching">
+      <div class="autocomplete-search-display">
+        <div><i class="fa fa-circle-notch fa-spin fa-2x"></i></div>
+        <div>Searching...</div>
+      </div>
+    </div>
     <div show.bind="haveSuggestions" class="autocomplete-suggestions">
       <div class="autocomplete-suggestion" repeat.for="suggestion of suggestions" click.trigger="_select(suggestion, $event)">
         <compose view-model.bind="suggestion" view.bind="view"></compose>

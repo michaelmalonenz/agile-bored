@@ -36,6 +36,7 @@ export class Autocomplete {
     this.selected = null
     this.editing = false
     this.suggestions = []
+    this.searching = false
 
     this.boundToggleEdit = this.toggleEdit.bind(this)
   }
@@ -74,12 +75,15 @@ export class Autocomplete {
 
   _search (event) {
     if (typeof this.search === 'function') {
+      this.searching = true
       const result = this.search({value: this.value, event: event})
       if (result && typeof result.then === 'function') {
         return result.then(suggestions => {
+          this.searching = false
           this.suggestions = suggestions
         })
       } else {
+        this.searching = false
         this.suggestions = result
       }
     }
