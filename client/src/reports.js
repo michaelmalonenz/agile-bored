@@ -15,6 +15,7 @@ export class Reports {
     this.fromDate = new moment().subtract(1, 'month')
     this.toDate = new moment()
 
+    this.loadingData = false
     this.epicKey = ''
     this.epic = {}
   }
@@ -27,22 +28,23 @@ export class Reports {
 
   async updateGraph () {
     // const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
+    this.loadingData = true
     const data = await this.reportsService.epicRemaining(this.epic.id)
     const toDo = {
       label: 'To Do',
-      backgroundColor: 'rgb(66, 33, 99, 0.5)',
+      backgroundColor: 'rgb(0, 0, 200, 0.5)',
       fill: 'origin',
       data: []
     }
     const inProgress = {
       label: 'In Progress',
-      backgroundColor: 'rgb(0, 255, 0, 0.5)',
+      backgroundColor: 'rgb(200, 0, 0, 0.5)',
       fill: '-1',
       data: []
     }
     const resolved = {
       label: 'Resolved',
-      backgroundColor: 'rgb(255, 0, 0, 0.5)',
+      backgroundColor: 'rgb(0, 200, 0, 0.5)',
       fill: '-1',
       data: []
     }
@@ -52,6 +54,7 @@ export class Reports {
       resolved.data.push(data[day].resolved)
     }
 
+    this.loadingData = false
     if (this.chart) {
       this.chart.destroy()
     }
