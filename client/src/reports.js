@@ -17,7 +17,7 @@ export class Reports {
 
     this.loadingData = false
     this.epicKey = ''
-    this.epic = {}
+    this.epic = null
   }
 
   detached () {
