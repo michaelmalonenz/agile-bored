@@ -1,4 +1,5 @@
 import {customElement, bindable, bindingMode} from 'aurelia-framework'
+import { isEmpty } from '../utils/functions';
 
 @bindable('options')
 @bindable({
@@ -34,6 +35,12 @@ export class SelectDropDown {
       this._addDeactivateListeners()
     } else {
       this._removeDeactivateListeners()
+    }
+  }
+
+  valueChanged (newValue, oldValue) {
+    if (!value || isEmpty(value)) {
+      this.selected = null
     }
   }
 
