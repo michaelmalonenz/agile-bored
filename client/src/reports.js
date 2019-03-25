@@ -18,6 +18,7 @@ export class Reports {
     this.loadingData = false
     this.epicKey = ''
     this.epic = null
+    this.completionDate = ''
   }
 
   detached () {
@@ -29,7 +30,9 @@ export class Reports {
   async updateGraph () {
     // const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
     this.loadingData = true
-    const data = await this.reportsService.epicRemaining(this.epic.id)
+    const result = await this.reportsService.epicRemaining(this.epic.id)
+    const data = result.data
+    this.completionDate = new moment(result.estimatedCompletion).format('YYYY-MM-DD')
     const toDo = {
       label: 'To Do',
       backgroundColor: 'rgb(0, 0, 200, 0.5)',
@@ -48,15 +51,24 @@ export class Reports {
       fill: '-1',
       data: []
     }
+    let lastDay, lastTotal
     for (let day of Object.keys(data)) {
       toDo.data.push(data[day].toDo)
       inProgress.data.push(data[day].inProgress)
       resolved.data.push(data[day].resolved)
+      lastDay = day
+      lastTotal = data[day].toDo + data[day].inProgress + data[day].resolved
     }
 
     this.loadingData = false
     if (this.chart) {
       this.chart.destroy()
+    }
+    
+    const estimate = {
+      label: 'Estimate',
+      data: [{x: lastDay, y: lastTotal}, {x: this.completionDate, y: 0}],
+      type: 'line'
     }
 
     const context = this.element.querySelector('#chart').getContext('2d')

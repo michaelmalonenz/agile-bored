@@ -1,8 +1,10 @@
 const request = require('request-promise-native')
 const jiraRequestBuilder = require('./jira-request')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
-const { getGrowthRate, createTimeViewModel } = require('./helpers')
-const ticksInADay = 24 * 60 * 60 * 1000
+const {
+  createTimeViewModel,
+  getEstimatedDaysRemaining
+} = require('./helpers')
 
 module.exports = {
   getEstimateForEpic: function (req, res) {
@@ -21,47 +23,10 @@ module.exports = {
             issue.fields.created)
           )
         }
-        const averageDaysPerIssue = Math.ceil(getEstimatedIssueDuration(times) / ticksInADay)
-        const incomplete = times.filter(t => !t.resolved)
-        const days = averageDaysPerIssue * incomplete.length
+        const days = getEstimatedDaysRemaining(times)
         res.send({ estimate: getTimeString(days) })
       })
   }
-}
-
-function getEstimatedIssueDuration (times) {
-  const inProgressTimes = times.filter(t => t.duration !== 0)
-  if (inProgressTimes.length === 0) {
-    return Infinity
-  }
-  const min = getMinimumDuration(inProgressTimes)
-  const max = getMaximumDuration(inProgressTimes)
-  const total = inProgressTimes.reduce((prev, current) => prev + current.duration, 0)
-  const average = total / inProgressTimes.length
-  const growthRate = getGrowthRate(times)
-  return ((min + (4 * average) + max) / 6) * growthRate
-}
-
-function getMinimumDuration (times) {
-  const completedIssues = times.filter(t => t.done)
-  if (completedIssues.length) {
-    return Math.min(...(completedIssues.map(t => t.duration)))
-  }
-  if (times.length) {
-    return Math.min(...(times.map(t => t.duration)))
-  }
-  return 0
-}
-
-function getMaximumDuration (times) {
-  const completedIssues = times.filter(t => t.done)
-  if (completedIssues.length) {
-    return Math.max(...(completedIssues.map(t => t.duration)))
-  }
-  if (times.length) {
-    return Math.max(...(times.map(t => t.duration)))
-  }
-  return Infinity
 }
 
 function getTimeString (days) {

@@ -3,7 +3,10 @@ const moment = require('moment')
 const jiraRequestBuilder = require('./jira-request')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
 const IssueViewModel = require('../../../viewmodels/issue')
-const { getGrowthRate, createTimeViewModel } = require('./helpers')
+const {
+  createTimeViewModel,
+  getEstimatedDaysRemaining
+} = require('./helpers')
 
 const maxResults = 150
 
@@ -38,11 +41,17 @@ module.exports = {
         return request(options)
           .then(result => {
             const issues = []
+            const times = []
             for (let issue of result.issues) {
               const events = []
               for (let history of issue.changelog.histories) {
                 events.push(...ChangeLogViewModel.createFromJira(history))
               }
+              times.push(createTimeViewModel(
+                events,
+                issue.fields.status.name,
+                issue.fields.created)
+              )
               const statusEvents = events.filter(e => e.field === 'status')
               statusEvents.sort((a, b) => a.timestamp - b.timestamp)
               const current = IssueViewModel.createFromJira(issue)
@@ -50,40 +59,49 @@ module.exports = {
               issues.push(current)
             }
             const start = moment(epic.fields.created)
-            const now = moment()
-            const data = {}
-            for (let current = start; current.isBefore(now); current.add(1, 'day')) {
-              const currentDatum = {
-                resolved: 0,
-                inProgress: 0,
-                toDo: 0
-              }
-              for (let issue of issues) {
-                let status
-                if (moment(issue.createdAt).isAfter(current)) {
-                  continue
-                }
-                for (let statusEvent of issue.changelog) {
-                  status = statusEvent.toValue
-                  if (moment(statusEvent.timestamp).isAfter(current)) {
-                    status = statusEvent.fromValue
-                    break
-                  }
-                }
-                if (resolvedStatuses.includes(status)) {
-                  currentDatum.resolved++
-                } else if (inProgressStatuses.includes(status)) {
-                  currentDatum.inProgress++
-                } else {
-                  currentDatum.toDo++
-                }
-              }
-              data[current.format('YYYY-MM-DD')] = currentDatum
+            const data = getEpicData(issues, start, moment())
+            const estimateDays = getEstimatedDaysRemaining(times)
+            const resultViewmodel = {
+              data: data,
+              estimatedCompletion: moment().add(estimateDays, 'days').toISOString()
             }
-            res.send(data)
+            res.send(resultViewmodel)
           })
       })
   }
+}
+
+function getEpicData (issues, start, end) {
+  const data = {}
+  for (let current = start; current.isBefore(end); current.add(1, 'day')) {
+    const currentDatum = {
+      resolved: 0,
+      inProgress: 0,
+      toDo: 0
+    }
+    for (let issue of issues) {
+      let status
+      if (moment(issue.createdAt).isAfter(current)) {
+        continue
+      }
+      for (let statusEvent of issue.changelog) {
+        status = statusEvent.toValue
+        if (moment(statusEvent.timestamp).isAfter(current)) {
+          status = statusEvent.fromValue
+          break
+        }
+      }
+      if (resolvedStatuses.includes(status)) {
+        currentDatum.resolved++
+      } else if (inProgressStatuses.includes(status)) {
+        currentDatum.inProgress++
+      } else {
+        currentDatum.toDo++
+      }
+    }
+    data[current.format('YYYY-MM-DD')] = currentDatum
+  }
+  return data
 }
 
 function collateResults (results) {
