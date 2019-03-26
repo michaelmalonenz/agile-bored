@@ -7,6 +7,7 @@ export class Issue {
     this.description = ''
     this.assignee = {}
     this.children = []
+    this.issueType = {}
     Object.assign(this, issue)
     if (issue) {
       this.updatedAt = new Date(issue.updatedAt)

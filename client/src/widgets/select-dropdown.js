@@ -39,7 +39,7 @@ export class SelectDropDown {
   }
 
   valueChanged (newValue, oldValue) {
-    if (!value || isEmpty(value)) {
+    if (!newValue || isEmpty(newValue)) {
       this.selected = null
     }
   }
