@@ -18,11 +18,11 @@ export class ReportsService {
     return res.content
   }
 
-  async epicRemaining(epicId) {
+  async epicRemaining(epicId, start, end) {
     const res = await this._http
       .createRequest('/api/reports/epicremaining')
       .asGet()
-      .withParams({ epicId })
+      .withParams({ epicId, start, end })
       .send()
 
     return res.content

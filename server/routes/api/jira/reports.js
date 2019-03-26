@@ -58,8 +58,9 @@ module.exports = {
               current.changelog = statusEvents
               issues.push(current)
             }
-            const start = moment(epic.fields.created)
-            const data = getEpicData(issues, start, moment())
+            const start = req.query.start ? moment(req.query.start, 'YYYY-MM-DD') : moment(epic.fields.created)
+            const end = req.query.end ? moment(req.query.end, 'YYYY-MM-DD') : moment()
+            const data = getEpicData(issues, start, end)
             const estimateDays = getEstimatedDaysRemaining(times)
             const resultViewmodel = {
               data: data,

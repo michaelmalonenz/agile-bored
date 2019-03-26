@@ -12,8 +12,8 @@ export class Reports {
     this.reportsService = reportsService
     this.issueService = issueService
 
-    this.fromDate = new moment().subtract(1, 'month')
-    this.toDate = new moment()
+    this.fromDate = null
+    this.toDate = null
 
     this.loadingData = false
     this.epicKey = ''
@@ -28,9 +28,10 @@ export class Reports {
   }
 
   async updateGraph () {
-    // const data = await this.reportsService.get(this.fromDate.format('YYYY-MM-DD'), this.toDate.format('YYYY-MM-DD'))
     this.loadingData = true
-    const result = await this.reportsService.epicRemaining(this.epic.id)
+    const fromValue = this.fromDate ? this.fromDate.format('YYYY-MM-DD') : null
+    const toValue = this.toDate ? this.toDate.format('YYYY-MM-DD') : null
+    const result = await this.reportsService.epicRemaining(this.epic.id, fromValue, toValue)
     const data = result.data
     this.completionDate = new moment(result.estimatedCompletion).format('YYYY-MM-DD')
     const toDo = {
@@ -53,11 +54,12 @@ export class Reports {
     }
     let lastDay, lastTotal
     for (let day of Object.keys(data)) {
-      toDo.data.push(data[day].toDo)
-      inProgress.data.push(data[day].inProgress)
-      resolved.data.push(data[day].resolved)
+      const date = new moment(day, 'YYYY-MM-DD')
+      toDo.data.push({x: date, y: data[day].toDo})
+      inProgress.data.push({x: date, y: data[day].inProgress})
+      resolved.data.push({x: date, y: data[day].resolved})
       lastDay = day
-      lastTotal = data[day].toDo + data[day].inProgress + data[day].resolved
+      lastTotal = data[day].toDo + data[day].inProgress
     }
 
     this.loadingData = false
@@ -68,24 +70,31 @@ export class Reports {
     const estimate = {
       label: 'Estimate',
       data: [{x: lastDay, y: lastTotal}, {x: this.completionDate, y: 0}],
-      type: 'line'
+      type: 'line',
+      borderDash: [5, 10]
     }
 
     const context = this.element.querySelector('#chart').getContext('2d')
     this.chart = new Chart(context, {
       type: 'line',
       data: {
-        labels: Object.keys(data),
         datasets: [
           toDo,
           inProgress,
-          resolved
+          resolved,
+          estimate
         ]
       },
       options: {
+        animation: {
+          duration: 0
+        },
         scales: {
           yAxes: [{
             stacked: true
+          }],
+          xAxes: [{
+            type: 'time',
           }]
         }
       }
