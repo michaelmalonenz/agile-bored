@@ -26,8 +26,11 @@ export class Search {
     this.includeDone = false
   }
 
-  bind () {
+  async bind () {
     this.searchSubscription = this.eventAggregator.subscribe(SEARCH, this.doSearch)
+    if (this.searchTerm) {
+      await this._doSearch()
+    }
   }
 
   unbind () {
@@ -40,9 +43,6 @@ export class Search {
 
   async activate (params, other) {
     this.searchTerm = params.search || ''
-    if (this.searchTerm) {
-      this.eventAggregator.publish(SEARCH)
-    }
   }
 
   searchKeyPress (event) {
@@ -60,8 +60,13 @@ export class Search {
 
   triggerSearch () {
     this.eventAggregator.publish(SEARCH)
-    // The || null ensures that the query param is excluded from the URL
-    this.router.navigateToRoute(PLATFORM.moduleName('search'), { search: this.searchTerm || null })
+    this.router.navigateToRoute(PLATFORM.moduleName('search'), {
+      // The || null ensures that the query param is excluded from the URL
+      search: this.searchTerm || null,
+      from: this.fromDate.format('YYYY-MM-DD'),
+      to: this.toDate.format('YYYY-MM-DD'),
+      done: this.includeDone
+    })
   }
 
   async _doSearch() {
