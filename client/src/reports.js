@@ -30,7 +30,7 @@ export class Reports {
   async updateGraph () {
     this.loadingData = true
     const fromValue = this.fromDate ? this.fromDate.format('YYYY-MM-DD') : null
-    const toValue = this.toDate ? this.toDate.format('YYYY-MM-DD') : null
+    const toValue = this.toDate ? this.toDate.add(1, 'day').format('YYYY-MM-DD') : null
     const result = await this.reportsService.epicRemaining(this.epic.id, fromValue, toValue)
     const data = result.data
     this.completionDate = new moment(result.estimatedCompletion).format('YYYY-MM-DD')
@@ -58,7 +58,7 @@ export class Reports {
       toDo.data.push({x: date, y: data[day].toDo})
       inProgress.data.push({x: date, y: data[day].inProgress})
       resolved.data.push({x: date, y: data[day].resolved})
-      lastDay = day
+      lastDay = date
       lastTotal = data[day].toDo + data[day].inProgress
     }
 
@@ -69,9 +69,9 @@ export class Reports {
     
     const estimate = {
       label: 'Estimate',
-      data: [{x: lastDay, y: lastTotal}, {x: this.completionDate, y: 0}],
-      type: 'line',
-      borderDash: [5, 10]
+      data: [{x: new moment(lastDay), y: lastTotal}, {x: this.completionDate, y: 0}],
+      borderDash: [5, 10],
+      type: 'line'
     }
 
     const context = this.element.querySelector('#chart').getContext('2d')
@@ -88,6 +88,9 @@ export class Reports {
       options: {
         animation: {
           duration: 0
+        },
+        layout: {
+          padding: 20
         },
         scales: {
           yAxes: [{
