@@ -2,10 +2,10 @@
   <form>
     <div class="row d-flex align-items-center m-2">
       <div class="col-md-3">
-        <date-picker label="From:" value.bind="fromDate"></date-picker>
+        <date-picker label="From" value.bind="fromDate"></date-picker>
       </div>
       <div class="col-md-3">
-        <date-picker label="To:"  value.bind="toDate"></date-picker>
+        <date-picker label="To"  value.bind="toDate"></date-picker>
       </div>
       <div class="col-md-4 col-lg-5">
         <label>Epic</label>
@@ -20,7 +20,7 @@
         </autocomplete>
       </div>
       <div class="col-md-2 col-lg-1 d-flex align-items-center">
-        <button class="btn btn-primary" type="submit" click.delegate="updateGraph()">
+        <button class="btn btn-primary" type="submit" click.delegate="updateGraphClick()">
           <i class="fa fa-sync-alt ${loadingData ? 'fa-spin' : ''}"></i> Update
         </button>
       </div>

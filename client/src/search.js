@@ -41,7 +41,7 @@ export class Search {
     this.searchInput = this.element.querySelector('#search-term')
   }
 
-  async activate (params, other) {
+  async activate (params) {
     this.searchTerm = params.search || ''
   }
 

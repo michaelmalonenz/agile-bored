@@ -1,30 +1,63 @@
 import { inject } from 'aurelia-framework'
+import { Router } from 'aurelia-router'
+import { PLATFORM } from 'aurelia-pal'
 import Chart from 'chart.js'
 import moment from 'moment'
 
 import { ReportsService } from './services/reports'
 import { IssueService } from './services/issues'
 
-@inject(Element, ReportsService, IssueService)
+@inject(Element, ReportsService, IssueService, Router)
 export class Reports {
-  constructor (element, reportsService, issueService) {
+  constructor (element, reportsService, issueService, router) {
     this.element = element
     this.reportsService = reportsService
     this.issueService = issueService
+    this.router = router
 
     this.fromDate = null
     this.toDate = null
 
     this.loadingData = false
-    this.epicKey = ''
     this.epic = null
     this.completionDate = ''
+  }
+
+  async attached () {
+    if (this.epic) {
+      await this.updateGraph()
+    }
   }
 
   detached () {
     if (this.chart) {
       this.chart.destroy()
     }
+  }
+
+  async activate (params) {
+    if (params.from) {
+      this.fromDate = new moment(params.from, 'YYYY-MM-DD')
+    }
+    if (params.to) {
+      this.toDate = new moment(params.to, 'YYYY-MM-DD')
+    }
+    if (params.epic) {
+      this.epic = await this.issueService.get(params.epic)
+    }
+  }
+
+  updateUrl () {
+    this.router.navigateToRoute(PLATFORM.moduleName('reports'), {
+      epic: this.epic ? this.epic.id : null,
+      from: this.fromDate ? this.fromDate.format('YYYY-MM-DD') : null,
+      to: this.toDate ? this.toDate.format('YYYY-MM-DD') : null
+    })
+  }
+
+  async updateGraphClick () {
+    this.updateUrl()
+    await this.updateGraph()
   }
 
   async updateGraph () {
