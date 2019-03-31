@@ -10,7 +10,7 @@ const KEY_ESCAPE = 27
 @bindable({
   name: 'value',
   defaultValue: '',
-  defaultBindingMode: bindingMode.oneWay
+  defaultBindingMode: bindingMode.twoWay
 })
 @bindable('search')
 @bindable('select')

@@ -1,4 +1,4 @@
-import { inject, customElement } from 'aurelia-framework'
+import { inject, customElement, bindable } from 'aurelia-framework'
 import { CssAnimator } from 'aurelia-animator-css'
 import { EventAggregator } from 'aurelia-event-aggregator'
 import { DialogService } from 'aurelia-dialog'
@@ -8,6 +8,7 @@ import { StandUpDialog } from '../dialogs/stand-up'
 import { SettingsDialog } from '../dialogs/settings'
 import { SettingsService } from '../services/settings'
 
+@bindable('showRefresh')
 @inject(CssAnimator, Element, EventAggregator, DialogService, SettingsService)
 @customElement('popup-menu')
 export class PopupMenu {
