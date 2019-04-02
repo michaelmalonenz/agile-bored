@@ -85,26 +85,36 @@ export class Reports {
       fill: '-1',
       data: []
     }
-    let lastDay, lastTotal
+    const estimate = {
+      label: 'Estimate',
+      data: [],
+      borderDash: [5, 10],
+      type: 'line',
+      spanGaps: false
+    }
     for (let day of Object.keys(data)) {
       const date = new moment(day, 'YYYY-MM-DD')
       toDo.data.push({x: date, y: data[day].toDo})
       inProgress.data.push({x: date, y: data[day].inProgress})
       resolved.data.push({x: date, y: data[day].resolved})
-      lastDay = date
-      lastTotal = data[day].toDo + data[day].inProgress
+      estimate.data.push({x: date, y: undefined})
     }
+    const estimateStart = result.estimate.start
+    const estimateEnd = result.estimate.end
+    estimate.data.push({
+      x: new moment(estimateStart.date, 'YYYY-MM-DD'),
+      y: estimateStart.value
+    },{
+      x: new moment(estimateEnd.date, 'YYYY-MM-DD'),
+      y: estimateEnd.value
+    })
+    toDo.data.push({x: new moment(estimateEnd.date, 'YYYY-MM-DD'), y: undefined})
+    inProgress.data.push({x: new moment(estimateEnd.date, 'YYYY-MM-DD'), y: undefined})
+    resolved.data.push({x: new moment(estimateEnd.date, 'YYYY-MM-DD'), y: undefined})
 
     this.loadingData = false
     if (this.chart) {
       this.chart.destroy()
-    }
-    
-    const estimate = {
-      label: 'Estimate',
-      data: [{x: new moment(lastDay), y: lastTotal}, {x: this.completionDate, y: 0}],
-      borderDash: [5, 10],
-      type: 'line'
     }
 
     const context = this.element.querySelector('#chart').getContext('2d')
@@ -119,6 +129,11 @@ export class Reports {
         ]
       },
       options: {
+        elements: {
+          point: {
+            radius: 1,
+          }
+        },
         animation: {
           duration: 0
         },

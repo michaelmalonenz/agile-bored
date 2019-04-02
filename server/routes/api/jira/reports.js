@@ -59,12 +59,22 @@ module.exports = {
               issues.push(current)
             }
             const start = req.query.start ? moment(req.query.start, 'YYYY-MM-DD') : moment(epic.fields.created)
-            const end = req.query.end ? moment(req.query.end, 'YYYY-MM-DD') : moment()
+            const end = req.query.end ? moment(req.query.end, 'YYYY-MM-DD') : moment().endOf('day')
             const data = getEpicData(issues, start, end)
             const estimateDays = getEstimatedDaysRemaining(times)
+            const estimateValues = data[end.format('YYYY-MM-DD')] || { toDo: 0, inProgress: 0 }
             const resultViewmodel = {
               data: data,
-              estimatedCompletion: moment().add(estimateDays, 'days').toISOString()
+              estimate: {
+                start: {
+                  date: end.format('YYYY-MM-DD'),
+                  value: estimateValues.toDo + estimateValues.inProgress
+                },
+                end: {
+                  date: moment().add(estimateDays, 'days').format('YYYY-MM-DD'),
+                  value: 0
+                }
+              }
             }
             res.send(resultViewmodel)
           })
@@ -74,7 +84,7 @@ module.exports = {
 
 function getEpicData (issues, start, end) {
   const data = {}
-  for (let current = start; current.isBefore(end); current.add(1, 'day')) {
+  for (let current = start; current.isSameOrBefore(end); current.add(1, 'day')) {
     const currentDatum = {
       resolved: 0,
       inProgress: 0,
