@@ -3,7 +3,8 @@
     <div class="input-group">
         <input type="text" class="form-control" aria-label="Search"
           aria-describedby="search-button" placeholder.bind="placeholder"
-          value.two-way="value" keyup.trigger="keyUp($event) & debounce:300">
+          value.two-way="value" keyup.trigger="keyUp($event) & debounce:300"
+          disabled.bind="disabled">
         <div class="input-group-append" if.bind="!compact">
           <button class="btn btn-outline-secondary" type="button" click.delegate="_search($event)">
             <i class="fas fa-search"></i>

@@ -13,6 +13,11 @@ import Pikaday from 'pikaday'
   attribute: 'max-date'
 })
 @bindable('label')
+@bindable({
+  name: 'disabled',
+  defaultValue: false,
+  defaultBindingMode: bindingMode.oneWay
+})
 @customElement('date-picker')
 @inject(Element)
 export class DatePicker {

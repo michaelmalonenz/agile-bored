@@ -24,6 +24,11 @@ import { KEY_CODES } from '../utils/key-codes'
   defaultBindingMode: bindingMode.twoWay
 })
 @bindable('view')
+@bindable({
+  name: 'disabled',
+  defaultValue: false,
+  defaultBindingMode: bindingMode.oneWay
+})
 @inject(Element, TaskQueue)
 export class Autocomplete {
   constructor (element, taskQueue) {
