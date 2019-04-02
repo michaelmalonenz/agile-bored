@@ -1,0 +1,12 @@
+<template>
+  <div class="input-group">
+    <input type="text" class="form-control ${hasError ? 'is-invalid' : ''}" aria-label="Search"
+      aria-describedby="search-button" placeholder="issue key"
+      value.two-way="value" keyup.trigger="keyUp($event)" disabled.bind="disabled">
+    <div class="input-group-append" if.bind="!compact">
+      <button class="btn btn-outline-secondary" type="button" click.delegate="_search($event)" >
+        <i class="fas ${searching ? 'fa-circle-notch fa-spin' : 'fa-bolt'}"></i>
+      </button>
+    </div>
+  </div>
+</template>

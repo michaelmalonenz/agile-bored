@@ -1,6 +1,5 @@
 import {bindable, bindingMode, inject, TaskQueue, computedFrom} from 'aurelia-framework'
-
-const KEY_ESCAPE = 27
+import { KEY_CODES } from '../utils/key-codes'
 
 @bindable({
   name: 'placeholder',
@@ -47,7 +46,7 @@ export class Autocomplete {
   }
 
   async keyUp (event) {
-    if (event.keyCode === KEY_ESCAPE) {
+    if (event.keyCode === KEY_CODES.ESCAPE) {
       event.stopPropagation()
       this.toggleEdit()
       return true

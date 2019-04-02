@@ -5,7 +5,8 @@ import {parseQueryString} from 'aurelia-path'
 import {SecuritySettings} from './security-settings'
 import {UserService} from '../services/users'
 
-const KEY_ENTER = 13
+import { KEY_CODES } from '../utils/key-codes'
+
 
 @inject(Router, UserService)
 export class Login {
@@ -39,7 +40,7 @@ export class Login {
   }
 
   _keypressHandler (e) {
-    if (e.which === KEY_ENTER) {
+    if (e.which === KEY_CODES.ENTER) {
       return this.login()
     }
   }

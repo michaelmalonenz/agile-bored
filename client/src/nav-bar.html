@@ -15,6 +15,9 @@
     <div class="collapse navbar-collapse">
       <project-panel></project-panel>
     </div>
+    <div class="navbar-nav mr-2 justify-content-md-end">
+      <quick-issue-panel if.bind="loggedIn"></quick-issue-panel>
+    </div>
 
     <div class="navbar-nav d-flex flex-row align-items-center">
       <div class="loader ${isLoading ? 'visible' : 'invisible'}" >
