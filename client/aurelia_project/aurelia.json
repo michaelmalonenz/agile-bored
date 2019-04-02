@@ -166,6 +166,17 @@
             "deps": [
               "moment"
             ]
+          },
+          {
+            "name": "chart.js",
+            "path": "../node_modules/chart.js/dist",
+            "main": "Chart.bundle.min.js",
+            "resources": [
+              "Chart.min.css"
+            ],
+            "deps": [
+              "moment"
+            ]
           }
         ]
       }
