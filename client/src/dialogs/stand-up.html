@@ -13,13 +13,26 @@
       <div if.bind="!loading" class="stand-up-display">
         <div class="stand-up-display-area clearfix">
           <div class="stand-up-active-panel">
-            <compose if.bind="displayingIssue" view="issues/stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
-            <comments-list if.bind="displayingComments" issue-id.bind="displayedIssueId" comments.bind="displayedIssueComments"></comments-list>
-            <!-- Consider having a history tab, also -->
+            <compose if.bind="currentTab === 'description'" view="issues/stand-up-display-issue.html" view-model.bind="displayedIssue"></compose>
+            <comments-list if.bind="currentTab === 'comments'" issue-id.bind="displayedIssueId" comments.bind="displayedIssueComments"></comments-list>
+            <sub-task-list if.bind="currentTab === 'sub-tasks'" issues.bind="displayedIssueChildren" issue-id.bind="displayedIssueId"></sub-task-list>
+            <changelog-display if.bind="currentTab === 'history'" issue-id.bind="displayedIssueId"></changelog-display>
           </div>
           <div class="stand-up-tabs-panel" if.bind="displaying">
-            <div class="stand-up-tab" click.delegate="showView()"><i class="fa fa-eye"></i>&nbsp;View</div>
-            <div class="stand-up-tab" click.delegate="showComments()"><i class="fa fa-commenting"></i>&nbsp;Comments</div>
+            <div class="tab-controls">
+              <div class="tab-control ${currentTab === 'description' ? 'active' : ''}" click.trigger="setTab('description')">
+                <i class="fa fa-book"></i>&nbsp; Description
+              </div>
+              <div class="tab-control ${currentTab === 'comments' ? 'active' : ''}" click.trigger="setTab('comments')">
+                <i class="fa fa-comments"></i>&nbsp; Comments
+              </div>
+              <div if.bind="!subtask" class="tab-control ${currentTab === 'sub-tasks' ? 'active' : ''}" click.trigger="setTab('sub-tasks')">
+                <i class="fa fa-sitemap"></i>&nbsp; Sub Tasks
+              </div>
+              <div class="tab-control ${currentTab === 'history' ? 'active' : ''}" click.trigger="setTab('history')">
+                <i class="fa fa-clock"></i>&nbsp; History
+              </div>
+            </div>
           </div>
         </div>
         <div class="stand-up-issues">

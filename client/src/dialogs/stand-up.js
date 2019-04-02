@@ -16,6 +16,7 @@ export class StandUpDialog {
     this.loading = true
     this.displayedIssue = false
     this.displayingComments = false
+    this.currentTab = null
   }
 
   get contentHeight () {
@@ -44,12 +45,15 @@ export class StandUpDialog {
     return null
   }
 
-  showView () {
-    this.displayingComments = false
+  get displayedIssueChildren () {
+    if (this.displayedIssue) {
+      return this.displayedIssue.children
+    }
+    return null
   }
 
-  showComments () {
-    this.displayingComments = true
+  setTab (tab) {
+    this.currentTab = tab
   }
 
   async bind () {
@@ -80,6 +84,6 @@ export class StandUpDialog {
 
   display (issue) {
     this.displayedIssue = issue
-    this.showView()
+    this.setTab('description')
   }
 }
