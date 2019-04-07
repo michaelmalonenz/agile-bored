@@ -14,6 +14,13 @@
     </div>
     <div class="row hidden-xs issue-mid-row">
       <div class="col-12">
+        <div class="tag" repeat.for="tag of issue.tags">
+          ${tag}
+        </div>
+      </div>
+    </div>
+    <div class="row hidden-xs issue-mid-row">
+      <div class="col-12">
         <div class="date-format" title="Updated At">
           ${issue.updatedAt | date}
         </div>
