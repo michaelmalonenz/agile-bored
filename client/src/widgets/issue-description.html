@@ -19,7 +19,10 @@
       </div>
       <div class="row vertically-center-row">
         <div class="col-3 text-right">Assignee: </div>
-        <div class="col-9"><user-display user.bind="issue.assignee"></user-display></div>
+        <div class="col-9 edit-assignee">
+          <assign-users assignee.bind="issue.assignee" issue-id.bind="issue.id" placement="left"></assign-users>
+          ${issue.assignee.displayName}
+        </div>
       </div>
       <div class="row vertically-center-row">
           <div class="col-3 text-right">Created: </div>
