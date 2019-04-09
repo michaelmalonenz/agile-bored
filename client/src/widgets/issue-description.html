@@ -20,8 +20,7 @@
       <div class="row vertically-center-row">
         <div class="col-3 text-right">Assignee: </div>
         <div class="col-9 edit-assignee">
-          <assign-users assignee.bind="issue.assignee" issue-id.bind="issue.id" placement="left"></assign-users>
-          ${issue.assignee.displayName}
+          <assign-users assignee.bind="issue.assignee" issue-id.bind="issue.id" placement="left" show-username="true"></assign-users>
         </div>
       </div>
       <div class="row vertically-center-row">

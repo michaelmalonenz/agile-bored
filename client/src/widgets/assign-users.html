@@ -1,9 +1,9 @@
 <template>
-  <div class="assign-user avatar-container ${active ? 'assign-active' : ''} ${large ? 'assign-user-large' : ''}"
+  <div class="assign-user avatar-container text-center ${active ? 'assign-active' : ''} ${large ? 'assign-user-large' : ''}"
      click.trigger="clickUser($event)">
     <div if.bind="!hasAssignee" class="far fa-user"></div>
     <img src.bind="avatarUrl" title.bind="displayName" style.bind="avatarStyle" if.bind="hasAssignee"/>
-    <div if.bind="large" style="float: right;">${displayName}</div>
+    <div if.bind="large || showUsername" style="float: right;">${displayName}</div>
     <div class="assign-user-list assign-placement-${placement}" show.bind="active">
       <div class="container-fluid">
         <div class="row assign-list-user unassign" click.trigger="assignUser($event)" if.bind="hasAssignee">

@@ -17,6 +17,12 @@ import { UserService } from '../services/users';
   defaultValue: false
 })
 @bindable({
+  name: 'showUsername',
+  attribute: 'show-username',
+  defaultValue: false,
+  defaultBindingMode: bindingMode.oneWay
+})
+@bindable({
   name: 'placement',
   defaultValue: 'bottom'
 })
