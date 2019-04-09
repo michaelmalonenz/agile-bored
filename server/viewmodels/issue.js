@@ -42,7 +42,7 @@ module.exports = class IssueViewModel {
     result.IssueStatus = StatusViewModel.createFromJira(obj.fields.status)
     result.issueType = IssueTypeViewModel.createFromJira(obj.fields.issuetype, colorObj)
     result.epic = EpicViewModel.createFromJira(obj.fields.epic)
-    result.tags = obj.fields.labels
+    result.tags = obj.fields.labels ? obj.fields.labels : []
     const comments = obj.fields.comment ? obj.fields.comment.comments : []
     for (let comment of comments) {
       result.comments.push(CommentViewModel.createFromJira(comment))
