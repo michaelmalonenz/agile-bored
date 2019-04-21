@@ -98,7 +98,10 @@ function calculateIntoProgressTime (changelogEvents) {
   const statusEvents = changelogEvents.filter(e => e.field === 'status')
   statusEvents.sort((a, b) => a.timestamp - b.timestamp)
   if (statusEvents.length) {
-    return statusEvents.find(e => inProgressStatuses.includes(e.toValue)).timestamp
+    const inProgressEvent = statusEvents.find(e => inProgressStatuses.includes(e.toValue))
+    if (inProgressEvent) {
+      return inProgressEvent.timestamp
+    }
   }
   return null
 }

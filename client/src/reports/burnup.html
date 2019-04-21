@@ -1,0 +1,38 @@
+<template>
+  <form>
+    <div class="row m-2">
+      <div class="col-md-3">
+        <date-picker label="From" value.bind="fromDate" disabled.bind="loadingData"></date-picker>
+      </div>
+      <div class="col-md-3">
+        <date-picker label="To"  value.bind="toDate" disabled.bind="loadingData"></date-picker>
+      </div>
+      <div class="col-md-4 col-lg-5">
+        <div class="form-group">
+          <label>Epic</label>
+          <autocomplete
+            value.bind="epicKey"
+            compact.bind="false"
+            placeholder="search epics"
+            search.call="epicSearch(value)"
+            placeholder="Epic"
+            selected.bind="epic"
+            disabled.bind="loadingData"
+            view="/issues/autocomplete-epic.html">
+          </autocomplete>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-1 d-flex align-items-end">
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit" disabled.bind="loadingData" 
+              click.delegate="updateGraphClick()">
+            <i class="fa fa-sync-alt ${loadingData ? 'fa-spin' : ''}"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div style="position: relative; width: 35vw; margin: auto;">
+    <canvas id="chart" width="400" height="400"></canvas>
+  </div>
+</template>
