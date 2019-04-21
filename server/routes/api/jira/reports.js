@@ -8,30 +8,43 @@ const {
   getEstimatedDaysRemaining
 } = require('./helpers')
 
-const maxResults = 150
-
 const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
-  async cumulativeFlow (req, res) {
-    const start = req.query.start
-    const end = req.query.end
-    const proj = req.settings.jiraProjectName
-    const jql = encodeURIComponent(`project = ${proj} AND \
-((created >= '${start}' AND created <= '${end}') OR \
-(updated >= '${start}' AND updated <= '${end}'))`)
-    const url = `/search?jql=${jql}&maxResults=${maxResults}`
-    const options = jiraRequestBuilder.jira(url, req)
-    const first = await request(options)
-    const total = first.total
-    let results = first.issues.slice(0)
-    for (let current = maxResults; current < total; current += maxResults) {
-      const options = jiraRequestBuilder.jira(`${url}&startAt=${current}`, req)
-      const res = await request(options)
-      results = results.concat(res.issues)
-    }
-    res.send(collateResults(results))
+  getMeasurementStats (req, res) {
+    const jql = encodeURIComponent(
+      `project = ${req.settings.jiraProjectName} AND status = Done AND updated > startOfDay("-14")`)
+    const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`
+    const url = `${urlFragment}?expand=changelog&jql=${jql}&maxResults=100`
+    const options = jiraRequestBuilder.agile(url, req)
+    return request(options).then(result => {
+      const times = []
+      for (let issue of result.issues) {
+        const events = []
+        for (let history of issue.changelog.histories) {
+          events.push(...ChangeLogViewModel.createFromJira(history))
+        }
+        times.push(createTimeViewModel(
+          events,
+          issue.fields.status.name,
+          issue.fields.created)
+        )
+      }
+      const goodTimes = times.filter(t => t.intoProgressTime !== null)
+      console.log(`times.length: ${times.length}, goodTimes.length: ${goodTimes.length}`)
+      const averageLeadTime = goodTimes.reduce((prev, current) => {
+        return prev + (current.intoProgressTime - current.createdAt)
+      }, 0.0) / goodTimes.length
+      const averageCycleTime = goodTimes.reduce((prev, current) => {
+        return prev + (current.completedAt - current.intoProgressTime)
+      }, 0.0) / goodTimes.length
+      res.send({
+        averageLeadTime,
+        averageCycleTime,
+        totalIssuesCompleted: goodTimes.length
+      })
+    })
   },
   epicRemaining (req, res) {
     const options = jiraRequestBuilder.jira(`/issue/${req.query.epicId}`, req)
@@ -113,19 +126,4 @@ function getEpicData (issues, start, end) {
     data[current.format('YYYY-MM-DD')] = currentDatum
   }
   return data
-}
-
-function collateResults (results) {
-  let closedCount = 0
-  for (let issue of results) {
-    if (issue.fields.status.name === 'Done' || issue.fields.status.name === 'Cancelled') {
-      closedCount++
-    }
-  }
-  return {
-    total: results.length,
-    closed: closedCount,
-    notDone: results.length - closedCount,
-    growth: +((results.length - closedCount) / closedCount).toFixed(2)
-  }
 }

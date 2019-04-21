@@ -18,7 +18,8 @@ module.exports = {
       done: statusName === 'Done',
       resolved: resolvedStatuses.includes(statusName),
       createdAt: createdAt,
-      completedAt: calculateCompletedTime(events)
+      completedAt: calculateCompletedTime(events),
+      intoProgressTime: calculateIntoProgressTime(events)
     }
   },
   getEstimatedDaysRemaining (times) {
@@ -91,4 +92,13 @@ function getMaximumDuration (times) {
     return Math.max(...(times.map(t => t.duration)))
   }
   return Infinity
+}
+
+function calculateIntoProgressTime (changelogEvents) {
+  const statusEvents = changelogEvents.filter(e => e.field === 'status')
+  statusEvents.sort((a, b) => a.timestamp - b.timestamp)
+  if (statusEvents.length) {
+    return statusEvents.find(e => inProgressStatuses.includes(e.toValue)).timestamp
+  }
+  return null
 }
