@@ -5,16 +5,19 @@ const ChangeLogViewModel = require('../../../viewmodels/changelog')
 const IssueViewModel = require('../../../viewmodels/issue')
 const {
   createTimeViewModel,
-  getEstimatedDaysRemaining
+  getEstimatedDaysRemaining,
+  getTimeString
 } = require('./helpers')
+
+const ticksInADay = 24 * 60 * 60 * 1000
 
 const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
-  getMeasurementStats (req, res) {
+  westrum (req, res) {
     const jql = encodeURIComponent(
-      `project = ${req.settings.jiraProjectName} AND status = Done AND updated > startOfDay("-14")`)
+      `project = ${req.settings.jiraProjectName} AND status = Done AND type != Epic AND updated > startOfDay("-14")`)
     const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`
     const url = `${urlFragment}?expand=changelog&jql=${jql}&maxResults=100`
     const options = jiraRequestBuilder.agile(url, req)
@@ -32,16 +35,16 @@ module.exports = {
         )
       }
       const goodTimes = times.filter(t => t.intoProgressTime !== null)
-      console.log(`times.length: ${times.length}, goodTimes.length: ${goodTimes.length}`)
-      const averageLeadTime = goodTimes.reduce((prev, current) => {
-        return prev + (current.intoProgressTime - current.createdAt)
-      }, 0.0) / goodTimes.length
-      const averageCycleTime = goodTimes.reduce((prev, current) => {
+      const averageLeadTime = Math.floor(goodTimes.reduce((prev, current) => {
+        console.log(`intoProgress: ${current.intoProgressTime}, createdAt: ${new Date(current.createdAt)}`)
+        return prev + (current.intoProgressTime - new Date(current.createdAt))
+      }, 0.0) / (goodTimes.length * ticksInADay))
+      const averageCycleTime = Math.floor(goodTimes.reduce((prev, current) => {
         return prev + (current.completedAt - current.intoProgressTime)
-      }, 0.0) / goodTimes.length
+      }, 0.0) / (goodTimes.length * ticksInADay))
       res.send({
-        averageLeadTime,
-        averageCycleTime,
+        averageLeadTime: getTimeString(averageLeadTime),
+        averageCycleTime: getTimeString(averageCycleTime),
         totalIssuesCompleted: goodTimes.length
       })
     })

@@ -8,11 +8,10 @@ export class ReportsService {
     this._http = http
   }
 
-  async get (start, end) {
+  async westrum () {
     const res = await this._http
-      .createRequest('/api/reports/cumulativeflow')
+      .createRequest('/api/reports/westrum')
       .asGet()
-      .withParams({ start: start, end: end})
       .send()
 
     return res.content

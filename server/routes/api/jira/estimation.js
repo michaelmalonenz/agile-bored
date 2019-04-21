@@ -3,7 +3,8 @@ const jiraRequestBuilder = require('./jira-request')
 const ChangeLogViewModel = require('../../../viewmodels/changelog')
 const {
   createTimeViewModel,
-  getEstimatedDaysRemaining
+  getEstimatedDaysRemaining,
+  getTimeString
 } = require('./helpers')
 
 module.exports = {
@@ -27,30 +28,6 @@ module.exports = {
         res.send({ estimate: getTimeString(days) })
       })
   }
-}
-
-function getTimeString (days) {
-  let result = ''
-  let weeks = 0
-  let years = 0
-  if (days > 7) {
-    weeks = Math.floor(days / 7)
-    days = days % 7
-  }
-  if (weeks > 52) {
-    years = Math.floor(weeks / 52)
-    weeks = weeks % 52
-  }
-  if (years > 0) {
-    result += `${years} year${years === 1 ? '' : 's'} `
-  }
-  if (weeks > 0) {
-    result += `${weeks} week${weeks === 1 ? '' : 's'} `
-  }
-  if (days > 0) {
-    result += `${days} day${days === 1 ? '' : 's'}`
-  }
-  return result
 }
 
 /**

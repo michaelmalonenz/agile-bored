@@ -1,3 +1,7 @@
 <template>
-  <popup-menu></popup-menu>
+  <table>
+    <tr><th>Lead Time:</th><td>${report.averageLeadTime}</td></tr>
+    <tr><th>Cycle Time:</th><td>${report.averageCycleTime}</td></tr>
+    <tr><th>Throughput:</th><td>${report.totalIssuesCompleted}</td></tr>
+  </table>
 </template>
