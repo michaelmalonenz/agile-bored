@@ -17,7 +17,7 @@ const resolvedStatuses = ['Done', 'Cancelled']
 module.exports = {
   westrum (req, res) {
     const jql = encodeURIComponent(
-      `project = ${req.settings.jiraProjectName} AND status = Done AND type != Epic AND updated > startOfDay("-14")`)
+      `project = ${req.settings.jiraProjectName} AND status = Done AND type in (story, bug, task) AND updated > startOfDay("-14")`)
     const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`
     const url = `${urlFragment}?expand=changelog&jql=${jql}&maxResults=100`
     const options = jiraRequestBuilder.agile(url, req)
@@ -36,7 +36,6 @@ module.exports = {
       }
       const goodTimes = times.filter(t => t.intoProgressTime !== null)
       const averageLeadTime = Math.floor(goodTimes.reduce((prev, current) => {
-        console.log(`intoProgress: ${current.intoProgressTime}, createdAt: ${new Date(current.createdAt)}`)
         return prev + (current.intoProgressTime - new Date(current.createdAt))
       }, 0.0) / (goodTimes.length * ticksInADay))
       const averageCycleTime = Math.floor(goodTimes.reduce((prev, current) => {
