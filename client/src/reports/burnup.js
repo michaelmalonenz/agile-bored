@@ -48,7 +48,7 @@ export class BurnUpReport {
   }
 
   updateUrl () {
-    this.router.navigateToRoute(PLATFORM.moduleName('burnup'), {
+    this.router.navigateToRoute('burnup', {
       epic: this.epic ? this.epic.id : null,
       from: this.fromDate ? this.fromDate.format('YYYY-MM-DD') : null,
       to: this.toDate ? this.toDate.format('YYYY-MM-DD') : null
