@@ -18,14 +18,14 @@ export class Login {
     this.settings = SecuritySettings.instance()
     this.loggingIn = false
     this.loginFailed = false
-    this.redirectModuleId = ''
+    this.redirectFragment = ''
     this.redirectParams = null
 
     this.boundKeyHandler = this._keypressHandler.bind(this)
   }
 
   activate (params) {
-    this.redirectModuleId = params.return || ''
+    this.redirectFragment = params.return || ''
     if (params.query) {
       this.redirectParams = parseQueryString(params.query)
     }
@@ -50,10 +50,9 @@ export class Login {
     this.loggingIn = true
     this.userService.me().then((user) => {
       this.settings.user = user
-      if (this.redirectModuleId) {
-        this.router.navigateToRoute(this.redirectModuleId, this.redirectParams)
-      }
+      return this.router.navigate(this.redirectFragment)
     }).catch(err => {
+      console.log(err)
       this.loggingIn = false
       this.loginFailed = true
     })
