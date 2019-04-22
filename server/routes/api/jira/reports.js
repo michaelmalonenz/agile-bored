@@ -5,11 +5,8 @@ const ChangeLogViewModel = require('../../../viewmodels/changelog')
 const IssueViewModel = require('../../../viewmodels/issue')
 const {
   createTimeViewModel,
-  getEstimatedDaysRemaining,
-  getTimeString
+  getEstimatedDaysRemaining
 } = require('./helpers')
-
-const ticksInADay = 24 * 60 * 60 * 1000
 
 const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
@@ -28,24 +25,15 @@ module.exports = {
         for (let history of issue.changelog.histories) {
           events.push(...ChangeLogViewModel.createFromJira(history))
         }
-        times.push(createTimeViewModel(
+        const time = createTimeViewModel(
           events,
           issue.fields.status.name,
           issue.fields.created)
-        )
+        time.key = issue.key
+        time.title = issue.fields.summary
+        times.push(time)
       }
-      const goodTimes = times.filter(t => t.intoProgressTime !== null)
-      const averageLeadTime = Math.floor(goodTimes.reduce((prev, current) => {
-        return prev + (current.intoProgressTime - new Date(current.createdAt))
-      }, 0.0) / (goodTimes.length * ticksInADay))
-      const averageCycleTime = Math.floor(goodTimes.reduce((prev, current) => {
-        return prev + (current.completedAt - current.intoProgressTime)
-      }, 0.0) / (goodTimes.length * ticksInADay))
-      res.send({
-        averageLeadTime: getTimeString(averageLeadTime),
-        averageCycleTime: getTimeString(averageCycleTime),
-        totalIssuesCompleted: goodTimes.length
-      })
+      res.send(times)
     })
   },
   epicRemaining (req, res) {

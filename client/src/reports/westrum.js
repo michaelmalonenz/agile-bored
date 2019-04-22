@@ -1,6 +1,8 @@
 import { inject } from 'aurelia-framework'
 import { ReportsService } from '../services/reports'
 
+const ticksInADay = 24 * 60 * 60 * 1000
+
 @inject(ReportsService)
 export class Westrum {
   constructor (reportsService) {
@@ -13,7 +15,63 @@ export class Westrum {
   }
 
   async activate () {
-    this.report = await this.reportsService.westrum()
-    console.log(this.report)
+    const times = await this.reportsService.westrum()
+    const goodTimes = times.filter(t => t.intoProgressTime !== null)
+    this.times = goodTimes.map(t => { 
+      return {
+        leadTime: new Date(t.intoProgressTime) - new Date(t.createdAt),
+        leadTimeDays: Math.floor((new Date(t.intoProgressTime) - new Date(t.createdAt)) / ticksInADay),
+        cycleTime: new Date(t.completedAt) - new Date(t.intoProgressTime),
+        cycleTimeDays: Math.floor((new Date(t.completedAt) - new Date(t.intoProgressTime)) / ticksInADay),
+        key: t.key,
+        title: t.title,
+        selected: true 
+      }
+    })
+    this.updateReport() 
   }
+
+  updateReport () {
+    const averageLeadTime = Math.floor(this.times.reduce((prev, current) => {
+      if (current.selected) {
+        return prev + current.leadTime
+      }
+      return prev
+    }, 0.0) / (this.times.length * ticksInADay))
+    const averageCycleTime = Math.floor(this.times.reduce((prev, current) => {
+      if (current.selected) {
+        return prev + current.cycleTime
+      }
+      return prev
+    }, 0.0) / (this.times.length * ticksInADay))
+    this.report = {
+      averageLeadTime: getTimeString(averageLeadTime),
+      averageCycleTime: getTimeString(averageCycleTime),
+      totalIssuesCompleted: this.times.length
+    }
+  }
+}
+
+function getTimeString (days) {
+  let result = ''
+  let weeks = 0
+  let years = 0
+  if (days > 7) {
+    weeks = Math.floor(days / 7)
+    days = days % 7
+  }
+  if (weeks > 52) {
+    years = Math.floor(weeks / 52)
+    weeks = weeks % 52
+  }
+  if (years > 0) {
+    result += `${years} year${years === 1 ? '' : 's'} `
+  }
+  if (weeks > 0) {
+    result += `${weeks} week${weeks === 1 ? '' : 's'} `
+  }
+  if (days > 0) {
+    result += `${days} day${days === 1 ? '' : 's'}`
+  }
+  return result
 }
