@@ -48,7 +48,7 @@ export class Login {
   login () {
     this.settings.initialise(this.username, this.password)
     this.loggingIn = true
-    this.userService.me().then((user) => {
+    return this.userService.me().then((user) => {
       this.settings.user = user
       return this.router.navigate(this.redirectFragment)
     }).catch(err => {

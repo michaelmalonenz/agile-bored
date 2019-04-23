@@ -28,6 +28,9 @@ module.exports = {
             console.log(err)
             return res.sendStatus(503)
           })
+      }).catch(err => {
+        console.error(err)
+        res.send(err, 401)
       })
   },
 
