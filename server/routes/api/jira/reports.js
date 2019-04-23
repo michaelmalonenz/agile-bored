@@ -12,7 +12,7 @@ const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
-  westrum (req, res) {
+  orgStats (req, res) {
     const jql = encodeURIComponent(
       `project = ${req.settings.jiraProjectName} AND status = Done AND type in (story, bug, task) AND updated > startOfDay("-14")`)
     const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`

@@ -4,7 +4,7 @@ export class Reports {
     config.map([
       { route: '', redirect: 'burnup' },
       { route: 'burnup', name: 'burnup', moduleId: 'reports/burnup', nav: true, title: 'Burn Up', auth: true, settings: { icon: 'fa-fire-alt' } },
-      { route: 'westrum', name: 'westrum', moduleId: 'reports/westrum', nav: true, title: 'Westrum', auth: true, settings: { icon: 'fa-ruler' } }
+      { route: 'org-stats', name: 'org-stats', moduleId: 'reports/org-stats', nav: true, title: 'Organization Statistics', auth: true, settings: { icon: 'fa-ruler' } }
     ])
   }
 }

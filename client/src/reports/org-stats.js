@@ -4,7 +4,7 @@ import { ReportsService } from '../services/reports'
 const ticksInADay = 24 * 60 * 60 * 1000
 
 @inject(ReportsService)
-export class Westrum {
+export class OrgStats {
   constructor (reportsService) {
     this.reportsService = reportsService
     this.report = {
@@ -15,7 +15,7 @@ export class Westrum {
   }
 
   async activate () {
-    const times = await this.reportsService.westrum()
+    const times = await this.reportsService.orgStats()
     const goodTimes = times.filter(t => t.intoProgressTime !== null)
     this.times = goodTimes.map(t => { 
       return {

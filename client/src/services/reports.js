@@ -8,9 +8,9 @@ export class ReportsService {
     this._http = http
   }
 
-  async westrum () {
+  async orgStats () {
     const res = await this._http
-      .createRequest('/api/reports/westrum')
+      .createRequest('/api/reports/org-stats')
       .asGet()
       .send()
 

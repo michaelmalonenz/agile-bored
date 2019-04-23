@@ -2,11 +2,11 @@ const localReports = require('./local/reports')
 const jiraReports = require('./jira/reports')
 
 module.exports = function (router) {
-  router.get('/reports/westrum', function (req, res) {
+  router.get('/reports/org-stats', function (req, res) {
     if (req.settings && req.settings.useJira) {
-      return jiraReports.westrum(req, res)
+      return jiraReports.orgStats(req, res)
     }
-    return localReports.westrum(req, res)
+    return localReports.orgStats(req, res)
   })
 
   router.get('/reports/epicremaining', function (req, res) {
