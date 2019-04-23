@@ -2,6 +2,7 @@
   <table>
     <tr><th>Lead Time:</th><td>${report.averageLeadTime}</td></tr>
     <tr><th>Cycle Time:</th><td>${report.averageCycleTime}</td></tr>
+    <tr><th>Commit to Deploy:</th><td>${report.averageCommitToDeploy}</td></tr>
     <tr><th>Throughput:</th><td>${report.totalIssuesCompleted}</td></tr>
   </table>
   <div style="overflow-y: auto; height: 75vh; width: 100%;" class="container-fluid">
@@ -10,14 +11,16 @@
       <div class="col-1">Issue</div>
       <div class="col-1">Lead Time (days)</div>
       <div class="col-1">Cycle Time (days)</div>
-      <div class="col-8">Issue Title</div>
+      <div class="col-1">Commit to Deploy (hours)</div>
+      <div class="col-7">Issue Title</div>
     </div>
     <div class="row" repeat.for="time of times">
       <div class="col-1"><input type="checkbox" change.trigger="updateReport()" checked.bind="time.selected"></div>
       <div class="col-1">${time.key}</div>
       <div class="col-1">${time.leadTimeDays}</div>
       <div class="col-1">${time.cycleTimeDays}</div>
-      <div class="col-8">${time.title}</div>
+      <div class="col-1">${time.commitToDeployHours}</div>
+      <div class="col-7">${time.title}</div>
     </div>
   </div>
 </template>

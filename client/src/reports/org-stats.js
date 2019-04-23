@@ -1,7 +1,8 @@
 import { inject } from 'aurelia-framework'
 import { ReportsService } from '../services/reports'
 
-const ticksInADay = 24 * 60 * 60 * 1000
+const ticksInAnHour = 60 * 60 * 1000
+const ticksInADay = 24 * ticksInAnHour
 
 @inject(ReportsService)
 export class OrgStats {
@@ -10,6 +11,7 @@ export class OrgStats {
     this.report = {
       averageLeadTime: 0,
       averageCycleTime: 0,
+      averageCommitToDeploy: 0,
       totalIssuesCompleted: 0
     }
   }
@@ -23,7 +25,8 @@ export class OrgStats {
         leadTimeDays: Math.floor((new Date(t.completedAt) - new Date(t.createdAt)) / ticksInADay),
         cycleTime: new Date(t.completedAt) - new Date(t.intoProgressTime),
         cycleTimeDays: Math.floor((new Date(t.completedAt) - new Date(t.intoProgressTime)) / ticksInADay),
-        commitToDeploy: new Date(t.completedAt) - new Date(t.intoProgressTime),
+        commitToDeploy: t.commitTime ? new Date(t.completedAt) - new Date(t.commitTime) : 0,
+        commitToDeployHours: t.commitTime ? ((new Date(t.completedAt) - new Date(t.commitTime)) / ticksInAnHour).toFixed(2) : 0,
         key: t.key,
         title: t.title,
         selected: true 
@@ -45,9 +48,16 @@ export class OrgStats {
       }
       return prev
     }, 0.0) / (this.times.length * ticksInADay))
+    const averageCommitToDeploy = this.times.reduce((prev, current) => {
+      if (current.selected) {
+        return prev + current.commitToDeploy
+      }
+      return prev
+    }, 0.0) / (this.times.length * ticksInAnHour)
     this.report = {
       averageLeadTime: getTimeString(averageLeadTime),
       averageCycleTime: getTimeString(averageCycleTime),
+      averageCommitToDeploy: getTimeString(averageCommitToDeploy),
       totalIssuesCompleted: this.times.length
     }
   }
