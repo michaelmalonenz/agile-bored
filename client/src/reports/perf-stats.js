@@ -5,7 +5,7 @@ const ticksInAnHour = 60 * 60 * 1000
 const ticksInADay = 24 * ticksInAnHour
 
 @inject(ReportsService)
-export class OrgStats {
+export class PerfStats {
   constructor (reportsService) {
     this.reportsService = reportsService
     this.report = {
@@ -17,7 +17,7 @@ export class OrgStats {
   }
 
   async activate () {
-    const times = await this.reportsService.orgStats()
+    const times = await this.reportsService.perfStats()
     const goodTimes = times.filter(t => t.intoProgressTime !== null)
     this.times = goodTimes.map(t => { 
       return {

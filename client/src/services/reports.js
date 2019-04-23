@@ -8,9 +8,9 @@ export class ReportsService {
     this._http = http
   }
 
-  async orgStats () {
+  async perfStats () {
     const res = await this._http
-      .createRequest('/api/reports/org-stats')
+      .createRequest('/api/reports/perf-stats')
       .asGet()
       .send()
 
