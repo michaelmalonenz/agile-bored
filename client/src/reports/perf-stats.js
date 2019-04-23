@@ -57,7 +57,7 @@ export class PerfStats {
     this.report = {
       averageLeadTime: getTimeString(averageLeadTime),
       averageCycleTime: getTimeString(averageCycleTime),
-      averageCommitToDeploy: getTimeString(averageCommitToDeploy),
+      averageCommitToDeploy: `${averageCommitToDeploy.toFixed(2)} hours`,
       totalIssuesCompleted: this.times.length
     }
   }
