@@ -19,10 +19,11 @@ export class OrgStats {
     const goodTimes = times.filter(t => t.intoProgressTime !== null)
     this.times = goodTimes.map(t => { 
       return {
-        leadTime: new Date(t.intoProgressTime) - new Date(t.createdAt),
-        leadTimeDays: Math.floor((new Date(t.intoProgressTime) - new Date(t.createdAt)) / ticksInADay),
+        leadTime: new Date(t.completedAt) - new Date(t.createdAt),
+        leadTimeDays: Math.floor((new Date(t.completedAt) - new Date(t.createdAt)) / ticksInADay),
         cycleTime: new Date(t.completedAt) - new Date(t.intoProgressTime),
         cycleTimeDays: Math.floor((new Date(t.completedAt) - new Date(t.intoProgressTime)) / ticksInADay),
+        commitToDeploy: new Date(t.completedAt) - new Date(t.intoProgressTime),
         key: t.key,
         title: t.title,
         selected: true 

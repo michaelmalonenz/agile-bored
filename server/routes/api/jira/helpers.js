@@ -1,5 +1,5 @@
 const ticksInADay = 24 * 60 * 60 * 1000
-const inProgressStatuses = ['In Progress', 'Review', 'Test']
+const inProgressStatuses = ['In Progress', 'In Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
 
 function getGrowthRate (times) {
@@ -13,13 +13,15 @@ function getGrowthRate (times) {
 module.exports = {
   getGrowthRate,
   createTimeViewModel (events, statusName, createdAt) {
+    const statusEvents = events.filter(e => e.field === 'status')
     return {
-      duration: calculateTimeInProgress(events),
+      duration: calculateTimeInProgress(statusEvents),
       done: statusName === 'Done',
       resolved: resolvedStatuses.includes(statusName),
       createdAt: createdAt,
-      completedAt: calculateCompletedTime(events),
-      intoProgressTime: calculateIntoProgressTime(events)
+      completedAt: calculateCompletedTime(statusEvents),
+      intoProgressTime: calculateIntoProgressTime(statusEvents),
+      commitTime: calculateCommitTime(statusEvents)
     }
   },
   getEstimatedDaysRemaining (times) {
@@ -52,8 +54,7 @@ module.exports = {
   }
 }
 
-function calculateCompletedTime (changelogEvents) {
-  const statusEvents = changelogEvents.filter(e => e.field === 'status')
+function calculateCompletedTime (statusEvents) {
   // reverse order
   statusEvents.sort((a, b) => b.timestamp - a.timestamp)
   for (let event of statusEvents) {
@@ -64,8 +65,7 @@ function calculateCompletedTime (changelogEvents) {
   return null
 }
 
-function calculateTimeInProgress (changelogEvents) {
-  const statusEvents = changelogEvents.filter(e => e.field === 'status')
+function calculateTimeInProgress (statusEvents) {
   statusEvents.sort((a, b) => a.timestamp - b.timestamp)
   let duration = 0
   let lastTimestamp = null
@@ -117,13 +117,23 @@ function getMaximumDuration (times) {
   return Infinity
 }
 
-function calculateIntoProgressTime (changelogEvents) {
-  const statusEvents = changelogEvents.filter(e => e.field === 'status')
+function calculateIntoProgressTime (statusEvents) {
   statusEvents.sort((a, b) => a.timestamp - b.timestamp)
   if (statusEvents.length) {
     const inProgressEvent = statusEvents.find(e => inProgressStatuses.includes(e.toValue))
     if (inProgressEvent) {
       return inProgressEvent.timestamp
+    }
+  }
+  return null
+}
+
+function calculateCommitTime (statusEvents) {
+  statusEvents.sort((a, b) => a.timestamp - b.timestamp)
+  if (statusEvents.length) {
+    const inReviewEvent = statusEvents.find(e => e.toValue === 'In Review')
+    if (inReviewEvent) {
+      return inReviewEvent.timestamp
     }
   }
   return null

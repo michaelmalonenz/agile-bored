@@ -8,7 +8,7 @@ const {
   getEstimatedDaysRemaining
 } = require('./helpers')
 
-const inProgressStatuses = ['Blocked', 'In Progress', 'Review', 'Test']
+const inProgressStatuses = ['Blocked', 'In Progress', 'In Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
 
 module.exports = {
