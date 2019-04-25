@@ -24,13 +24,11 @@ module.exports = {
             })
             res.send(UserViewModel.createFromLocal(userObj.get()))
             return userObj.save()
-          }).catch(err => {
-            console.log(err)
-            return res.sendStatus(503)
+          }).catch(_err => {
+            return res.status(503).send('received an error while trying to do DB stuffs')
           })
-      }).catch(err => {
-        console.error(err)
-        res.send(err, 401)
+      }).catch(_err => {
+        res.status(401).send('received an error while trying to log in')
       })
   },
 
