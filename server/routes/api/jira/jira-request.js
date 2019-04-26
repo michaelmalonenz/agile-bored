@@ -2,7 +2,7 @@ const urlJoin = require('url-join')
 
 module.exports = {
   jira: function (apiSuffix, req, method = 'GET') {
-    return _buildRequestOptions('/rest/api/3', apiSuffix, req, method)
+    return _buildRequestOptions('/rest/api/2', apiSuffix, req, method)
   },
   agile: function (apiSuffix, req) {
     return _buildRequestOptions('/rest/agile/1.0', apiSuffix, req)
