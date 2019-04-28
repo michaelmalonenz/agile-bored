@@ -49,7 +49,6 @@ export class Login {
       this.settings.user = user
       return this.router.navigate(this.redirectFragment)
     }).catch(err => {
-      console.log(err)
       this.loggingIn = false
       this.loginFailed = true
     })
