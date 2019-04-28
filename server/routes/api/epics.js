@@ -1,7 +1,7 @@
 /* So, I'm going to fold and decide that Epics aren't a special
  * case of issue, but their own thing.
  */
-const localEpics = require('./local/issues')
+const localEpics = require('./local/epics')
 const jiraEpics = require('./jira/epics')
 
 module.exports = function (router) {
@@ -9,7 +9,7 @@ module.exports = function (router) {
     if (req.settings && req.settings.useJira) {
       return jiraEpics.get(req, res)
     }
-    return localEpics.findAllIssues(req, res)
+    return localEpics.get(req, res)
   })
 
   router.get('/epics/search', function (req, res) {

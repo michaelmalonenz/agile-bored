@@ -65,55 +65,6 @@ module.exports = {
     }
     return _sendList(props, res)
   },
-  searchEpics: function (req, res) {
-    const terms = req.query.search.split(' ').map(t => `%${t}%`)
-    let props = {
-      order: [['createdAt', 'ASC']],
-      include: [{
-        model: db.IssueStatus,
-        required: false,
-        where: { 'name': { [op.ne]: 'Done' } }
-      }, {
-        model: db.IssueType,
-        where: { 'name': { [op.eq]: 'Epic' } }
-      }, {
-        model: db.Comment,
-        as: 'comments',
-        required: false
-      }, {
-        model: db.User,
-        as: 'assignee',
-        required: false
-      }, {
-        model: db.User,
-        as: 'reporter',
-        required: false
-      }, {
-        model: db.Issue,
-        as: 'children',
-        required: false
-      }],
-      where: {
-        [op.or]: {
-          'title': { [op.iLike]: { [op.any]: terms } },
-          'description': { [op.iLike]: { [op.any]: terms } }
-        }
-      },
-      limit: 15
-    }
-    return db.Issue.findAll(props)
-      .then(issues => {
-        const result = []
-        for (let issue of issues) {
-          result.push(EpicViewModel.createFromLocal(issue.dataValues))
-        }
-        res.send(result)
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(500).send(err)
-      })
-  },
   updateStatus: function (req, res) {
     return db.Issue.update(
       { statusId: req.params.statusId, latestEditorId: req.user.id },
