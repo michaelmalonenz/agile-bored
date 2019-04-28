@@ -1,8 +1,6 @@
 import gulp from 'gulp'
 import browserSync from 'browser-sync'
-import historyApiFallback from 'connect-history-api-fallback/lib'
-import {CLIOptions} from 'aurelia-cli'
-import project from '../aurelia.json'
+import { CLIOptions } from 'aurelia-cli'
 import build from './build'
 import watch from './watch'
 
@@ -12,15 +10,9 @@ let serve = gulp.series(
     browserSync({
       online: false,
       open: false,
-      port: 9000,
+      port: 5000,
       logLevel: 'silent',
-      server: {
-        baseDir: [project.platform.baseDir],
-        middleware: [historyApiFallback(), function (req, res, next) {
-          res.setHeader('Access-Control-Allow-Origin', '*')
-          next()
-        }]
-      }
+      proxy: 'localhost:5000'
     }, function (err, bs) {
       if (err) return done(err)
       let urls = bs.options.get('urls').toJS()

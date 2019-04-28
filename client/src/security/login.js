@@ -26,9 +26,6 @@ export class Login {
 
   activate (params) {
     this.redirectFragment = params.return || ''
-    if (params.query) {
-      this.redirectParams = parseQueryString(params.query)
-    }
   }
 
   bind () {
