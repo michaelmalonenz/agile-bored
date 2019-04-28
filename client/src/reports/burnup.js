@@ -5,14 +5,14 @@ import Chart from 'chart.js'
 import moment from 'moment'
 
 import { ReportsService } from '../services/reports'
-import { IssueService } from '../services/issues'
+import { EpicService } from '../services/epics'
 
-@inject(Element, ReportsService, IssueService, Router)
+@inject(Element, ReportsService, EpicService, Router)
 export class BurnUpReport {
-  constructor (element, reportsService, issueService, router) {
+  constructor (element, reportsService, epicService, router) {
     this.element = element
     this.reportsService = reportsService
-    this.issueService = issueService
+    this.epicService = epicService
     this.router = router
 
     this.fromDate = null
@@ -43,7 +43,7 @@ export class BurnUpReport {
       this.toDate = new moment(params.to, 'YYYY-MM-DD')
     }
     if (params.epic) {
-      this.epic = await this.issueService.get(params.epic)
+      this.epic = await this.epicService.get(params.epic)
     }
   }
 
@@ -153,6 +153,6 @@ export class BurnUpReport {
   }
 
   async epicSearch (value) {
-    return await this.issueService.searchEpics(value)
+    return await this.epicService.searchEpics(value)
   }
 }

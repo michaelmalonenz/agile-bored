@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 require('./issues')(router)
+require('./epics')(router)
 require('./status')(router)
 require('./settings')(router)
 require('./user')(router)

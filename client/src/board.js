@@ -3,6 +3,7 @@ import { EventAggregator } from 'aurelia-event-aggregator'
 import { TaskQueue } from 'aurelia-task-queue'
 
 import { IssueService } from './services/issues'
+import { EpicService } from './services/epics'
 import { StatusService } from './services/statuses'
 import { SettingsService } from './services/settings'
 
@@ -10,12 +11,13 @@ import { IssueViewModelFactory } from './factories/issue-viewmodel-factory'
 import { ISSUE_CREATED, ISSUE_DELETED, REFRESH_BOARD, REFRESH_BOARD_COMPLETE } from './events'
 import { AssigneeCache } from './utils/assignees-cache';
 
-@inject(StatusService, IssueService, SettingsService, EventAggregator, TaskQueue)
+@inject(StatusService, IssueService, EpicService, SettingsService, EventAggregator, TaskQueue)
 export class Board {
 
-  constructor(statusService, issueService, settingsService, eventAggregator, queue) {
+  constructor(statusService, issueService, epicService, settingsService, eventAggregator, queue) {
     this.statusService = statusService
     this.issueService = issueService
+    this.epicService = epicService
     this.settingsService = settingsService
     this.eventAggregator = eventAggregator
     this.queue = queue
@@ -117,7 +119,7 @@ export class Board {
       this.settings = settings
       let issuesPromise
       if (settings.groupByEpic) {
-        issuesPromise = this.issueService.getIssuesByEpic()
+        issuesPromise = this.epicService.getIssuesByEpic()
         .then(epics => {
           this.epics = []
           AssigneeCache.clearCache()

@@ -3,15 +3,15 @@ import { DialogController } from 'aurelia-dialog'
 
 import { Issue } from '../models/issue'
 import { IssueTypeService } from '../services/issue-types'
-import { IssueService } from '../services/issues'
+import { EpicService } from '../services/epics'
 import { IssueTypeViewmodel } from '../widgets/issue-type'
 
-@inject(DialogController, IssueTypeService, IssueService)
+@inject(DialogController, IssueTypeService, EpicService)
 export class IssueEditorDialog {
-  constructor (controller, issueTypeService, issueService) {
+  constructor (controller, issueTypeService, epicService) {
     this.controller = controller
     this.issueTypeService = issueTypeService
-    this.issueService = issueService
+    this.epicService = epicService
     this.issue = new Issue()
     this.edit = false
     this.issueTypes = []
@@ -88,7 +88,7 @@ export class IssueEditorDialog {
   }
 
   async epicSearch (value, _event) {
-    return await this.issueService.searchEpics(value)
+    return await this.epicService.searchEpics(value)
   }
 
   close () {

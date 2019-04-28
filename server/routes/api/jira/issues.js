@@ -65,22 +65,6 @@ order by priority ASC`
         res.status(502).send(err)
       })
   },
-  searchEpics: function (req, res) {
-    const term = (req.query.search || '').toLowerCase()
-    return getEpics(req.settings.jiraRapidBoardId, req)
-      .then(epics => {
-        const results = []
-        for (let epic of epics) {
-          if ((epic.name && epic.name.toLowerCase().includes(term)) ||
-              (epic.summary && epic.summary.toLowerCase().includes(term)) ||
-              epic.key.toLowerCase().includes(term)) {
-            results.push(EpicViewModel.createFromJira(epic))
-          }
-        }
-        res.send(results)
-      })
-      .catch(err => res.status(502).send(err))
-  },
   updateStatus: function (req, res) {
     return statusApi.retrieveStatuses(req, req.settings.jiraProjectName)
       .then(statuses => statuses.find(s => s.id === req.params.statusId))
@@ -223,22 +207,6 @@ function getIssues (options, req) {
       return issues
     })
   })
-}
-
-function getEpics (jiraRapidBoardId, req, startAt = 0) {
-  const url = `/board/${jiraRapidBoardId}/epic?done=false&startAt=${startAt}`
-  const options = jiraRequestBuilder.agile(url, req)
-  return request(options)
-    .then(response => {
-      if (!response.isLast) {
-        return getEpics(jiraRapidBoardId, req, startAt + response.maxResults)
-          .then(values => {
-            return values.concat(response.values)
-          })
-      } else {
-        return response.values
-      }
-    })
 }
 
 function groupIssuesByEpic (issues) {
