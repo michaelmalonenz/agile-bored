@@ -1,0 +1,17 @@
+@import "../colours";
+
+.perf-stats-container {
+  overflow-y: auto;
+  height: 75vh;
+  width: 100%;
+
+  .header {
+    background-color: $secondary;
+    color: $primary-text;
+  }
+
+  .stripe {
+    background-color: $bg-light;
+  }
+}
+
