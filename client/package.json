@@ -70,7 +70,7 @@
     "minimatch": "^3.0.2",
     "sinon": "^7.3.2",
     "through2": "^2.0.5",
-    "uglify-js": "^3.5.11",
+    "uglify-js": "^3.5.13",
     "vinyl-fs": "^2.4.3"
   }
 }
