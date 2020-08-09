@@ -4,7 +4,8 @@ module.exports = class UserViewModel {
     this.externalId = ''
     this.displayName = ''
     this.username = ''
-    this.avatar = ''
+    this.avatarUrl = ''
+    this.largeAvatarUrl = ''
     this.createdAt = Date.now()
     this.updatedAt = Date.now()
   }
@@ -14,6 +15,7 @@ module.exports = class UserViewModel {
     if (obj) {
       result = new UserViewModel()
       result.id = obj.accountId
+      result.externalId = obj.accountId
       result.username = obj.name
       result.displayName = obj.displayName
       result.createdAt = obj.created
@@ -33,6 +35,7 @@ module.exports = class UserViewModel {
       result.username = obj.username
       result.displayName = obj.displayName
       result.avatarUrl = obj.avatar
+      result.largeAvatarUrl = obj.avatar
       result.createdAt = obj.created
       result.updatedAt = obj.updated
     }

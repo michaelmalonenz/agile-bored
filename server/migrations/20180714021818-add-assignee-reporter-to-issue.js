@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return [
+    return Promise.all([
       queryInterface.addColumn('issues', 'assigneeId', {
         type: Sequelize.INTEGER,
         references: {
@@ -17,13 +17,13 @@ module.exports = {
           key: 'id'
         }
       })
-    ]
+    ])
   },
 
   down: function (queryInterface, Sequelize) {
-    return [
+    return Promise.all([
       queryInterface.removeColumn('issues', 'assigneeId'),
       queryInterface.removeColumn('issues', 'reporterId')
-    ]
+    ])
   }
 }
