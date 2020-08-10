@@ -26,7 +26,7 @@ export class IssueService {
 
   async get (issueId) {
     const res = await this._http
-      .createRequest(`/api/issue/${issueId}`)
+      .createRequest(`/api/issues/${issueId}`)
       .asGet()
       .withReviver(this._issueReviver)
       .send()
@@ -35,7 +35,7 @@ export class IssueService {
   }
 
   async create (issue) {
-    const res = await this._http.post('/api/issue', issue)
+    const res = await this._http.post('/api/issues', issue)
     return res.content
   }
 
@@ -46,17 +46,17 @@ export class IssueService {
       issueType: issue.issueType,
       epic: issue.epic ? { key: issue.epic.key } : null
     }
-    const res = await this._http.put(`/api/issue/${issue.id}`, toUpdate)
+    const res = await this._http.put(`/api/issues/${issue.id}`, toUpdate)
     return res.content
   }
 
   async updateStatus (issueId, statusId) {
-    const res = await this._http.put(`/api/issue/${issueId}/status/${statusId}`)
+    const res = await this._http.put(`/api/issues/${issueId}/status/${statusId}`)
     return res.content
   }
 
   async delete (issue) {
-    await this._http.delete(`/api/issue/${issue.id}`)
+    await this._http.delete(`/api/issues/${issue.id}`)
   }
 
   async search (searchTerm, fromDate, toDate, includeDone) {
@@ -88,7 +88,7 @@ export class IssueService {
 
   async assign (issueId, assignee) {
     const res = await this._http
-      .createRequest(`/api/issue/${issueId}/assign`)
+      .createRequest(`/api/issues/${issueId}/assign`)
       .asPut()
       .withContent(assignee)
       .send()
@@ -108,7 +108,7 @@ export class IssueService {
 
   async getSubtasks (issueId) {
     const res = await this._http
-      .createRequest(`/api/issue/${issueId}/subtasks`)
+      .createRequest(`/api/issues/${issueId}/subtasks`)
       .asGet()
       .withReviver(this._issueReviver)
       .send()
@@ -117,7 +117,7 @@ export class IssueService {
 
   async getChangeLog (issueId) {
     const res = await this._http
-      .createRequest(`/api/issue/${issueId}/changelog`)
+      .createRequest(`/api/issues/${issueId}/changelog`)
       .asGet()
       .withReviver(this._changeLogReviver)
       .send()

@@ -12,7 +12,7 @@ export class CommentService {
 
   async addComment (issueId, commentBody) {
     const res = await this._http
-      .createRequest(`/api/issue/${issueId}/comment`)
+      .createRequest(`/api/issues/${issueId}/comment`)
       .asPost()
       .withContent({ body: commentBody })
       .withReviver(this._commentReviver)
@@ -23,7 +23,7 @@ export class CommentService {
 
   async findAllForIssue (issueId) {
     const res = await this._http
-      .createRequest(`/api/issue/${issueId}/comments`)
+      .createRequest(`/api/issues/${issueId}/comments`)
       .asGet()
       .withReviver(this._commentReviver)
       .send()
