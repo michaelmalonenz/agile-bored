@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Agile Bored</title>
+    <link rel="stylesheet" href="/static/scripts/css/all.css">
+    <style>
+      .loading-icon-container {
+        display: flex;
+        height: calc(100vh - 66px);
+        align-items: center;
+        font-size: 10vh;
+        justify-content: center;
+        font-family: Arial, Helvetica, sans-serif;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+
+  <body aurelia-app="main">
+    <div class="loading-icon-container">
+      <div>
+        <img src="/static/images/loading.gif" alt="logo">
+      </div>
+    </div>
+    <script src="/static/scripts/vendor-bundle.js"></script>
+    <script>SystemJS.import("aurelia-bootstrapper").catch(function(err) { console.log(err); })</script>
+  </body>
+</html>

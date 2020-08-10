@@ -5,4 +5,8 @@ server/.env
 server/config/config.json
 .vscode/
 client/scripts
+client/static
 oauth-config.json
+.venv/
+server/static/scripts/**/*
+__pycache__
