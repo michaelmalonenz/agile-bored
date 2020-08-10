@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS changelog (
     "field" VARCHAR(255) NOT NULL,
     "oldValue" TEXT NULL,
     "newValue" TEXT NULL,
-    timestamp TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "timestamp" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT FK_changelog_issues FOREIGN KEY("issueId") REFERENCES issues(id),
     CONSTRAINT FK_changelog_users  FOREIGN KEY("authorId") REFERENCES users(id)
 );
@@ -166,6 +166,14 @@ BEGIN
 RETURN NEW;
 END; $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW."updatedAt" = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 DROP TRIGGER IF EXISTS issue_insert_changelog_trigger ON issues;
 CREATE TRIGGER issue_insert_changelog_trigger AFTER INSERT
 ON issues FOR EACH ROW EXECUTE PROCEDURE changelogIssueInsert();
@@ -173,3 +181,19 @@ ON issues FOR EACH ROW EXECUTE PROCEDURE changelogIssueInsert();
 DROP TRIGGER IF EXISTS issue_update_changelog_trigger ON issues;
 CREATE TRIGGER issue_update_changelog_trigger AFTER UPDATE
 ON issues FOR EACH ROW EXECUTE PROCEDURE changelogIssueDiff();
+
+DROP TRIGGER IF EXISTS set_update_timestamp ON issues;
+CREATE TRIGGER set_update_timestamp BEFORE UPDATE
+ON issues FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
+
+DROP TRIGGER IF EXISTS set_update_timestamp ON issue_types;
+CREATE TRIGGER set_update_timestamp BEFORE UPDATE
+ON issue_types FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
+
+DROP TRIGGER IF EXISTS set_update_timestamp ON users;
+CREATE TRIGGER set_update_timestamp BEFORE UPDATE
+ON users FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
+
+DROP TRIGGER IF EXISTS set_update_timestamp ON issue_statuses;
+CREATE TRIGGER set_update_timestamp BEFORE UPDATE
+ON issue_statuses FOR EACH ROW EXECUTE PROCEDURE trigger_set_timestamp();
