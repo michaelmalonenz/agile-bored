@@ -11,7 +11,7 @@
       {
         "id": "web",
         "displayName": "Web",
-        "index": "../server/views/index.html",
+        "index": "../server/templates/index.html",
         "baseDir": ".",
         "output": "static/scripts"
       }
