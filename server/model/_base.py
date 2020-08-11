@@ -1,10 +1,16 @@
 class BaseModel:
-    def __init__(self):
-        self.id = 0
+    def __init__(self, id_ = 0):
+        self.id = id_
 
-    def to_dict(self):
+    def to_db_dict(self):
         return {'id', self.id}
 
-    def from_dict(self, obj):
+    @classmethod
+    def from_db_dict(cls, obj):
+        instance = cls()
         for key, value in obj.items():
-            setattr(self, key, value)
+            setattr(instance, key, value)
+        return instance
+
+    def to_viewmodel(self):
+        return {'id': self.id}

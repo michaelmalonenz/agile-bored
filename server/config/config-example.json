@@ -1,23 +1,7 @@
 {
-  "development": {
-    "username": "board",
-    "password": null,
-    "database": "board_development",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  },
-  "test": {
-    "username": "board",
-    "password": null,
-    "database": "board_test",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  },
-  "production": {
-    "username": "board",
-    "password": null,
-    "database": "board",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
-  }
+  "username": "board",
+  "password": "",
+  "database": "board_development",
+  "host": "127.0.0.1",
+  "dialect": "postgres"
 }

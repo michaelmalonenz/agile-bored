@@ -1,9 +1,26 @@
-from flask import Flask, render_template
+import json
+from flask import Flask, render_template, g
 from api import API_APP
+from repository import DatabaseConnector
 
 
 app = Flask(__name__)
 app.register_blueprint(API_APP, url_prefix='/api')
+
+DB_CONFIG = None
+
+
+def read_db_config():
+    global DB_CONFIG
+    if DB_CONFIG is None:
+        with open('config/config.json') as inf:
+            DB_CONFIG = json.load(inf)
+    return DB_CONFIG
+
+
+@app.before_request
+def connect_to_db():
+    g.db = DatabaseConnector(**read_db_config())
 
 
 @app.route('/', methods=['GET'])

@@ -7,14 +7,15 @@ LOG = logging.getLogger(__name__)
 
 
 class DatabaseConnector:
-    def __init__(self, database='', user='', password='', host='localhost', port=5432):
+    def __init__(self, database='', username='', password='', host='localhost', port=5432):
         self._cur = None
         self._db = None
         self.db_host = host
         self.db_port = port
         self.db_database = database
-        self.db_user = user
+        self.db_user = username
         self.db_pass = password
+        self._connect()
 
     def _connect(self):
         if self._db is None:
@@ -34,7 +35,7 @@ class DatabaseConnector:
         """Execute an insertion"""
         self._cursor().execute(sql, paras)
 
-    def do_fetch(self, sql, paras=None):
+    def fetch(self, sql, paras=None):
         cur = self._cursor()
         cur.execute(sql, paras)
         return cur.fetchall()
