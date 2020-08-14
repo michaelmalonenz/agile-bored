@@ -1,10 +1,13 @@
 import json
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, session
+from flask_dotenv import DotEnv
 from api import API_APP
 from repository import DatabaseConnector
 
 
 app = Flask(__name__)
+env = DotEnv()
+env.init_app(app)
 app.register_blueprint(API_APP, url_prefix='/api')
 
 DB_CONFIG = None

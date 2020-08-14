@@ -3,11 +3,15 @@ from ._base import BaseModel
 
 class Status(BaseModel):
 
-    def __init__(self, db):
-        super().__init__(db)
-        self.name = ''
-        self.created_at = ''
-        self.updated_at = ''
+    def __init__(self, id_, name='', created='', updated=''):
+        super().__init__(id_)
+        self.name = name
+        self.created_at = created
+        self.updated_at = updated
+
+    @classmethod
+    def from_db_dict(cls, obj):
+        return cls(obj.get('id'), obj.get('name'), obj.get('createAt'), obj.get('updatedAt'))
 
     def to_viewmodel(self):
         return {

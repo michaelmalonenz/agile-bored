@@ -31,14 +31,19 @@ class DatabaseConnector:
     def _create_cursor(self):
         return self._connect().cursor(cursor_factory=DictCursor)
 
-    def execute(self, sql, paras=None):
+    def execute(self, sql, params=None):
         """Execute an insertion"""
-        self._cursor().execute(sql, paras)
+        self._cursor().execute(sql, params)
 
-    def fetch(self, sql, paras=None):
+    def fetch(self, sql, params=None):
         cur = self._cursor()
-        cur.execute(sql, paras)
+        cur.execute(sql, params)
         return cur.fetchall()
+
+    def fetch_one(self, sql, params=None):
+        cur = self._cursor()
+        cur.execute(sql, params)
+        return cur.fetchone()
 
     def commit_changes(self):
         """Commit changes made to the DB"""
