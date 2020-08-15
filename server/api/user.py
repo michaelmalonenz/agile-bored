@@ -1,9 +1,12 @@
+from flask import g, jsonify
 from .app import API_APP
 
 
 @API_APP.route('/me')
 def get_logged_in_user():
-    return ('', 200)
+    if hasattr(g, 'current_user'):
+        return jsonify(g.current_user.to_viewmodel())
+    return ('', 404)
 
 
 @API_APP.route('/users/search')
