@@ -5,7 +5,7 @@ from flask import Flask, render_template, g, session, redirect
 from flask_dotenv import DotEnv
 from authlib.integrations.flask_client import OAuth
 from api import API_APP
-from repository import DatabaseConnector
+from repository import DatabaseConnector, SettingsRepository
 from repository.local import UserRepository
 
 
@@ -77,6 +77,7 @@ def connect_to_db():
     if 'profile' in session:
         g.current_user = UserRepository(g.db).get_by_external_id(
             session['profile']['user_id'])
+        g.user_settings = SettingsRepository(g.db).read_for_user(g.current_user.id)
 
 
 def requires_auth(f):

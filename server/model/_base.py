@@ -14,3 +14,10 @@ class BaseModel:
 
     def to_viewmodel(self):
         return {'id': self.id}
+
+    @classmethod
+    def from_viewmodel(cls, viewmodel):
+        instance = cls()
+        for key, value in viewmodel.items():
+            setattr(instance, key, value)
+        return instance
