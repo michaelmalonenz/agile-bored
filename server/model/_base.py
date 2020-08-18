@@ -3,7 +3,7 @@ class BaseModel:
         self.id = id_
 
     def to_db_dict(self):
-        return {'id', self.id}
+        return {'id': self.id}
 
     @classmethod
     def from_db_dict(cls, obj):

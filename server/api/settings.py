@@ -13,5 +13,5 @@ def get_settings():
 def save_settings():
     repo = SettingsRepository(g.db)
     g.user_settings = repo.upsert_user_settings(
-        Settings.from_viewmodel(request.json()))
+        Settings.from_viewmodel(request.json))
     return jsonify(g.user_settings.to_viewmodel())

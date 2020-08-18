@@ -17,9 +17,9 @@ class SettingsRepository:
             '(%(jiraUrl)s, %(jiraProjectName)s, %(jiraRapidBoardId)s, %(useJira)s,'
             '%(groupByEpic)s, %(jiraEpicField)s, %(userId)s) '
             'ON CONFLICT ("userId") DO UPDATE SET '
-            'jiraUrl = %(jiraUrl)s, jiraProjectName = %(jiraProjectName)s, '
-            'jiraRapidBoardId = %(jiraRapidBoardId)s, useJira = %(useJira)s, '
-            'groupByEpic = %(groupByEpic)s, jiraEpicField = %(jiraEpicField)s'
+            '"jiraUrl" = %(jiraUrl)s, "jiraProjectName" = %(jiraProjectName)s, '
+            '"jiraRapidBoardId" = %(jiraRapidBoardId)s, "useJira" = %(useJira)s, '
+            '"groupByEpic" = %(groupByEpic)s, "jiraEpicField" = %(jiraEpicField)s'
             'RETURNING *;'
         )
         return Settings.from_db_dict(self.db.fetch_one(sql, settings.to_db_dict()))

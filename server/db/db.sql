@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
     "displayName" VARCHAR(255),
     "avatar" TEXT,
     "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMPTZ
+    "updatedAt" TIMESTAMPTZ,
+    CONSTRAINT UQ_users_externalId UNIQUE ("externalId")
 );
 
 CREATE TABLE IF NOT EXISTS issue_statuses (
@@ -76,7 +77,8 @@ CREATE TABLE IF NOT EXISTS settings (
     "groupByEpic" BOOLEAN,
     "jiraEpicField" VARCHAR(255),
     "userId" INT,
-    CONSTRAINT FK_settings_user FOREIGN KEY("userId") REFERENCES users(id)
+    CONSTRAINT FK_settings_user FOREIGN KEY("userId") REFERENCES users(id),
+    CONSTRAINT UQ_settings_userId UNIQUE ("userId")
 );
 
 CREATE TABLE IF NOT EXISTS "version" (
