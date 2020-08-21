@@ -3,14 +3,14 @@ from ._base import BaseModel
 
 class User(BaseModel):
 
-    def __init__(self):
-        super().__init__()
-        self.externalId = ''
-        self.username = ''
-        self.displayName = ''
-        self.avatar = ''
-        self.createdAt = ''
-        self.updatedAt = ''
+    def __init__(self, id_=0, externalId='', username='', displayName='', avatar='', created='', updated=''):
+        super().__init__(id_)
+        self.externalId = externalId
+        self.username = username
+        self.displayName = displayName
+        self.avatar = avatar
+        self.createdAt = created
+        self.updatedAt = updated
 
     def to_viewmodel(self):
         return {

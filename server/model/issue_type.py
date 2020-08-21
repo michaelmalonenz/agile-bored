@@ -2,7 +2,7 @@ from ._base import BaseModel
 
 
 class IssueType(BaseModel):
-    def __init__(self, id_=0, name='', colour='', subtask=False):
+    def __init__(self, id_, name='', colour='', subtask=False):
         super().__init__(id_)
         self.name = name
         self.colour = colour
