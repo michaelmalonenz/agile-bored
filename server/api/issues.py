@@ -1,9 +1,13 @@
+from flask import g, jsonify
+from repository.local import IssueRepository
 from .app import API_APP
 
 
 @API_APP.route('/issues')
 def get_issues():
-    return ('', 200)
+    repo = IssueRepository(g.db)
+    results = repo.get_in_progress()
+    return jsonify([issue.to_viewmodel() for issue in results])
 
 
 @API_APP.route('/issues-by-epic')
@@ -13,7 +17,9 @@ def get_issues_by_epic():
 
 @API_APP.route('/issue/<int:issue_id>')
 def get_issue(issue_id):
-    return ('', 200)
+    repo = IssueRepository(g.db)
+    issue = repo.get_by_id(issue_id)
+    return jsonify(issue.to_viewmodel())
 
 
 @API_APP.route('/issues/search')

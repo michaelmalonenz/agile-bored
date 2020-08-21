@@ -9,7 +9,7 @@ class UserRepository(BaseRepo):
             'INSERT INTO users ("externalId","username","displayName","avatar") VALUES '
             '(%(externalId)s, %(username)s, %(displayName)s, %(avatar)s) '
             'ON CONFLICT ("externalId") DO UPDATE SET '
-            'username = %(username)s, displayName = %(displayName)s, avatar = %(avatar)s'
+            '"username" = %(username)s, "displayName" = %(displayName)s, "avatar" = %(avatar)s'
             'RETURNING *;'
         )
         params = {
