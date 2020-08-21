@@ -7,19 +7,14 @@ class Issue(BaseModel):
         super().__init__()
         self.description = ''
         self.title = ''
-        self.rank = 0
-        self.statusId = 0
-        self.typeId = 0
-        self.assigneeId = 0
-        self.reporterId = 0
-        self.parentId = 0
-        self.latestEditorId = 0
+        self.key = ''
         self.createdAt = ''
         self.updatedAt = ''
 
     def to_viewmodel(self):
         return {
             'id': self.id,
+            'key': self.key,
             'description': self.description,
             'title': self.title,
             'updatedAt': self.updatedAt,
