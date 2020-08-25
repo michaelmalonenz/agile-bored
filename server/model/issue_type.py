@@ -8,6 +8,10 @@ class IssueType(BaseModel):
         self.colour = colour
         self.subtask = subtask
 
+    @classmethod
+    def from_db_dict(cls, obj):
+        return cls(obj.get('id'), obj.get('name'), obj.get('colour'), obj.get('subtask'))
+
     def to_viewmodel(self):
         return {
             'id': self.id,
