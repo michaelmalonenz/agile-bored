@@ -78,7 +78,7 @@ class Issue(BaseModel):
             'title': self.title,
             'updatedAt': self.updatedAt,
             'createdAt': self.createdAt,
-            'IssueStatus': self.status.to_viewmodel() if self.status else None,
+            'issueStatus': self.status.to_viewmodel() if self.status else None,
             'issueType': self.type.to_viewmodel() if self.type else None,
             'assignee': self.assignee.to_viewmodel() if self.assignee else None,
             'reporter': self.reporter.to_viewmodel() if self.reporter else None,

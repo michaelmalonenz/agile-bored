@@ -43,10 +43,10 @@ export class Issue {
     return ''
   }
 
-  @computedFrom('issue.IssueStatus.name')
+  @computedFrom('issue.issueStatus.name')
   get statusName () {
-    if (this.issue && this.issue.IssueStatus && this.issue.IssueStatus.name) {
-      return this.issue.IssueStatus.name
+    if (this.issue && this.issue.issueStatus && this.issue.issueStatus.name) {
+      return this.issue.issueStatus.name
     }
     return ''
   }
@@ -70,8 +70,8 @@ export class Issue {
       if (!response.wasCancelled) {
         this.issue = await this.issueService.update(response.output)
       }
-      const updatedStatus = response.output.IssueStatus || {}
-      if (this.issue.IssueStatus.id !== updatedStatus.id) {
+      const updatedStatus = response.output.issueStatus || {}
+      if (this.issue.issueStatus.id !== updatedStatus.id) {
         this.eventAggregator.publish(REFRESH_BOARD)
       }
     })

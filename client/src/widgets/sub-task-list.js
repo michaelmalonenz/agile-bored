@@ -69,9 +69,9 @@ export class SubTaskList {
     }
 
     async updateDisplayStatus(status) {
-      if (this.display.IssueStatus.id !== status.id) {
+      if (this.display.issueStatus.id !== status.id) {
         await this.issueService.updateStatus(this.display.id, status.id)
-        this.display.IssueStatus = status
+        this.display.issueStatus = status
         this.requiresRefresh = true
       }
     }

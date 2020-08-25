@@ -126,7 +126,7 @@ export class IssueService {
 
   _issueReviver (key, value) {
     if (key !== '' && value != null && typeof value === 'object' && isNaN(key)) {
-      if (key === 'IssueStatus') {
+      if (key === 'issueStatus') {
         return new Status(value)
       } else if (key === 'assignee') {
         return new User(value)

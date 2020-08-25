@@ -16,6 +16,6 @@ export class IssueDescription {
 
   async updateStatus (status) {
     await this.issueService.updateStatus(this.issue.id, status.id)
-    this.issue.IssueStatus = status
+    this.issue.issueStatus = status
   }
 }
