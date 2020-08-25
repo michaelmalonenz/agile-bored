@@ -39,3 +39,15 @@ class IssueRepository(BaseRepo):
         )
         results = self.db.fetch(sql, {})
         return [Issue.from_db_dict(x) for x in results]
+
+    def assign(self, assignee_id, issue_id, editor_id):
+        sql = (
+            'UPDATE issues SET "assigneeId" = %(assignee)s, "latestEditorId" = %(editor)s '
+            'WHERE id = %(issue_id)s;'
+        )
+        self.db.execute(sql, {
+            'assignee': assignee_id,
+            'editor': editor_id,
+            'issue_id': issue_id,
+        })
+        return self.get_by_id(issue_id)
