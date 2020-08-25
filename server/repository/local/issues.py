@@ -40,6 +40,11 @@ class IssueRepository(BaseRepo):
         results = self.db.fetch(sql, {})
         return [Issue.from_db_dict(x) for x in results]
 
+    def get_children(self, issue_id):
+        sql = BASE_ISSUE_SELECTOR + 'WHERE i."parentId" = %(id)s;'
+        results = self.db.fetch(sql, {'id': issue_id})
+        return [Issue.from_db_dict(x) for x in results]
+
     def assign(self, assignee_id, issue_id, editor_id):
         sql = (
             'UPDATE issues SET "assigneeId" = %(assignee)s, "latestEditorId" = %(editor)s '
@@ -47,6 +52,18 @@ class IssueRepository(BaseRepo):
         )
         self.db.execute(sql, {
             'assignee': assignee_id,
+            'editor': editor_id,
+            'issue_id': issue_id,
+        })
+        return self.get_by_id(issue_id)
+
+    def update_status(self, issue_id, status_id, editor_id):
+        sql = (
+            'UPDATE issues SET "statusId" = %(status_id)s, "latestEditorId" = %(editor)s '
+            'WHERE id = %(issue_id)s;'
+        )
+        self.db.execute(sql, {
+            'status_id': status_id,
             'editor': editor_id,
             'issue_id': issue_id,
         })

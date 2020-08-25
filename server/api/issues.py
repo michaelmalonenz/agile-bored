@@ -15,7 +15,7 @@ def get_issues_by_epic():
     return ('', 200)
 
 
-@API_APP.route('/issue/<int:issue_id>', methods=["GET"])
+@API_APP.route('/issues/<int:issue_id>', methods=['GET'])
 def get_issue(issue_id):
     repo = IssueRepository(g.db)
     issue = repo.get_by_id(issue_id)
@@ -57,7 +57,9 @@ def assign_issue(issue_id):
 
 @API_APP.route('/issues/<int:issue_id>/status/<int:status_id>', methods=['PUT'])
 def update_issue_status(issue_id, status_id):
-    return ('', 200)
+    repo = IssueRepository(g.db)
+    issue = repo.update_status(issue_id, status_id, g.current_user.id)
+    return jsonify(issue.to_viewmodel())
 
 
 @API_APP.route('/issues/<int:issue_id>', methods=['DELETE'])
@@ -66,10 +68,12 @@ def delete_issue(issue_id):
 
 
 @API_APP.route('/issues/<int:issue_id>/subtasks', methods=["GET"])
-def get_issue_subtasks():
-    return ('', 200)
+def get_issue_subtasks(issue_id):
+    repo = IssueRepository(g.db)
+    results = repo.get_children(issue_id)
+    return jsonify([issue.to_viewmodel() for issue in results])
 
 
 @API_APP.route('/issues/<int:issue_id>/changelog', methods=["GET"])
-def get_issue_changelog():
+def get_issue_changelog(issue_id):
     return ('', 200)
