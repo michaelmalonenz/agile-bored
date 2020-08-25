@@ -1,7 +1,9 @@
+import logging
 from ._base import BaseRepo
 from model import Issue
 
 
+LOGGER = logging.getLogger(__name__)
 BASE_ISSUE_SELECTOR = (
     "SELECT i.id, CONCAT('AB-', CAST(i.id AS VARCHAR)) AS key, i.title, i.description, "
     'i."createdAt", i."updatedAt", '
@@ -68,3 +70,22 @@ class IssueRepository(BaseRepo):
             'issue_id': issue_id,
         })
         return self.get_by_id(issue_id)
+
+    def create(self, issue, reporter_id):
+        sql = (
+            'INSERT INTO issues (description, title, "typeId", "statusId", '
+            '"parentId", "reporterId", "latestEditorId") '
+            'VALUES (%(description)s, %(title)s, %(type_id)s, '
+            "(SELECT id FROM issue_statuses WHERE name = 'Todo'), "
+            '%(parent_id)s, %(reporter)s, %(editor)s) '
+            'RETURNING *;'
+        )
+        created = self.db.fetch_one(sql, {
+            'description': issue.get('description'),
+            'title': issue.get('title'),
+            'type_id': issue.get('issueType', {}).get('id'),
+            'parent_id': issue.get('parentId'),
+            'reporter': reporter_id,
+            'editor': reporter_id,
+        })
+        return self.get_by_id(created['id'])

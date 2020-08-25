@@ -39,7 +39,9 @@ def get_backlog_issues():
 
 @API_APP.route('/issues', methods=['POST'])
 def create_issue():
-    return ('', 200)
+    repo = IssueRepository(g.db)
+    issue = repo.create(request.json, g.current_user.id)
+    return jsonify(issue.to_viewmodel())
 
 
 @API_APP.route('/issues/<int:issue_id>', methods=['PUT'])
