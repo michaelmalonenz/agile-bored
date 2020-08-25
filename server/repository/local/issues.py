@@ -37,7 +37,7 @@ class IssueRepository(BaseRepo):
         sql = (
             BASE_ISSUE_SELECTOR +
             "WHERE (status.name != 'Done' OR i.\"statusId\" IS NULL) "
-            "AND type.subtask IS FALSE AND type.name != 'Epic';"
+            "AND type.name != 'Epic' ORDER BY i.id;"
         )
         results = self.db.fetch(sql, {})
         return [Issue.from_db_dict(x) for x in results]
