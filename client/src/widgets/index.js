@@ -19,6 +19,7 @@ export function configure (config) {
     './popup-menu',
     './project-panel',
     './date-picker',
-    './quick-issue-panel'
+    './quick-issue-panel',
+    './settings-icon'
   ])
 }
