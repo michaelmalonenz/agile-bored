@@ -2,7 +2,7 @@ from ._base import BaseRepo
 from model import Comment
 
 
-class CommentsRepo(BaseRepo):
+class CommentsRepository(BaseRepo):
     def get_comments_for_issue(self, issue_id):
         sql = 'SELECT * FROM comments WHERE "issueId" = %(issueId)s;'
         results = self.db.fetch(sql, {'issueId': issue_id})

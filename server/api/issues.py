@@ -66,7 +66,9 @@ def update_issue_status(issue_id, status_id):
 
 @API_APP.route('/issues/<int:issue_id>', methods=['DELETE'])
 def delete_issue(issue_id):
-    return ('', 200)
+    repo = IssueRepository(g.db)
+    repo.delete(issue_id)
+    return ('', 204)
 
 
 @API_APP.route('/issues/<int:issue_id>/subtasks', methods=["GET"])

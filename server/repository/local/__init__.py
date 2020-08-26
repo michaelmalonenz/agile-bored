@@ -1,3 +1,4 @@
+from .comments import CommentsRepository
 from .issue_types import IssueTypeRepository
 from .issues import IssueRepository
 from .projects import ProjectRepository

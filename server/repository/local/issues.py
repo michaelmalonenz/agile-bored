@@ -1,5 +1,6 @@
 import logging
 from ._base import BaseRepo
+from .comments import CommentsRepository
 from model import Issue
 
 
@@ -31,7 +32,13 @@ class IssueRepository(BaseRepo):
 
     def get_by_id(self, id_):
         sql = BASE_ISSUE_SELECTOR + 'WHERE i.id = %(id)s;'
-        return Issue.from_db_dict(self.db.fetch_one(sql, {'id': id_}))
+        issue = Issue.from_db_dict(self.db.fetch_one(sql, {'id': id_}))
+        issue.children = self.get_children(id_)
+
+        comments_repo = CommentsRepository(self.db)
+        issue.comments = comments_repo.get_comments_for_issue(id_)
+
+        return issue
 
     def get_in_progress(self):
         sql = (
@@ -89,3 +96,7 @@ class IssueRepository(BaseRepo):
             'editor': reporter_id,
         })
         return self.get_by_id(created['id'])
+
+    def delete(self, issue_id):
+        sql = 'DELETE FROM issues WHERE id = %(id)s;'
+        self.db.execute(sql, {})
