@@ -1,5 +1,5 @@
 from flask import g, jsonify, request
-from repository.local import IssueRepository
+from repository.local import IssueRepository, ChangeLogRepository
 from .app import API_APP
 
 
@@ -80,4 +80,6 @@ def get_issue_subtasks(issue_id):
 
 @API_APP.route('/issues/<int:issue_id>/changelog', methods=["GET"])
 def get_issue_changelog(issue_id):
-    return ('', 200)
+    repo = ChangeLogRepository(g.db)
+    history = repo.get_changelog_for_issue(issue_id)
+    return jsonify([log.to_viewmodel() for log in history])

@@ -1,3 +1,4 @@
+from .changelog import ChangeLog
 from .comment import Comment
 from .issue_status import Status
 from .issue_type import IssueType
