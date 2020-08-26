@@ -3,6 +3,7 @@ module.exports = class ProjectViewModel {
     this.id = 0
     this.key = ''
     this.avatarUrl = ''
+    this.name = ''
   }
 
   static createFromLocal (obj) {
