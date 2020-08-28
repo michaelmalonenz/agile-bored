@@ -47,7 +47,7 @@ class Issue(BaseModel):
             obj.get('assignee_createdAt'),
             obj.get('assignee_updatedAt'),
         )
-        issue.assignee = assignee
+        issue.assignee = assignee if assignee.id else None
         reporter = User(
             obj.get('reporter_id'),
             obj.get('reporter_externalId'),
@@ -57,7 +57,7 @@ class Issue(BaseModel):
             obj.get('reporter_createdAt'),
             obj.get('reporter_updatedAt'),
         )
-        issue.reporter = reporter
+        issue.reporter = reporter if reporter.id else None
         editor = User(
             obj.get('editor_id'),
             obj.get('editor_externalId'),
@@ -67,7 +67,7 @@ class Issue(BaseModel):
             obj.get('editor_createdAt'),
             obj.get('editor_updatedAt'),
         )
-        issue.editor = editor
+        issue.editor = editor if editor.id else None
         return issue
 
     def to_viewmodel(self):

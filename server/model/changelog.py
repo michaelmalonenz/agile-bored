@@ -10,7 +10,7 @@ class ChangeLog(BaseModel):
         self.oldValue = oldValue
         self.newValue = newValue
         self.timestamp = timestamp
-        self.author = User()
+        self.author = None
 
     @classmethod
     def from_db_dict(cls, obj):
@@ -19,7 +19,7 @@ class ChangeLog(BaseModel):
             obj.get('field'),
             obj.get('oldValue'),
             obj.get('newValue'),
-            obj.get('timestamp')
+            obj.get('timestamp'),
         )
 
     def to_viewmodel(self):
