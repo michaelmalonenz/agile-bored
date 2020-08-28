@@ -1,4 +1,5 @@
 from ._base import BaseModel
+from .user import User
 
 
 class ChangeLog(BaseModel):
@@ -9,6 +10,7 @@ class ChangeLog(BaseModel):
         self.oldValue = oldValue
         self.newValue = newValue
         self.timestamp = timestamp
+        self.author = User()
 
     @classmethod
     def from_db_dict(cls, obj):
@@ -27,4 +29,5 @@ class ChangeLog(BaseModel):
             'fromValue': self.oldValue,
             'toValue': self.newValue,
             'timestamp': self.timestamp,
+            'author': self.author.to_viewmodel(),
         }

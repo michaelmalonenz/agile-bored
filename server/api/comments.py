@@ -1,4 +1,4 @@
-from flask import g, jsonify
+from flask import g, jsonify, request
 from .app import API_APP
 from repository.local import CommentsRepository
 
@@ -12,4 +12,6 @@ def get_issue_comments(issue_id):
 
 @API_APP.route('/issues/<int:issue_id>/comment', methods=['POST'])
 def create_comment(issue_id):
-    return ('', 200)
+    repo = CommentsRepository(g.db)
+    comment = repo.create(request.json, g.current_user.id)
+    return jsonify(comment.to_viewmodel())

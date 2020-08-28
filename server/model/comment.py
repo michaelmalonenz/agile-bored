@@ -3,16 +3,29 @@ from .user import User
 
 
 class Comment(BaseModel):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, id_=0, body='', updated='', created=''):
+        super().__init__(id_)
         self.author = User()
-        self.body = ''
-        self.updatedAt = ''
-        self.createdAt = ''
+        self.body = body
+        self.updatedAt = updated
+        self.createdAt = created
 
     @classmethod
     def from_db_dict(cls, obj):
-        pass
+        comment = cls(
+            obj['id'],
+            obj['body'],
+            obj['updatedAt'],
+            obj['createdAt'],
+        )
+        comment.author = User(
+            obj['user_id'],
+            obj['user_externalId'],
+            obj['user_username'],
+            obj['user_displayName'],
+            obj['user_avatar'],
+        )
+        return comment
 
     def to_viewmodel(self):
         return {
