@@ -24,16 +24,19 @@ def get_issue(issue_id):
 
 @API_APP.route('/issues/search', methods=["GET"])
 def search_issues():
+    repo = IssueRepository(g.db)
     return ('', 200)
 
 
 @API_APP.route('/issues/standup', methods=["GET"])
 def get_standup_issues():
+    repo = IssueRepository(g.db)
     return ('', 200)
 
 
 @API_APP.route('/issues/backlog', methods=["GET"])
 def get_backlog_issues():
+    repo = IssueRepository(g.db)
     return ('', 200)
 
 
@@ -46,7 +49,9 @@ def create_issue():
 
 @API_APP.route('/issues/<int:issue_id>', methods=['PUT'])
 def update_issue(issue_id):
-    return ('', 200)
+    repo = IssueRepository(g.db)
+    issue = repo.update_issue(request.json, g.current_user.id)
+    return jsonify(issue.to_viewmodel())
 
 
 @API_APP.route('/issues/<int:issue_id>/assign', methods=['PUT'])

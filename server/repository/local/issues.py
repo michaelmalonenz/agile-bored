@@ -100,3 +100,18 @@ class IssueRepository(BaseRepo):
     def delete(self, issue_id):
         sql = 'DELETE FROM issues WHERE id = %(id)s;'
         self.db.execute(sql, {})
+
+    def update_issue(self, issue, editor_id):
+        sql = (
+            'UPDATE issues SET '
+            'title = %(title)s, description = %(description)s, "typeId" = %(type_id)s, '
+            '"lastEditorId" = %(editor)s '
+            'WHERE id = %(id)s;'
+        )
+        self.db.execute(sql, {
+            'title': issue.get('title'),
+            'description': issue.get('description'),
+            'type_id': issue.get('issueType', {}).get('id'),
+            'editor': editor_id,
+        })
+        return self.get_by_id(issue['id'])
