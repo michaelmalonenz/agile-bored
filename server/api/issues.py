@@ -37,7 +37,8 @@ def get_standup_issues():
 @API_APP.route('/issues/backlog', methods=["GET"])
 def get_backlog_issues():
     repo = IssueRepository(g.db)
-    return ('', 200)
+    results = repo.get_backlog_issues()
+    return jsonify([issue.to_viewmodel() for issue in results])
 
 
 @API_APP.route('/issues', methods=['POST'])

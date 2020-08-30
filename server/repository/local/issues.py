@@ -115,3 +115,10 @@ class IssueRepository(BaseRepo):
             'editor': editor_id,
         })
         return self.get_by_id(issue['id'])
+
+    def get_backlog_issues(self):
+        sql = (
+            BASE_ISSUE_SELECTOR + "WHERE status.name = 'Todo';"
+        )
+        issues = self.db.fetch(sql, {})
+        return [Issue.from_db_dict(issue) for issue in issues]
