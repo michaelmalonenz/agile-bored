@@ -15,7 +15,7 @@ module.exports = {
       .then(statuses => {
         const result = []
         for (let statusList of statuses) {
-          if (statusList.name === 'Story') {
+          if (statusList.name === 'Epic') {
             for (let status of statusList.statuses) {
               result.push(StatusViewModel.createFromJira(status))
             }

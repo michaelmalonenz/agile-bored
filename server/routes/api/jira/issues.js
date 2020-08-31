@@ -118,7 +118,7 @@ order by priority ASC`
     const date = new Date(Date.now() + (offset * 60 * 1000))
     // If today is Monday, then include the last 3 days, otherwise include the last day
     let dayCount = (date.getDay() === 1 ? 3 : 1)
-    const jql = encodeURIComponent(`type != Epic AND (status not in (Cancelled,Done,"To Do","Approved for Development") || (status = Done AND updated > startOfDay("-${dayCount}"))) order by Rank ASC`)
+    const jql = encodeURIComponent(`type != Epic AND (status not in (Cancelled,Done,"To Do") || (status = Done AND updated > startOfDay("-${dayCount}"))) ORDER BY Rank ASC`)
     const url = `/board/${req.settings.jiraRapidBoardId}/issue?maxResults=150&jql=${jql}`
     const options = jiraRequestBuilder.agile(url, req)
     return getIssues(options, req)
@@ -153,7 +153,7 @@ order by priority ASC`
       .catch(err => res.status(502).send(err.message))
   },
   getSubtasks: function (req, res) {
-    const jql = `project = ${req.settings.jiraProjectName} AND parent = ${req.params.issueId} order by priority ASC`
+    const jql = `project = ${req.settings.jiraProjectName} AND parent = ${req.params.issueId} ORDER BY priority ASC`
     return getIssuesByJQL(req, jql)
       .then(issues => {
         if (issues && issues.length) {
@@ -182,7 +182,6 @@ function getIssuesByJQL (req, jql) {
   const encodedJQL = encodeURIComponent(jql)
   const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`
   const options = jiraRequestBuilder.agile(`${urlFragment}?jql=${encodedJQL}&maxResults=100`, req)
-  console.log(options.uri)
   return getIssues(options, req)
 }
 
