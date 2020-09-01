@@ -14,8 +14,8 @@ module.exports = class UserViewModel {
     let result
     if (obj) {
       result = new UserViewModel()
-      result.id = obj.accountId
-      result.externalId = obj.accountId
+      result.id = obj.accountId || obj.key
+      result.externalId = obj.accountId || obj.key
       result.username = obj.name
       result.displayName = obj.displayName
       result.createdAt = obj.created
