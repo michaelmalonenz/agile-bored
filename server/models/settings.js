@@ -8,7 +8,8 @@ module.exports = function (sequelize, DataTypes) {
       useJira: DataTypes.BOOLEAN,
       groupByEpic: DataTypes.BOOLEAN,
       jiraEpicField: DataTypes.STRING(255),
-      userId: DataTypes.INTEGER
+      userId: DataTypes.INTEGER,
+      perfStatsIssueTypes: DataTypes.TEXT
     }, {
       tableName: 'settings'
     })

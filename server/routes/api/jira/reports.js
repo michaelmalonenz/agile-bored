@@ -14,7 +14,8 @@ const resolvedStatuses = ['Done', 'Cancelled']
 module.exports = {
   perfStats (req, res) {
     const jql = encodeURIComponent(
-      `project = ${req.settings.jiraProjectName} AND status = Done AND type in (story, bug, task) AND updated > startOfDay("-30")`)
+      `project = ${req.settings.jiraProjectName} AND status = Done AND type in ` +
+      `(${req.settings.perfStatsIssueTypes}) AND updated > startOfDay("-30")`)
     const urlFragment = `/board/${req.settings.jiraRapidBoardId}/issue`
     const url = `${urlFragment}?expand=changelog&jql=${jql}&maxResults=100`
     const options = jiraRequestBuilder.agile(url, req)

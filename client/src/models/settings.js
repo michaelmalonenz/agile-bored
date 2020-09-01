@@ -7,6 +7,7 @@ export class Settings {
     this.useJira = false
     this.groupByEpic = false
     this.jiraEpicField = ''
+    this.perfStatsIssueTypes = ''
     Object.assign(this, settings)
   }
 }
