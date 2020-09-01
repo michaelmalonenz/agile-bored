@@ -11,6 +11,7 @@ class Settings(BaseModel):
         self.groupByEpic = False
         self.jiraEpicField = ''
         self.userId = 0
+        self.perfStatsIssueTypes = ''
 
     def to_viewmodel(self):
         return {
@@ -22,6 +23,7 @@ class Settings(BaseModel):
             'groupByEpic': self.groupByEpic,
             'jiraEpicField': self.jiraEpicField,
             'userId': self.userId,
+            'perfStatsIssueTypes': self.perfStatsIssueTypes,
         }
 
     def to_db_dict(self):

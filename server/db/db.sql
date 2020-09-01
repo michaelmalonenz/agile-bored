@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS settings (
     "groupByEpic" BOOLEAN,
     "jiraEpicField" VARCHAR(255),
     "userId" INT,
+    "perfStatsIssueTypes" TEXT,
     CONSTRAINT FK_settings_user FOREIGN KEY("userId") REFERENCES users(id),
     CONSTRAINT UQ_settings_userId UNIQUE ("userId")
 );
