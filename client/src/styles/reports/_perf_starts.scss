@@ -8,6 +8,10 @@
   .header {
     background-color: $secondary;
     color: $primary-text;
+    top: 0;
+    position: sticky;
+    z-index: 1;
+    margin-bottom: 3px;
   }
 
   .stripe {
