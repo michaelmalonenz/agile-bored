@@ -165,12 +165,14 @@ order by priority ASC`
       .catch(err => res.status(502).send(err.message))
   },
   getChangeLog: function (req, res) {
-    const options = jiraRequestBuilder.jira(`/issue/${req.params.issueId}/changelog`, req)
+    const options = jiraRequestBuilder.agile(`/issue/${req.params.issueId}?expand=changelog`, req)
     return request(options)
-      .then(changelog => {
+      .then(issue => {
         const result = []
-        for (let log of changelog.values) {
-          result.push(...(ChangeLogViewModel.createFromJira(log)))
+        if (issue.changelog && issue.changelog.histories) {
+          for (let log of issue.changelog.histories) {
+            result.push(...(ChangeLogViewModel.createFromJira(log)))
+          }
         }
         res.send(result)
       })
