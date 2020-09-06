@@ -23,3 +23,20 @@ class User(BaseModel):
             'createdAt': self.createdAt,
             'updatedAt': self.updatedAt,
         }
+
+    @classmethod
+    def from_jira(cls, jira_obj):
+        if jira_obj:
+            jira_id = jira_obj.get('accountId', jira_obj.get('key'))
+            result = cls(
+                jira_id,
+                jira_id,
+                jira_obj['name'],
+                jira_obj['displayName'],
+                jira_obj['created'],
+                jira_obj['updated'],
+            )
+            result.avatarUrl = jira_obj['avatarUrls']['24x24']
+            result.largeAvatarUrl = jira_obj['avatarUrls']['48x48']
+            return result
+        return None

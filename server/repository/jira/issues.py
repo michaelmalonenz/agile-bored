@@ -1,4 +1,5 @@
 import logging
+from flask import g
 from model import Issue
 from .jira_repo import JiraRepo
 
@@ -8,8 +9,14 @@ LOGGER = logging.getLogger(__name__)
 
 class IssueRepository(JiraRepo):
 
-    def get_by_id(self, id_):
-        return None
+    def get_by_id(self, issue_id):
+        jira_rapid_board_id = g.user_settings.jiraRapidBoardId
+        url = '/board/{jiraRapidBoardId}/issue?jql=id={issueId}'.format(
+            jiraRapidBoardId=jira_rapid_board_id,
+            issueId=issue_id,
+        )
+        result = self.agile_request(url)
+        return Issue.from_jira(result)
 
     def get_in_progress(self):
         return []
@@ -79,11 +86,6 @@ class IssueRepository(JiraRepo):
 #     const options = jiraRequestBuilder.agile(url, req)
 #     return getIssues(options, req)
 #       .then(issues => res.send(issues))
-#       .catch(err => res.status(502).send(err))
-#   },
-#   get: function (req, res) {
-#     return getSingleIssue(req, req.params.issueId)
-#       .then(result => res.send(result))
 #       .catch(err => res.status(502).send(err))
 #   },
 #   search: function (req, res) {

@@ -21,3 +21,7 @@ class BaseModel:
         for key, value in viewmodel.items():
             setattr(instance, key, value)
         return instance
+
+    @classmethod
+    def from_jira(cls, jira_viewmodel):
+        return cls()

@@ -83,3 +83,32 @@ class Issue(BaseModel):
             'assignee': self.assignee.to_viewmodel() if self.assignee else None,
             'reporter': self.reporter.to_viewmodel() if self.reporter else None,
         }
+
+    @classmethod
+    def from_jira(cls, jira_obj):
+        fields = jira_obj['fields']
+        result = cls(
+            jira_obj['id'],
+            fields['summary'],
+            fields['description'],
+            fields['key'],
+            fields['created'],
+            fields['updated'],
+        )
+        result.assignee = User.from_jira(fields.get('assignee'))
+        result.assignee = User.from_jira(fields.get('reporter'))
+        return result
+        # if (obj.fields.attachment) {
+        #     for (let attachment of obj.fields.attachment) {
+        #         result.attachments.push(AttachmentViewModel.createFromJira(attachment))
+        #     }
+        # }
+        # result.issueStatus = StatusViewModel.createFromJira(obj.fields.status)
+        # result.issueType = IssueTypeViewModel.createFromJira(obj.fields.issuetype, colorObj)
+        # result.epic = EpicViewModel.createFromJira(obj.fields.epic)
+        # result.tags = obj.fields.labels ? obj.fields.labels : []
+        # const comments = obj.fields.comment ? obj.fields.comment.comments : []
+        # for (let comment of comments) {
+        #     result.comments.push(CommentViewModel.createFromJira(comment))
+        # }
+        # return result
