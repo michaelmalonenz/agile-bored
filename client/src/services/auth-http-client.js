@@ -1,6 +1,6 @@
-import {HttpClient} from 'aurelia-http-client'
+import { HttpClient } from 'aurelia-http-client'
 
-import {SecuritySettings} from '../security/security-settings'
+import { SecuritySettings } from '../security/security-settings'
 
 export class AuthHttpClient extends HttpClient {
   constructor () {
