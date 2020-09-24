@@ -3,11 +3,10 @@ const inProgressStatuses = ['In Progress', 'In Review', 'Test']
 const resolvedStatuses = ['Done', 'Cancelled']
 
 function getGrowthRate (times) {
-  const growthEpoch = new Date().valueOf() - (28 * ticksInADay)
-  const growthTimes = times.filter(t => t.createdAt > growthEpoch || t.completedAt > growthEpoch)
-  const complete = growthTimes.filter(t => t.completedAt != null && t.resolved).length
-  const incomplete = growthTimes.length - complete
-  return (incomplete || 1.0) / (complete || 1.0)
+  const earliestComplete = Math.min(...times.map(time => time.completedAt))
+  const earlyCreatedCount = times.filter(time => time.createdAt <= earliestComplete).length
+  const growingTicketCount = times.filter(time => time.createdAt > earliestComplete).length
+  return (growingTicketCount || 1.0) / earlyCreatedCount
 }
 
 module.exports = {
