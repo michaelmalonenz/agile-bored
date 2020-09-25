@@ -1,6 +1,6 @@
 const ticksInADay = 24 * 60 * 60 * 1000
-const inProgressStatuses = ['In Progress', 'In Review', 'Test']
-const resolvedStatuses = ['Done', 'Cancelled']
+const inProgressStatuses = ['In Progress', 'In Analysis', 'Verification']
+const resolvedStatuses = ['Done', 'Cancelled', 'Resolved', 'Closed']
 
 function getGrowthRate (times) {
   const earliestComplete = Math.min(...times.map(time => time.completedAt))
@@ -10,12 +10,14 @@ function getGrowthRate (times) {
 }
 
 module.exports = {
+  inProgressStatuses,
+  resolvedStatuses,
   getGrowthRate,
   createTimeViewModel (events, statusName, createdAt) {
     const statusEvents = events.filter(e => e.field === 'status')
     return {
       duration: calculateTimeInProgress(statusEvents),
-      done: statusName === 'Done',
+      done: statusName === 'Resolved' || statusName === 'Closed',
       resolved: resolvedStatuses.includes(statusName),
       createdAt: createdAt,
       completedAt: calculateCompletedTime(statusEvents),
@@ -130,7 +132,7 @@ function calculateIntoProgressTime (statusEvents) {
 function calculateCommitTime (statusEvents) {
   statusEvents.sort((a, b) => a.timestamp - b.timestamp)
   if (statusEvents.length) {
-    const inReviewEvent = statusEvents.find(e => e.toValue === 'In Review')
+    const inReviewEvent = statusEvents.find(e => e.toValue === 'Verification')
     if (inReviewEvent) {
       return inReviewEvent.timestamp
     }
