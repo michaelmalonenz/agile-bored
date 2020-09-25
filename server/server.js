@@ -26,8 +26,7 @@ function loadSettings (req, res, next) {
   }
 }
 
-const env = process.env.NODE_ENV || 'development'
-const dbConfig = require('./config/config')[env]
+const dbConfig = require('./config/config')
 const { Pool } = require('pg')
 const pgPool = new Pool({
   user: dbConfig.username,
@@ -52,7 +51,7 @@ app.use(session({
   store: new PgSession({
     pool: pgPool
   }),
-  secret: process.env.SESSION_SECRET,
+  secret: 'This is a super secret secret',
   resave: false,
   saveUninitialized: false,
   maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
