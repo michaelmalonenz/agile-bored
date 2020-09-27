@@ -1,10 +1,17 @@
 <template>
-  <table>
-    <tr><th>Lead Time:</th><td>${report.averageLeadTime}</td></tr>
-    <tr><th>Cycle Time:</th><td>${report.averageCycleTime}</td></tr>
-    <tr><th>Commit to Deploy:</th><td>${report.averageCommitToDeploy}</td></tr>
-    <tr><th>Throughput:</th><td>${report.totalIssuesCompleted}</td></tr>
-  </table>
+  <div class="row">
+    <div class="col-10">
+      <table>
+        <tr><th>Lead Time:</th><td>${report.averageLeadTime}</td></tr>
+        <tr><th>Cycle Time:</th><td>${report.averageCycleTime}</td></tr>
+        <tr><th>Commit to Deploy:</th><td>${report.averageCommitToDeploy}</td></tr>
+        <tr><th>Throughput:</th><td>${report.totalIssuesCompleted}</td></tr>
+      </table>
+    </div>
+    <div class="col-2">
+      <button type="button" class="btn btn-primary" click.trigger="copyToClipboard()">Copy To Clipboard</button>
+    </div>
+  </div>
   <div class="container-fluid perf-stats-container">
     <div class="row header">
       <div class="col-1"></div>

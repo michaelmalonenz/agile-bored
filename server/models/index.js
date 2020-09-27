@@ -4,14 +4,13 @@ const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const basename = path.basename(module.filename)
-const env = process.env.NODE_ENV || 'development'
-const config = require(path.join(__dirname, '/../config/config.json'))[env]
+const config = require(path.join(__dirname, '/../config/config.json'))
 let db = {}
 
 let sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
-  dialect: config.dialect,
-  logging: env === 'development' ? console.log : false,
+  dialect: 'postgres',
+  logging: console.log,
   operatorsAliases: false
 })
 

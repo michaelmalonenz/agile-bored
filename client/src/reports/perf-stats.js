@@ -19,7 +19,7 @@ export class PerfStats {
   async activate () {
     const times = await this.reportsService.perfStats()
     const goodTimes = times.filter(t => t.intoProgressTime !== null)
-    this.times = goodTimes.map(t => { 
+    this.times = goodTimes.map(t => {
       return {
         leadTime: new Date(t.completedAt) - new Date(t.createdAt),
         leadTimeDays: Math.floor((new Date(t.completedAt) - new Date(t.createdAt)) / ticksInADay),
@@ -29,10 +29,10 @@ export class PerfStats {
         commitToDeployHours: t.commitTime ? ((new Date(t.completedAt) - new Date(t.commitTime)) / ticksInAnHour).toFixed(2) : 0,
         key: t.key,
         title: t.title,
-        selected: true 
+        selected: true
       }
     })
-    this.updateReport() 
+    this.updateReport()
   }
 
   updateReport () {
@@ -60,6 +60,32 @@ export class PerfStats {
       averageCommitToDeploy: `${averageCommitToDeploy.toFixed(2)} hours`,
       totalIssuesCompleted: this.times.length
     }
+  }
+
+  async copyToClipboard () {
+    let copyText = []
+    if (this.times) {
+      copyText.push('Issue,Lead Time (days),Cycle Time (days),Commit to Deploy (hours),Title')
+      for (let time of this.times) {
+        if (time.selected) {
+          copyText.push(`${time.key},${time.leadTimeDays},${time.cycleTimeDays},${time.commitToDeployHours},"${time.title}"`)
+        }
+      }
+    }
+    const textArea = document.createElement("textarea")
+    textArea.value = copyText.join('\n')
+    textArea.style.position = "fixed"  //avoid scrolling to bottom
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+
+    try {
+        const successful = document.execCommand('copy')
+        const msg = successful ? 'successful' : 'unsuccessful'
+    } catch (err) {
+        console.log('Was not possible to copy the text: ', err)
+    }
+    document.body.removeChild(textArea)
   }
 }
 
