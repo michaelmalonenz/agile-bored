@@ -51,7 +51,7 @@ app.use(session({
   store: new PgSession({
     pool: pgPool
   }),
-  secret: 'This is a super secret secret',
+  secret: process.env['SESSION_SECRET'],
   resave: false,
   saveUninitialized: false,
   maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
